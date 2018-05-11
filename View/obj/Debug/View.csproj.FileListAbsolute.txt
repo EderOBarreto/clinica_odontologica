@@ -1,0 +1,6 @@
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\View\bin\Debug\View.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\View\bin\Debug\View.pdb
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\View\obj\Debug\View.csprojResolveAssemblyReference.cache
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\View\obj\Debug\View.csproj.CoreCompileInputs.cache
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\View\obj\Debug\View.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\View\obj\Debug\View.pdb
