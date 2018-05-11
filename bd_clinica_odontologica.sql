@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `clinica_odontologica` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `clinica_odontologica`;
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: clinica_odontologica
+-- Host: 127.0.0.1    Database: clinica_odontologica
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.5.5-10.1.29-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,13 +28,13 @@ CREATE TABLE `agenda` (
   `agd_id_consulta` int(11) NOT NULL AUTO_INCREMENT,
   `agd_id_paciente` int(11) DEFAULT NULL,
   `agd_id_funcionario` int(11) DEFAULT NULL,
-  `agd_data_gerenciamento` datetime DEFAULT NULL,
   `agd_data_consulta` datetime DEFAULT NULL,
   `agd_hora_consulta` time DEFAULT NULL,
   `agd_preco_consulta` float DEFAULT NULL,
   `agd_exames` varchar(1000) DEFAULT NULL,
   `agd_data_retorno` datetime DEFAULT NULL,
   `agd_diagnostico` varchar(1000) DEFAULT NULL,
+  `agd_data_agendamento` datetime DEFAULT NULL,
   PRIMARY KEY (`agd_id_consulta`),
   KEY `agd_id_paciente` (`agd_id_paciente`),
   KEY `agd_id_funcionario` (`agd_id_funcionario`),
@@ -143,10 +143,6 @@ INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','154
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'clinica_odontologica'
---
-
---
 -- Dumping routines for database 'clinica_odontologica'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `alterar_agenda` */;
@@ -157,13 +153,13 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_agenda`(
 IN id_consulta int,
 IN id_paciente int,
 IN id_funcionario int,
-IN data_gerenciamento date,
+IN data_agendamento date,
 IN data_consulta date,
 IN hora_consulta time,
 IN preco_consulta float,
@@ -175,7 +171,7 @@ BEGIN
 	update agenda set  
 	agd_id_paciente = id_paciente,
 	agd_id_funcionario = id_funcionario,
-	agd_data_gerenciamento = data_gerenciamento,
+	agd_data_agendamento = data_agendamento,
 	agd_data_consulta = data_consulta,
 	agd_hora_consulta = hora_consulta,
 	agd_preco_consulta = preco_consulta,
@@ -388,12 +384,12 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_agenda`(
 IN id_paciente int,
 IN id_funcionario int,
-IN data_gerenciamento date,
+IN data_agendamento date,
 IN data_consulta date,
 IN hora_consulta time,
 IN preco_consulta float,
@@ -403,11 +399,11 @@ IN diagnostico varchar(1000)
 )
 BEGIN
 
-	insert into agenda(agd_id_paciente, agd_id_funcionario, agd_data_gerenciamento, agd_data_consulta,
-    agd_hora_consulta, agd_preco_consulta, agd_exames, agd_data_retorno, agd_diagnostico)
+	insert into agenda(agd_id_paciente, agd_id_funcionario, agd_data_consulta,
+    agd_hora_consulta, agd_preco_consulta, agd_exames, agd_data_retorno, agd_diagnostico,agd_data_agendamento)
     values
-    (id_paciente, id_funcionario, data_gerenciamento, data_consulta, hora_consulta,
-    preco_consulta, exames, data_retorno, diagnostico);
+    (id_paciente, id_funcionario, data_consulta, hora_consulta,
+    preco_consulta, exames, data_retorno, diagnostico,data_agendamento);
 
 END ;;
 DELIMITER ;
@@ -531,4 +527,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-10 22:23:34
+-- Dump completed on 2018-05-11 15:45:29
