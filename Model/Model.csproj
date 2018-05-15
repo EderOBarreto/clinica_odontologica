@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Agenda.cs" />
     <Compile Include="Funcionario.cs" />
+    <Compile Include="ListaAgenda.cs" />
+    <Compile Include="ListaFuncionario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
