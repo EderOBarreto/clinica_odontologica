@@ -8,18 +8,18 @@ namespace Model
 {
     public class Agenda
     {
-        private int id_consulta { get; set; }
-        private int id_paciente { get; set; }
+        public int id_consulta { get; set; }
+        public int id_paciente { get; set; }
         //pode ser mais de 1 funcionario?
-        private int id_funcionario { get; set; }
-        private DateTime data_agendamento { get; set; }
-        private DateTime data_consulta { get; set; }
-        private DateTime data_retorno { get; set; }
-        private DateTime hora { get; set; }
-        private float preco {get; set;}
+        public int id_funcionario { get; set; }
+        public DateTime data_agendamento { get; set; }
+        public DateTime data_consulta { get; set; }
+        public DateTime data_retorno { get; set; }
+        public DateTime hora { get; set; }
+        public float preco {get; set;}
         //ainda a serem definidos
-        private String exames { get; set; }
-        private String diagnostico { get; set; }
+        public String exames { get; set; }
+        public String diagnostico { get; set; }
        
     }
 }

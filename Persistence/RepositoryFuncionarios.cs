@@ -128,7 +128,7 @@ namespace Persistence
                 try
                 {
                 //criar procedure selecionar_funcionario
-                    ListaFuncionario objListaClientes = new ListaFuncionario();
+                    ListaFuncionario objListaFuncionarios = new ListaFuncionario();
                     conFuncionario.ConnectionString = Dados.strConexao;
                     cmdFuncionario.Connection = conFuncionario;
                     cmdFuncionario.CommandType = CommandType.StoredProcedure;
@@ -142,7 +142,7 @@ namespace Persistence
                     {
                         while (dr.Read())
                         {
-                            // Cria uma instâncoa para o objeto cliente
+                            // Cria uma instância para o objeto funcionario
                             Funcionario funcionario = new Funcionario();
 
                         
@@ -156,11 +156,11 @@ namespace Persistence
                             funcionario.Celular = dr["fun_celular"].ToString();
                             funcionario.Especialidade = dr["fun_especialidade"].ToString();
 
-                        objListaClientes.Add(funcionario);
+                        objListaFuncionarios.Add(funcionario);
                         
                         }
                     }
-                    return objListaClientes;
+                    return objListaFuncionarios;
                 }
                 catch (Exception ex)
                 {
@@ -171,7 +171,5 @@ namespace Persistence
                     conFuncionario.Close();
                 }
             }
-        
-
     }
 }
