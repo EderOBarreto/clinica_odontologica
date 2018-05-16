@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 
 namespace Persistence
 {
-    class RepositoryFuncionarios
+    public class RepositoryFuncionarios
     {
             MySqlConnection conFuncionario = new MySqlConnection();
 
@@ -127,36 +127,36 @@ namespace Persistence
             {
                 try
                 {
-                //criar procedure selecionar_funcionario
+
                     ListaFuncionario objListaFuncionarios = new ListaFuncionario();
+
                     conFuncionario.ConnectionString = Dados.strConexao;
-                    cmdFuncionario.Connection = conFuncionario;
                     cmdFuncionario.CommandType = CommandType.StoredProcedure;
                     cmdFuncionario.CommandText = "selecionar_funcionario";
                     cmdFuncionario.Parameters.AddWithValue("filtro", filtro);
+                    cmdFuncionario.Connection = conFuncionario;
                     conFuncionario.Open();
 
                     MySqlDataReader dr = cmdFuncionario.ExecuteReader();
-                    cmdFuncionario.Parameters.Clear();                           
+                    cmdFuncionario.Parameters.Clear(); 
+                
                     if (dr.HasRows == true)
                     {
                         while (dr.Read())
                         {
                             // Cria uma instância para o objeto funcionario
                             Funcionario funcionario = new Funcionario();
-
                         
                             funcionario.Id = int.Parse(dr["fun_id"].ToString());
                             funcionario.Nome = dr["fun_nome"].ToString();
-                            funcionario.Cpf = dr["fun_cpf"].ToString();
-                            funcionario.Senha = dr["fun_senha"].ToString(); // 
+                            funcionario.Cpf = dr["fun_cpf"].ToString(); 
                             funcionario.Usuario = dr["fun_usuario"].ToString();
                             funcionario.Tipo = dr["fun_tipo"].ToString();
                             funcionario.Email = dr["fun_email"].ToString();
                             funcionario.Celular = dr["fun_celular"].ToString();
                             funcionario.Especialidade = dr["fun_especialidade"].ToString();
 
-                        objListaFuncionarios.Add(funcionario);
+                            objListaFuncionarios.Add(funcionario);
                         
                         }
                     }

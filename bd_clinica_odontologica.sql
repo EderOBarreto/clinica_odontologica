@@ -97,7 +97,7 @@ CREATE TABLE `funcionarios` (
   `fun_celular` varchar(20) DEFAULT NULL,
   `fun_especialidade` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`fun_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,6 +106,7 @@ CREATE TABLE `funcionarios` (
 
 LOCK TABLES `funcionarios` WRITE;
 /*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
+INSERT INTO `funcionarios` VALUES (1,'Eder','12345','batata','batman','adm','eder@batman.com','221545564','caardiologista'),(2,'','   ,   ,   -','','','Periodonti','','(  )     -','');
 /*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -517,6 +518,44 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `selecionar_funcionario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_funcionario`(IN filtro varchar(50))
+BEGIN
+	
+    IF filtro like "" then
+    
+		select fun_id, fun_nome, fun_cpf, fun_usuario, 
+        fun_tipo, fun_email, fun_celular,
+        fun_especialidade from funcionarios;
+
+	ELSE
+		select fun_id, fun_nome, fun_cpf, fun_usuario, fun_tipo, fun_email, fun_celular, fun_especialidade from funcionarios 
+		where 
+			fun_id like filtro or
+			fun_nome like concat('%',filtro,'%') or
+			fun_cpf like concat('%',filtro,'%') or
+			fun_usuario like concat('%',filtro,'%') or
+			fun_tipo like concat('%',filtro,'%') or
+			fun_email like concat('%',filtro,'%') or
+			fun_celular like concat('%',filtro,'%') or
+			fun_especialidade like concat('%',filtro,'%')
+		order by fun_nome;
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -527,4 +566,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-11 15:45:29
+-- Dump completed on 2018-05-16 16:13:32

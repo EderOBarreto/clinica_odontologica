@@ -56,12 +56,12 @@ namespace View
             this.cboTipo = new System.Windows.Forms.ComboBox();
             this.mskCpf = new System.Windows.Forms.MaskedTextBox();
             this.mskCelular = new System.Windows.Forms.MaskedTextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvFuncionarios = new System.Windows.Forms.DataGridView();
             this.label10 = new System.Windows.Forms.Label();
             this.txtPesquisar = new System.Windows.Forms.TextBox();
             this.btnPesquisar = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionarios)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -90,6 +90,7 @@ namespace View
             this.btnInserir.Size = new System.Drawing.Size(59, 51);
             this.btnInserir.Text = "&Inserir";
             this.btnInserir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInserir.Click += new System.EventHandler(this.btnInserir_Click);
             // 
             // btnAlterar
             // 
@@ -236,13 +237,15 @@ namespace View
             // txtNome
             // 
             this.txtNome.Location = new System.Drawing.Point(57, 113);
+            this.txtNome.MaxLength = 15;
             this.txtNome.Name = "txtNome";
-            this.txtNome.Size = new System.Drawing.Size(469, 20);
+            this.txtNome.Size = new System.Drawing.Size(301, 20);
             this.txtNome.TabIndex = 11;
             // 
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(57, 197);
+            this.txtEmail.MaxLength = 50;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(253, 20);
             this.txtEmail.TabIndex = 12;
@@ -250,6 +253,7 @@ namespace View
             // txtEspecialidade
             // 
             this.txtEspecialidade.Location = new System.Drawing.Point(364, 139);
+            this.txtEspecialidade.MaxLength = 20;
             this.txtEspecialidade.Name = "txtEspecialidade";
             this.txtEspecialidade.Size = new System.Drawing.Size(162, 20);
             this.txtEspecialidade.TabIndex = 13;
@@ -257,6 +261,7 @@ namespace View
             // txtSenha
             // 
             this.txtSenha.Location = new System.Drawing.Point(57, 249);
+            this.txtSenha.MaxLength = 10;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
             this.txtSenha.Size = new System.Drawing.Size(127, 20);
@@ -265,12 +270,14 @@ namespace View
             // txtUsuario
             // 
             this.txtUsuario.Location = new System.Drawing.Point(57, 223);
+            this.txtUsuario.MaxLength = 15;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(127, 20);
             this.txtUsuario.TabIndex = 15;
             // 
             // cboTipo
             // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipo.FormattingEnabled = true;
             this.cboTipo.Location = new System.Drawing.Point(57, 139);
             this.cboTipo.Name = "cboTipo";
@@ -293,13 +300,13 @@ namespace View
             this.mskCelular.Size = new System.Drawing.Size(162, 20);
             this.mskCelular.TabIndex = 18;
             // 
-            // dataGridView1
+            // dgvFuncionarios
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 297);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(528, 189);
-            this.dataGridView1.TabIndex = 19;
+            this.dgvFuncionarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFuncionarios.Location = new System.Drawing.Point(12, 297);
+            this.dgvFuncionarios.Name = "dgvFuncionarios";
+            this.dgvFuncionarios.Size = new System.Drawing.Size(528, 189);
+            this.dgvFuncionarios.TabIndex = 19;
             // 
             // label10
             // 
@@ -313,6 +320,7 @@ namespace View
             // txtPesquisar
             // 
             this.txtPesquisar.Location = new System.Drawing.Point(74, 500);
+            this.txtPesquisar.MaxLength = 50;
             this.txtPesquisar.Name = "txtPesquisar";
             this.txtPesquisar.Size = new System.Drawing.Size(200, 20);
             this.txtPesquisar.TabIndex = 21;
@@ -334,10 +342,11 @@ namespace View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(548, 545);
             this.Controls.Add(this.txtPesquisar);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvFuncionarios);
             this.Controls.Add(this.mskCelular);
             this.Controls.Add(this.mskCpf);
             this.Controls.Add(this.cboTipo);
@@ -358,11 +367,15 @@ namespace View
             this.Controls.Add(this.label1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.btnPesquisar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "frmFuncionario";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro de Funcionários";
+            this.Load += new System.EventHandler(this.frmFuncionario_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionarios)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,7 +408,7 @@ namespace View
         private System.Windows.Forms.ComboBox cboTipo;
         private System.Windows.Forms.MaskedTextBox mskCpf;
         private System.Windows.Forms.MaskedTextBox mskCelular;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvFuncionarios;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtPesquisar;
         private System.Windows.Forms.Button btnPesquisar;

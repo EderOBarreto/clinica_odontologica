@@ -4,3 +4,7 @@ C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\
 C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
 C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\obj\Debug\Persistence.dll
 C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\obj\Debug\Persistence.pdb
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\bin\Debug\Model.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\bin\Debug\MySql.Data.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\bin\Debug\Model.pdb
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Persistence\bin\Debug\MySql.Data.xml

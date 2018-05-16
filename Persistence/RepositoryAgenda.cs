@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 
 namespace Persistence
 {
-    class RepositoryAgenda
+    public class RepositoryAgenda
     {
 
         MySqlConnection conConsulta = new MySqlConnection();

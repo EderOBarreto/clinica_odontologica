@@ -4,3 +4,9 @@ C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\o
 C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\obj\Debug\Controller.csproj.CoreCompileInputs.cache
 C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\obj\Debug\Controller.dll
 C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\obj\Debug\Controller.pdb
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\bin\Debug\Model.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\bin\Debug\Persistence.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\bin\Debug\MySql.Data.dll
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\bin\Debug\Model.pdb
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\bin\Debug\Persistence.pdb
+C:\Users\Éder\Documents\Visual Studio 2017\Projects\odonto_desktop\Controller\bin\Debug\MySql.Data.xml
