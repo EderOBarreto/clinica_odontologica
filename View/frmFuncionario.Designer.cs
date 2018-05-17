@@ -50,7 +50,6 @@ namespace View
             this.lblIdFuncionario = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.txtEspecialidade = new System.Windows.Forms.TextBox();
             this.txtSenha = new System.Windows.Forms.TextBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.cboTipo = new System.Windows.Forms.ComboBox();
@@ -60,6 +59,7 @@ namespace View
             this.label10 = new System.Windows.Forms.Label();
             this.txtPesquisar = new System.Windows.Forms.TextBox();
             this.btnPesquisar = new System.Windows.Forms.Button();
+            this.cboEspecialidade = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionarios)).BeginInit();
             this.SuspendLayout();
@@ -127,6 +127,7 @@ namespace View
             this.btnLimpar.Size = new System.Drawing.Size(61, 51);
             this.btnLimpar.Text = "&Limpar";
             this.btnLimpar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
             // toolStripSeparator1
             // 
@@ -144,6 +145,7 @@ namespace View
             this.btnSair.Size = new System.Drawing.Size(48, 51);
             this.btnSair.Text = "&Sair";
             this.btnSair.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
             // 
             // label1
             // 
@@ -220,7 +222,7 @@ namespace View
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(282, 142);
+            this.label9.Location = new System.Drawing.Point(198, 142);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(76, 13);
             this.label9.TabIndex = 9;
@@ -237,10 +239,11 @@ namespace View
             // txtNome
             // 
             this.txtNome.Location = new System.Drawing.Point(57, 113);
-            this.txtNome.MaxLength = 15;
+            this.txtNome.MaxLength = 50;
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(301, 20);
             this.txtNome.TabIndex = 11;
+            this.txtNome.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNome_KeyPress);
             // 
             // txtEmail
             // 
@@ -249,14 +252,6 @@ namespace View
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(253, 20);
             this.txtEmail.TabIndex = 12;
-            // 
-            // txtEspecialidade
-            // 
-            this.txtEspecialidade.Location = new System.Drawing.Point(364, 139);
-            this.txtEspecialidade.MaxLength = 20;
-            this.txtEspecialidade.Name = "txtEspecialidade";
-            this.txtEspecialidade.Size = new System.Drawing.Size(162, 20);
-            this.txtEspecialidade.TabIndex = 13;
             // 
             // txtSenha
             // 
@@ -279,9 +274,12 @@ namespace View
             // 
             this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Items.AddRange(new object[] {
+            "Usuário",
+            "Administrador"});
             this.cboTipo.Location = new System.Drawing.Point(57, 139);
             this.cboTipo.Name = "cboTipo";
-            this.cboTipo.Size = new System.Drawing.Size(217, 21);
+            this.cboTipo.Size = new System.Drawing.Size(127, 21);
             this.cboTipo.TabIndex = 16;
             // 
             // mskCpf
@@ -338,12 +336,22 @@ namespace View
             this.btnPesquisar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnPesquisar.UseVisualStyleBackColor = true;
             // 
+            // cboEspecialidade
+            // 
+            this.cboEspecialidade.FormattingEnabled = true;
+            this.cboEspecialidade.Location = new System.Drawing.Point(280, 139);
+            this.cboEspecialidade.MaxLength = 40;
+            this.cboEspecialidade.Name = "cboEspecialidade";
+            this.cboEspecialidade.Size = new System.Drawing.Size(217, 21);
+            this.cboEspecialidade.TabIndex = 23;
+            // 
             // frmFuncionario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(548, 545);
+            this.Controls.Add(this.cboEspecialidade);
             this.Controls.Add(this.txtPesquisar);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.dgvFuncionarios);
@@ -352,7 +360,6 @@ namespace View
             this.Controls.Add(this.cboTipo);
             this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.txtSenha);
-            this.Controls.Add(this.txtEspecialidade);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.lblIdFuncionario);
@@ -402,7 +409,6 @@ namespace View
         private System.Windows.Forms.Label lblIdFuncionario;
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.TextBox txtEspecialidade;
         private System.Windows.Forms.TextBox txtSenha;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.ComboBox cboTipo;
@@ -412,5 +418,6 @@ namespace View
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtPesquisar;
         private System.Windows.Forms.Button btnPesquisar;
+        private System.Windows.Forms.ComboBox cboEspecialidade;
     }
 }
