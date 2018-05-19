@@ -13,7 +13,7 @@ namespace Persistence
             get
             {
                 //As configurações devem ser alteradas de acordo com as configuracoes do mysql.
-                return "server = localhost; DataBase = clinica_odontologica; Uid = root; Pwd = ifsp; Connect Timeout = 30";
+                return "server = localhost; DataBase = clinica_odontologica; Uid = root; Pwd =; Connect Timeout = 30";
             }
         }
     }

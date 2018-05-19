@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="FuncionarioController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidarDocumentos.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

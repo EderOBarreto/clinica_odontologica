@@ -110,6 +110,7 @@ namespace View
 
         private void LimparForm()
         {
+            err1.Clear();
             lblIdFuncionario.Text = "";
             txtNome.Text = "";
             mskCpf.Text = "";
@@ -174,7 +175,7 @@ namespace View
             mskCpf.Text = dgvFuncionarios[5, dgvFuncionarios.CurrentRow.Index].Value.ToString();
             txtEmail.Text = dgvFuncionarios[6, dgvFuncionarios.CurrentRow.Index].Value.ToString();
             mskCelular.Text = dgvFuncionarios[7, dgvFuncionarios.CurrentRow.Index].Value.ToString();
-            
+            err1.Clear();
         }
 
         private void btnPesquisar_Click(object sender, EventArgs e)
@@ -206,14 +207,54 @@ namespace View
         {
             try
             {
-                if(txtEmail.Text != "")
-                { 
+                if(txtEmail.Text == "")
+                {
+                    err1.SetError(txtEmail, "Informe o e-mail.");
+                }
+                else
+                {
                     MailAddress m = new MailAddress(txtEmail.Text);
                 }
             }
             catch (FormatException)
             {
-                //mostrar mensagem de erro por label ou tooltip
+                err1.SetError(txtEmail, "E-mail inválido");
+            }
+        }
+
+        private void txtNome_Validating(object sender, CancelEventArgs e)
+        {
+            if(txtNome.Text.Trim().Length == 0)
+            {
+                err1.SetError(txtNome, "Informe o nome do funcionário");
+            }
+            else
+            {
+                err1.SetError(txtNome, "");
+            }
+        }
+
+        private void mskCpf_Validating(object sender, CancelEventArgs e)
+        {
+             if (mskCpf.Text.Length < 14)
+            {
+                err1.SetError(mskCpf, "Informe o CPF.");
+            }
+            else if (!ValidarDocumentos.ValidaCpf(mskCpf.Text))
+            {
+                err1.SetError(mskCpf, "CPF inválido.");
+            }
+            else
+            {
+                err1.SetError(mskCpf, "");
+            }
+        }
+
+        private void mskCpf_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Space)
+            {
+                e.SuppressKeyPress = true;
             }
         }
     }
