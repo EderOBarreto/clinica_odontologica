@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Model;
 using Controller;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace View
 {
@@ -39,26 +40,85 @@ namespace View
         {
             try
             {
-                funcionario.Nome = txtNome.Text;
-                funcionario.Tipo = cboTipo.Text;
-                funcionario.Especialidade = cboEspecialidade.Text;
-                funcionario.Cpf = mskCpf.Text;
-                funcionario.Celular = mskCelular.Text;
-                funcionario.Email = txtEmail.Text;
-                funcionario.Usuario = txtUsuario.Text;
-                funcionario.Senha = txtSenha.Text;
-                objFuncionariosBll.Inserir(funcionario);
-                //exibir alguma mensagem de sucesso
-                AtualizaGrid();
+                if (ValidarCampos())
+                {
+                    funcionario.Nome = txtNome.Text;
+                    funcionario.Tipo = cboTipo.Text;
+                    funcionario.Especialidade = cboEspecialidade.Text;
+                    funcionario.Cpf = mskCpf.Text;
+                    funcionario.Celular = mskCelular.Text;
+                    funcionario.Email = txtEmail.Text;
+                    funcionario.Usuario = txtUsuario.Text;
+                    funcionario.Senha = txtSenha.Text;
+                    objFuncionariosBll.Inserir(funcionario);
+                    //exibir alguma mensagem de sucesso
+                    AtualizaGrid();
+                    LimparForm();
+                }
+                else
+                {
+                    MessageBox.Show("Preencha todos os dados antes de inserir.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
 
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            finally
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+            try
             {
-                LimparForm();
+                if (ValidarCampos())
+                {
+
+
+                    funcionario.Id = int.Parse(lblIdFuncionario.Text);
+                    funcionario.Nome = txtNome.Text;
+                    funcionario.Tipo = cboTipo.Text;
+                    funcionario.Especialidade = cboEspecialidade.Text;
+                    funcionario.Cpf = mskCpf.Text;
+                    funcionario.Celular = mskCelular.Text;
+                    funcionario.Email = txtEmail.Text;
+                    funcionario.Usuario = txtUsuario.Text;
+                    funcionario.Senha = txtSenha.Text;
+                    objFuncionariosBll.Alterar(funcionario);
+                    //exibir alguma mensagem de sucesso
+                    AtualizaGrid();
+                    LimparForm();
+                }
+                else
+                {
+                    MessageBox.Show("Preencha todos os dados antes de alterar.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(lblIdFuncionario.Text != "") { 
+                    funcionario.Id = int.Parse(lblIdFuncionario.Text);
+                    objFuncionariosBll.Excluir(funcionario);
+                    //exibir alguma mensagem de sucesso
+                    AtualizaGrid();
+                    LimparForm();
+                }
+                else
+                {
+                    MessageBox.Show("Selecione o funcionário antes de excluí-lo.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -110,7 +170,6 @@ namespace View
 
         private void LimparForm()
         {
-            err1.Clear();
             lblIdFuncionario.Text = "";
             txtNome.Text = "";
             mskCpf.Text = "";
@@ -125,9 +184,10 @@ namespace View
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
-        {
+        {  
             LimparForm();
             AtualizaGrid();
+            err1.Clear();
         }
 
         private void btnSair_Click(object sender, EventArgs e) => Close();
@@ -135,34 +195,6 @@ namespace View
         private void txtNome_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !(char.IsLetter(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == (char)Keys.Space);
-        }
-
-        private void btnAlterar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                funcionario.Id = int.Parse(lblIdFuncionario.Text);
-                funcionario.Nome = txtNome.Text;
-                funcionario.Tipo = cboTipo.Text;
-                funcionario.Especialidade = cboEspecialidade.Text;
-                funcionario.Cpf = mskCpf.Text;
-                funcionario.Celular = mskCelular.Text;
-                funcionario.Email = txtEmail.Text;
-                funcionario.Usuario = txtUsuario.Text;
-                funcionario.Senha = txtSenha.Text;
-                objFuncionariosBll.Alterar(funcionario);
-                //exibir alguma mensagem de sucesso
-                AtualizaGrid();
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                LimparForm();
-            }
         }
 
         private void dgvFuncionarios_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -182,25 +214,6 @@ namespace View
         {
             AtualizaGrid(txtPesquisar.Text);
             dgvFuncionarios.Rows[0].Selected = true;
-        }
-
-        private void btnExcluir_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                funcionario.Id = int.Parse(lblIdFuncionario.Text);
-                objFuncionariosBll.Excluir(funcionario);
-                //exibir alguma mensagem de sucesso
-                AtualizaGrid();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                LimparForm();
-            }
         }
 
         private void txtEmail_Validated(object sender, EventArgs e)
@@ -224,14 +237,7 @@ namespace View
 
         private void txtNome_Validating(object sender, CancelEventArgs e)
         {
-            if(txtNome.Text.Trim().Length == 0)
-            {
-                err1.SetError(txtNome, "Informe o nome do funcionário");
-            }
-            else
-            {
-                err1.SetError(txtNome, "");
-            }
+            VerificarCampoVazio(txtNome,"Informe o nome do funcionário");
         }
 
         private void mskCpf_Validating(object sender, CancelEventArgs e)
@@ -257,5 +263,100 @@ namespace View
                 e.SuppressKeyPress = true;
             }
         }
+
+        private void mskCelular_Validating(object sender, CancelEventArgs e)
+        {
+            mskCelular.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            string celular = mskCelular.Text;
+
+            if (celular.Length < 11)
+            {
+                err1.SetError(mskCelular, "Informe o celular.");
+            }
+            else
+            {
+                //verifica se o celular está dentro do padrão esperado
+                Match match = Regex.Match(celular, "^[1-9]{2}9[1-9][0-9]{7}$");
+                if (!match.Success)
+                {
+                    err1.SetError(mskCelular, "Número inválido.");
+                }
+                else
+                {
+                    err1.SetError(mskCelular, "");
+                }   
+            }
+        }
+
+        private void txtUsuario_Validating(object sender, CancelEventArgs e)
+        {
+            VerificarCampoVazio(txtUsuario, "Digite um nome de usuário.");
+        }
+
+        private void txtSenha_Validating(object sender, CancelEventArgs e)
+        {
+            VerificarCampoVazio(txtSenha, "Digite uma senha.\nNo mínimo 5 caracteres.");
+        }
+
+        private void cboEspecialidade_Validating(object sender, CancelEventArgs e)
+        {
+            VerificarCampoVazio(cboEspecialidade,"Informe a especilidade.");
+        }
+
+        private void cboTipo_Validating(object sender, CancelEventArgs e)
+        {
+            VerificarCampoVazio(cboTipo, "Selecione o tipo de usuário.");
+        }
+
+        private void VerificarCampoVazio(TextBox campo, string mensagem)
+        {
+            //verifica se o camps está vazio, caso esteja
+            //retorna mensagem de erro
+            //recebe o textbox do campo e a mensagem de erro a ser exibida
+
+            if (campo.Text.Trim().Length == 0)
+            {
+                err1.SetError(campo, mensagem);
+            }
+            else
+            {
+                err1.SetError(campo, "");
+            }
+        }
+
+        //sobrecarga 
+        private void VerificarCampoVazio(ComboBox campo, string mensagem)
+        {
+            if (campo.Text.Trim().Length == 0)
+            {
+                err1.SetError(campo, mensagem);
+            }
+            else
+            {
+                err1.SetError(campo, "");
+            }
+        }
+
+        private bool ValidarCampos()
+        {
+            //encontrar um modo mais inteligente de fazer isso
+            //se possivel
+
+            foreach(Control c in Controls)
+            {
+                if(c is TextBox || c is ComboBox || c is MaskedTextBox)
+                    c.Focus();
+            }
+            foreach(Control c in Controls)
+            {
+                if(c is TextBox || c is ComboBox || c is MaskedTextBox)    
+                    if (err1.GetError(c) != "")
+                        return false;
+            }
+
+            return true;
+        }
+        
+
     }
 }

@@ -269,6 +269,7 @@ namespace View
             this.txtSenha.PasswordChar = '*';
             this.txtSenha.Size = new System.Drawing.Size(127, 20);
             this.txtSenha.TabIndex = 14;
+            this.txtSenha.Validating += new System.ComponentModel.CancelEventHandler(this.txtSenha_Validating);
             // 
             // txtUsuario
             // 
@@ -277,6 +278,7 @@ namespace View
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(127, 20);
             this.txtUsuario.TabIndex = 15;
+            this.txtUsuario.Validating += new System.ComponentModel.CancelEventHandler(this.txtUsuario_Validating);
             // 
             // cboTipo
             // 
@@ -289,6 +291,7 @@ namespace View
             this.cboTipo.Name = "cboTipo";
             this.cboTipo.Size = new System.Drawing.Size(127, 21);
             this.cboTipo.TabIndex = 16;
+            this.cboTipo.Validating += new System.ComponentModel.CancelEventHandler(this.cboTipo_Validating);
             // 
             // mskCpf
             // 
@@ -308,6 +311,7 @@ namespace View
             this.mskCelular.Size = new System.Drawing.Size(88, 20);
             this.mskCelular.TabIndex = 18;
             this.mskCelular.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mskCpf_KeyDown);
+            this.mskCelular.Validating += new System.ComponentModel.CancelEventHandler(this.mskCelular_Validating);
             // 
             // dgvFuncionarios
             // 
@@ -361,6 +365,7 @@ namespace View
             this.cboEspecialidade.Size = new System.Drawing.Size(217, 21);
             this.cboEspecialidade.TabIndex = 23;
             this.cboEspecialidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNome_KeyPress);
+            this.cboEspecialidade.Validating += new System.ComponentModel.CancelEventHandler(this.cboEspecialidade_Validating);
             // 
             // lblMensagem
             // 
