@@ -126,7 +126,6 @@ CREATE TABLE `pacientes` (
   `pac_data_nascimento` datetime DEFAULT NULL,
   `pac_celular` varchar(20) DEFAULT NULL,
   `pac_email` varchar(40) DEFAULT NULL,
-  `pac_historico` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`pac_id`),
   KEY `pac_id_convenio` (`pac_id_convenio`),
   CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`pac_id_convenio`) REFERENCES `convenios` (`con_id`)
