@@ -17,3 +17,13 @@ D:\OdontoTrab\odonto_desktop\Persistence\bin\Debug\MySql.Data.xml
 D:\OdontoTrab\odonto_desktop\Persistence\obj\Debug\Persistence.csprojResolveAssemblyReference.cache
 D:\OdontoTrab\odonto_desktop\Persistence\obj\Debug\Persistence.dll
 D:\OdontoTrab\odonto_desktop\Persistence\obj\Debug\Persistence.pdb
+C:\Users\consoli\git\odonto_desktop\Persistence\bin\Debug\Persistence.dll
+C:\Users\consoli\git\odonto_desktop\Persistence\bin\Debug\Persistence.pdb
+C:\Users\consoli\git\odonto_desktop\Persistence\bin\Debug\Model.dll
+C:\Users\consoli\git\odonto_desktop\Persistence\bin\Debug\MySql.Data.dll
+C:\Users\consoli\git\odonto_desktop\Persistence\bin\Debug\Model.pdb
+C:\Users\consoli\git\odonto_desktop\Persistence\bin\Debug\MySql.Data.xml
+C:\Users\consoli\git\odonto_desktop\Persistence\obj\Debug\Persistence.csprojResolveAssemblyReference.cache
+C:\Users\consoli\git\odonto_desktop\Persistence\obj\Debug\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\consoli\git\odonto_desktop\Persistence\obj\Debug\Persistence.dll
+C:\Users\consoli\git\odonto_desktop\Persistence\obj\Debug\Persistence.pdb
