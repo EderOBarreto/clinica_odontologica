@@ -103,6 +103,7 @@ namespace View
             this.btnAlterar.Size = new System.Drawing.Size(62, 51);
             this.btnAlterar.Text = "&Alterar";
             this.btnAlterar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // btnExcluir
             // 
@@ -115,6 +116,7 @@ namespace View
             this.btnExcluir.Size = new System.Drawing.Size(60, 51);
             this.btnExcluir.Text = "&Excluir";
             this.btnExcluir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnLimpar
             // 
@@ -213,7 +215,7 @@ namespace View
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(282, 174);
+            this.label8.Location = new System.Drawing.Point(198, 174);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(42, 13);
             this.label8.TabIndex = 8;
@@ -252,6 +254,7 @@ namespace View
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(253, 20);
             this.txtEmail.TabIndex = 12;
+            this.txtEmail.Validated += new System.EventHandler(this.txtEmail_Validated);
             // 
             // txtSenha
             // 
@@ -287,24 +290,28 @@ namespace View
             this.mskCpf.Location = new System.Drawing.Point(57, 171);
             this.mskCpf.Mask = "000.000.000-00";
             this.mskCpf.Name = "mskCpf";
-            this.mskCpf.Size = new System.Drawing.Size(217, 20);
+            this.mskCpf.Size = new System.Drawing.Size(89, 20);
             this.mskCpf.TabIndex = 17;
             // 
             // mskCelular
             // 
-            this.mskCelular.Location = new System.Drawing.Point(364, 171);
+            this.mskCelular.Location = new System.Drawing.Point(280, 171);
             this.mskCelular.Mask = "(99)00000-0000";
             this.mskCelular.Name = "mskCelular";
-            this.mskCelular.Size = new System.Drawing.Size(162, 20);
+            this.mskCelular.Size = new System.Drawing.Size(88, 20);
             this.mskCelular.TabIndex = 18;
             // 
             // dgvFuncionarios
             // 
+            this.dgvFuncionarios.AllowUserToAddRows = false;
+            this.dgvFuncionarios.AllowUserToDeleteRows = false;
             this.dgvFuncionarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFuncionarios.Location = new System.Drawing.Point(12, 297);
             this.dgvFuncionarios.Name = "dgvFuncionarios";
+            this.dgvFuncionarios.ReadOnly = true;
             this.dgvFuncionarios.Size = new System.Drawing.Size(528, 189);
             this.dgvFuncionarios.TabIndex = 19;
+            this.dgvFuncionarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFuncionarios_CellClick);
             // 
             // label10
             // 
@@ -335,6 +342,7 @@ namespace View
             this.btnPesquisar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPesquisar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnPesquisar.UseVisualStyleBackColor = true;
+            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
             // 
             // cboEspecialidade
             // 
@@ -344,6 +352,7 @@ namespace View
             this.cboEspecialidade.Name = "cboEspecialidade";
             this.cboEspecialidade.Size = new System.Drawing.Size(217, 21);
             this.cboEspecialidade.TabIndex = 23;
+            this.cboEspecialidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNome_KeyPress);
             // 
             // frmFuncionario
             // 

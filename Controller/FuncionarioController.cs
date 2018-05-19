@@ -13,7 +13,12 @@ namespace Controller
         RepositoryFuncionarios objFuncionariosDal = new RepositoryFuncionarios();
 
         // Mensagem de erros.
-        public string Mensagem { get; set; }
+
+        private string mensagem;
+        public string Mensagem {
+            get { return mensagem; }
+            set { mensagem = value; }
+        }
 
         // Receberá o resultado da autenticação.
         private bool resposta = false;
@@ -28,31 +33,37 @@ namespace Controller
 
         //validar campos ->
 
+
+
         public void Inserir(Funcionario funcionario)
         {
             try
             {
-                //valida = validaFuncionario(funcionario);
-               
-                    // Chamada da funçao que irá gerar a criptografia.
-                    // Fazer método para gerar senha
-                    //funcionario.Funsenha = GeraSenhaMD5(funcionario.Funsenha);
-                    objFuncionariosDal.Inserir(funcionario);
-                    if (funcionario.Id != 0)
+                    if (validaCpf(funcionario.Cpf))
                     {
-                        Mensagem = "Funcionário inserido com sucesso!";
+                        objFuncionariosDal.Inserir(funcionario);
+                        if (objFuncionariosDal.Mensagem == "")
+                        {
+                            mensagem = "Cliente incluído com sucesso";
+                        }
+                        else
+                        {
+                            mensagem = "O Cliente não foi incluído!";
+                        }
                     }
-                    else
+                    else if (verifica == false)
                     {
-                        Mensagem = "O funcionário não pôde ser inserido!";
+                        mensagem = "CPF inválido!";
+                    
                     }
-                
+                    
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
 
         public void Alterar(Funcionario funcionario)
         {
@@ -188,6 +199,71 @@ namespace Controller
             }
         }*/
 
+        private bool validaCpf(string cpf)
+        {
+            int[] multiplicador1;
+            int[] multiplicador2;
+
+            multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            string tempCpf;
+            string digito;
+            int soma;
+            int resto;
+            cpf = cpf.Trim();
+            // cpf = 111.444.777-05
+            cpf = cpf.Replace(",", "").Replace(".", "").Replace("-", "");
+            // cpf = 11144477705
+            if (cpf.Length != 11)
+            {
+                return false;
+            }
+            else
+            {
+                tempCpf = cpf.Substring(0, 9);
+                soma = 0;
+                // tempCpf = 1,1,1,4,4,4,7,7,7
+                // Multiplicador1 = 10, 9, 8, 7, 6, 5, 4, 3, 2
+                for (int i = 0; i < 9; i++)
+                {
+                    soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+                }
+                resto = soma % 11;
+                if (resto < 2)
+                {
+                    digito = "0";
+                }
+                else
+                {
+                    digito = (11 - resto).ToString();
+                }
+                // tempCpf = 1114447773
+                tempCpf += digito;
+                soma = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+                }
+                resto = soma % 11;
+                if (resto < 2)
+                {
+                    digito = "0";
+                }
+                else
+                {
+                    digito = (11 - resto).ToString();
+                }
+                tempCpf += digito;
+                //return tempCpf.EndsWith(digito);
+                if (tempCpf == cpf)
+                    return true;
+                else
+                {
+                    // cpf = tempCpf;
+                    return false;
+                }
+            }
+        }
 
     }
 }

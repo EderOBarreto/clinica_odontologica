@@ -1,0 +1,35 @@
+Funcionario 
+{
+validarCPF
+validar se o usuario já está cadastrado
+validarCampos e mostrar erros
+	*nome
+	*email
+	*especialidade
+	
+Como exibir mensagens de erro?
+Mensagens:
+	obrigatoriedade de preenchimento
+	valores inválidos 
+	->CPF
+	->email
+	->Celular
+	->Excluir com linha não selecionada
+
+Gerar senha criptografada em controller 
+}
+
+Agenda{
+Validar disponibilidade na mesma data
+Muda
+
+
+}
+
+Fazer o levantamento da mudanças e resolver uma coisa de cada vez
+
+
+Talvez valha a pena fazer uma classe (estática) mensagem
+sendo que mensagem tem descricao e tipo
+assim poderia exibir uma mensagem de erro personalizada sem fazer o uso 
+de outros elementos

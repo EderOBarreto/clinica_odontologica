@@ -127,7 +127,6 @@ namespace Persistence
             {
                 try
                 {
-
                     ListaFuncionario objListaFuncionarios = new ListaFuncionario();
 
                     conFuncionario.ConnectionString = Dados.strConexao;
@@ -149,15 +148,14 @@ namespace Persistence
                         
                             funcionario.Id = int.Parse(dr["fun_id"].ToString());
                             funcionario.Nome = dr["fun_nome"].ToString();
-                            funcionario.Cpf = dr["fun_cpf"].ToString(); 
-                            funcionario.Usuario = dr["fun_usuario"].ToString();
+                            funcionario.Especialidade = dr["fun_especialidade"].ToString();
                             funcionario.Tipo = dr["fun_tipo"].ToString();
+                            funcionario.Usuario = dr["fun_usuario"].ToString();
+                            funcionario.Cpf = dr["fun_cpf"].ToString();     
                             funcionario.Email = dr["fun_email"].ToString();
                             funcionario.Celular = dr["fun_celular"].ToString();
-                            funcionario.Especialidade = dr["fun_especialidade"].ToString();
-
+                            
                             objListaFuncionarios.Add(funcionario);
-                        
                         }
                     }
                     return objListaFuncionarios;
