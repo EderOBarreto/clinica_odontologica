@@ -156,14 +156,13 @@ namespace Persistence
 
         private bool exists(Paciente paciente)
         {
-            ListaPacientes lisp = new ListaPacientes();  /* LISP é daora! Emacs Rocks! */
             try
             {
                 cmdPaciente.CommandType = CommandType.StoredProcedure;
                 cmdPaciente.CommandText = "paciente_existe";
                 cmdPaciente.Connection = conPaciente;
 
-                cmdPaciente.Parameters.AddWithValue("pid", paciente.Pid);
+                cmdPaciente.Parameters.AddWithValue("pnome", paciente.Nome);
 
                 conPaciente.Open();
 
