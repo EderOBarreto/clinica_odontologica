@@ -22,32 +22,20 @@ namespace Controller
 
         // Receberá o resultado da autenticação.
         private bool resposta = false;
-
-        // Resultado da criptografia.
-        private bool verifica;
-
-        // Verifica a quantidade de caracteres do nome, login e senha.
-        private bool valida;
-
         //Fazer método para login ->
-
-        //validar campos ->
-
-
 
         public void Inserir(Funcionario funcionario)
         {
             try
-            {
-                    
+            {       
                     objFuncionariosDal.Inserir(funcionario);
                     if (objFuncionariosDal.Mensagem == "")
                     {
-                        mensagem = "Cliente incluído com sucesso";
+                        mensagem = "Funcionário incluído com sucesso";
                     }
                     else
                     {
-                        mensagem = "O Cliente não foi incluído!";
+                        mensagem = "O funcionário não foi incluído!";
                     }              
             }
             catch (Exception ex)
@@ -61,13 +49,8 @@ namespace Controller
         {
             try
             {
-                //valida = validaFuncionario(funcionario);
-                
-                    //Chama do método GeraSenhaMD5 para gerar uma nova senha em caso de alteração de dados.
-                    //funcionario.Funsenha = GeraSenhaMD5(funcionario.Funsenha);
                     objFuncionariosDal.Alterar(funcionario);
                     Mensagem = "Funcionário alterado com sucesso!";
-                
             }
             catch (Exception ex)
             {

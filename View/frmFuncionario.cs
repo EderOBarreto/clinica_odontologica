@@ -71,10 +71,8 @@ namespace View
         {
             try
             {
-                if (ValidarCampos())
+                if (ValidarCampos() && lblIdFuncionario.Text != "")
                 {
-
-
                     funcionario.Id = int.Parse(lblIdFuncionario.Text);
                     funcionario.Nome = txtNome.Text;
                     funcionario.Tipo = cboTipo.Text;
@@ -356,7 +354,7 @@ namespace View
 
             return true;
         }
-        
 
+       
     }
 }
