@@ -125,7 +125,6 @@ CREATE TABLE `pacientes` (
   `pac_data_nascimento` datetime DEFAULT NULL,
   `pac_celular` varchar(20) DEFAULT NULL,
   `pac_email` varchar(40) DEFAULT NULL,
-  `pac_historico` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`pac_id`),
   KEY `pac_id_convenio` (`pac_id_convenio`),
   CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`pac_id_convenio`) REFERENCES `convenios` (`con_id`)
@@ -138,7 +137,7 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com','');
+INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
