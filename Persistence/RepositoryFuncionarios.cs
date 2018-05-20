@@ -171,7 +171,7 @@ namespace Persistence
             }
         }
 
-        public async Task<bool> VerificarUsuario(string CPF, string senha, Funcionario funcionario)
+        /*public async Task<bool> VerificarUsuario(string CPF, string senha, Funcionario funcionario)
         {
             var hash = new Hash(SHA512.Create());
 
@@ -236,6 +236,6 @@ namespace Persistence
             {
                 throw new Exception("Problemas para verificar usuário.", e);
             }
-        }
+        }*/
     }
 }
