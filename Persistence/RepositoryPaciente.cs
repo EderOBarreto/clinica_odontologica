@@ -11,7 +11,7 @@ using Model;
 
 namespace Persistence
 {
-    class RepositoryPaciente
+    public class RepositoryPaciente
     {
         MySqlConnection conPaciente = new MySqlConnection(Dados.strConexao);
         MySqlCommand cmdPaciente = new MySqlCommand();

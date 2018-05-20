@@ -11,7 +11,7 @@ using Model;
 
 namespace Persistence
 {
-    class RepositoryConvenio
+    public class RepositoryConvenio
     {
         MySqlConnection conConvenio = new MySqlConnection(Dados.strConexao);
         MySqlCommand cmdConvenio = new MySqlCommand();
@@ -146,26 +146,19 @@ namespace Persistence
 
         private bool exists(Convenio convenio)
         {
-            /*
-             * TODO:
-             *      Rever.
-             *      Faz sentido ter isso?
-             **/
-
             try
             {
                 cmdConvenio.CommandType = CommandType.StoredProcedure;
                 cmdConvenio.CommandText = "convenio_existe";
                 cmdConvenio.Connection = conConvenio;
 
-                cmdConvenio.Parameters.AddWithValue("conv_nome", convenio.NomeConvenio);
+                cmdConvenio.Parameters.AddWithValue("convenio_cnpj", convenio.Cnpj);
 
                 conConvenio.Open();
 
                 int qtdeConvenios = cmdConvenio.ExecuteNonQuery();
 
                 return qtdeConvenios > 0;
-
             }
             catch (Exception ex)
             {
