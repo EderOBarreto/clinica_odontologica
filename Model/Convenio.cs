@@ -1,6 +1,6 @@
 ﻿namespace Model
 {
-    class Convenio
+    public class Convenio
     {
         public int Cid { get; set; }
         public string NomeConvenio { get; set; }

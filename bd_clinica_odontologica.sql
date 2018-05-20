@@ -138,7 +138,7 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com','');
+INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 

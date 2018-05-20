@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    class ListaConvenios : List<Convenio>
+    public class ListaConvenios : List<Convenio>
     {
     }
 }

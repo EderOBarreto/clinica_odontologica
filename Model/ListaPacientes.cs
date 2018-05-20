@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    class ListaPacientes : List<Paciente>
+    public class ListaPacientes : List<Paciente>
     {
     }
 }
