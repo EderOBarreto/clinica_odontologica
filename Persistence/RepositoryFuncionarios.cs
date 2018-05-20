@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
@@ -12,162 +13,230 @@ namespace Persistence
 {
     public class RepositoryFuncionarios
     {
-            MySqlConnection conFuncionario = new MySqlConnection();
+        MySqlConnection conFuncionario = new MySqlConnection();
 
-            MySqlCommand cmdFuncionario = new MySqlCommand();
+        MySqlCommand cmdFuncionario = new MySqlCommand();
 
-            public string Mensagem { get; set; }
+        Hash hash = new Hash(SHA512.Create());
 
-            public void Inserir(Funcionario funcionario)
+        public string Mensagem { get; set; }
+
+        public void Inserir(Funcionario funcionario)
+        {
+            //verificar se já existe algum funcionario com o mesmo nome
+
+            try
             {
-                //verificar se já existe algum funcionario com o mesmo nome
+                conFuncionario.ConnectionString = Dados.strConexao;
 
-                try
-                {
-                        conFuncionario.ConnectionString = Dados.strConexao;
+                cmdFuncionario.CommandType = CommandType.StoredProcedure;
 
-                        cmdFuncionario.CommandType = CommandType.StoredProcedure;
+                cmdFuncionario.CommandText = "`inserir_funcionario`";
 
-                        cmdFuncionario.CommandText = "`inserir_funcionario`";
+                cmdFuncionario.Connection = conFuncionario;
 
-                        cmdFuncionario.Connection = conFuncionario;
+                cmdFuncionario.Parameters.AddWithValue("nome", funcionario.Nome);
+                cmdFuncionario.Parameters.AddWithValue("cpf", funcionario.Cpf);
+                cmdFuncionario.Parameters.AddWithValue("senha", hash.CriptografarSenha(funcionario.Senha));
+                cmdFuncionario.Parameters.AddWithValue("usuario", funcionario.Usuario);
+                cmdFuncionario.Parameters.AddWithValue("tipo", funcionario.Tipo);
+                cmdFuncionario.Parameters.AddWithValue("email", funcionario.Email);
+                cmdFuncionario.Parameters.AddWithValue("celular", funcionario.Celular);
+                cmdFuncionario.Parameters.AddWithValue("especialidade", funcionario.Especialidade);
 
-                        cmdFuncionario.Parameters.AddWithValue("nome", funcionario.Nome);
-                        cmdFuncionario.Parameters.AddWithValue("cpf", funcionario.Cpf);
-                        cmdFuncionario.Parameters.AddWithValue("senha", funcionario.Senha);
-                        cmdFuncionario.Parameters.AddWithValue("usuario", funcionario.Usuario);
-                        cmdFuncionario.Parameters.AddWithValue("tipo", funcionario.Tipo);
-                        cmdFuncionario.Parameters.AddWithValue("email", funcionario.Email);
-                        cmdFuncionario.Parameters.AddWithValue("celular", funcionario.Celular);
-                        cmdFuncionario.Parameters.AddWithValue("especialidade", funcionario.Especialidade);
+                conFuncionario.Open();
 
-                        conFuncionario.Open();
-
-                        funcionario.Id = Convert.ToInt32(cmdFuncionario.ExecuteScalar());          
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-                finally
-                {
-                    conFuncionario.Close();
-                }
+                funcionario.Id = Convert.ToInt32(cmdFuncionario.ExecuteScalar());
             }
-
-            public void Alterar(Funcionario funcionario)
+            catch (Exception ex)
             {
-                try
-                {
-                    conFuncionario.ConnectionString = Dados.strConexao;
-                    cmdFuncionario.CommandType = CommandType.StoredProcedure;
-                    cmdFuncionario.CommandText = "alterar_funcionario";
-                    cmdFuncionario.Connection = conFuncionario;
-
-                    cmdFuncionario.Parameters.AddWithValue("id", funcionario.Id);
-                    cmdFuncionario.Parameters.AddWithValue("nome", funcionario.Nome);
-                    cmdFuncionario.Parameters.AddWithValue("cpf", funcionario.Cpf);
-                    cmdFuncionario.Parameters.AddWithValue("senha", funcionario.Senha);
-                    cmdFuncionario.Parameters.AddWithValue("usuario", funcionario.Usuario);
-                    cmdFuncionario.Parameters.AddWithValue("tipo", funcionario.Tipo);
-                    cmdFuncionario.Parameters.AddWithValue("email", funcionario.Email);
-                    cmdFuncionario.Parameters.AddWithValue("celular", funcionario.Celular);
-                    cmdFuncionario.Parameters.AddWithValue("especialidade", funcionario.Especialidade);
-
-                    conFuncionario.Open();
-                    cmdFuncionario.ExecuteNonQuery();
+                throw new Exception(ex.Message);
             }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-                finally
-                {
-                    conFuncionario.Close();
-                }
-            }
-
-            public bool Excluir(Funcionario funcionario)
+            finally
             {
+                conFuncionario.Close();
+            }
+        }
 
-                int resultado = 0;
-                bool resposta = false;
+        public void Alterar(Funcionario funcionario)
+        {
+            try
+            {
+                conFuncionario.ConnectionString = Dados.strConexao;
+                cmdFuncionario.CommandType = CommandType.StoredProcedure;
+                cmdFuncionario.CommandText = "alterar_funcionario";
+                cmdFuncionario.Connection = conFuncionario;
 
-                try
+                cmdFuncionario.Parameters.AddWithValue("id", funcionario.Id);
+                cmdFuncionario.Parameters.AddWithValue("nome", funcionario.Nome);
+                cmdFuncionario.Parameters.AddWithValue("cpf", funcionario.Cpf);
+                cmdFuncionario.Parameters.AddWithValue("senha", hash.CriptografarSenha(funcionario.Senha));
+                cmdFuncionario.Parameters.AddWithValue("usuario", funcionario.Usuario);
+                cmdFuncionario.Parameters.AddWithValue("tipo", funcionario.Tipo);
+                cmdFuncionario.Parameters.AddWithValue("email", funcionario.Email);
+                cmdFuncionario.Parameters.AddWithValue("celular", funcionario.Celular);
+                cmdFuncionario.Parameters.AddWithValue("especialidade", funcionario.Especialidade);
+
+                conFuncionario.Open();
+                cmdFuncionario.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conFuncionario.Close();
+            }
+        }
+
+        public bool Excluir(Funcionario funcionario)
+        {
+
+            int resultado = 0;
+            bool resposta = false;
+
+            try
+            {
+                conFuncionario.ConnectionString = Dados.strConexao;
+                cmdFuncionario.Connection = conFuncionario;
+                cmdFuncionario.CommandType = CommandType.StoredProcedure;
+                cmdFuncionario.CommandText = "excluir_funcionario";
+                cmdFuncionario.Parameters.AddWithValue("id_funcionario", funcionario.Id);
+                conFuncionario.Open();
+                resultado = cmdFuncionario.ExecuteNonQuery();
+
+                if (resultado != 1)
                 {
-                    conFuncionario.ConnectionString = Dados.strConexao;
-                    cmdFuncionario.Connection = conFuncionario;
-                    cmdFuncionario.CommandType = CommandType.StoredProcedure;
-                    cmdFuncionario.CommandText = "excluir_funcionario";
-                    cmdFuncionario.Parameters.AddWithValue("id_funcionario", funcionario.Id);
-                    conFuncionario.Open();
-                    resultado = cmdFuncionario.ExecuteNonQuery();
+                    throw new Exception("Não foi possível excluir o funcionario.");
+                }
+                else
+                {
+                    resposta = true;
+                }
+                return resposta;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conFuncionario.Close();
+            }
+        }
 
-                    if (resultado != 1)
+        public ListaFuncionario ListagemFuncionarios(string filtro)
+        {
+            try
+            {
+                ListaFuncionario objListaFuncionarios = new ListaFuncionario();
+
+                conFuncionario.ConnectionString = Dados.strConexao;
+                cmdFuncionario.CommandType = CommandType.StoredProcedure;
+                cmdFuncionario.CommandText = "selecionar_funcionario";
+                cmdFuncionario.Parameters.AddWithValue("filtro", filtro);
+                cmdFuncionario.Connection = conFuncionario;
+                conFuncionario.Open();
+
+                MySqlDataReader dr = cmdFuncionario.ExecuteReader();
+                cmdFuncionario.Parameters.Clear();
+
+                if (dr.HasRows == true)
+                {
+                    while (dr.Read())
                     {
-                        throw new Exception("Não foi possível excluir o funcionario.");
+                        // Cria uma instância para o objeto funcionario
+                        Funcionario funcionario = new Funcionario();
+
+                        funcionario.Id = int.Parse(dr["fun_id"].ToString());
+                        funcionario.Nome = dr["fun_nome"].ToString();
+                        funcionario.Especialidade = dr["fun_especialidade"].ToString();
+                        funcionario.Tipo = dr["fun_tipo"].ToString();
+                        funcionario.Usuario = dr["fun_usuario"].ToString();
+                        funcionario.Cpf = dr["fun_cpf"].ToString();
+                        funcionario.Email = dr["fun_email"].ToString();
+                        funcionario.Celular = dr["fun_celular"].ToString();
+
+                        objListaFuncionarios.Add(funcionario);
                     }
-                    else
-                    {
-                        resposta = true;
-                    }
-                    return resposta;
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-                finally
-                {
-                    conFuncionario.Close();
-                }
+                return objListaFuncionarios;
             }
-
-            public ListaFuncionario ListagemFuncionarios(string filtro)
+            catch (Exception ex)
             {
-                try
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conFuncionario.Close();
+            }
+        }
+
+        public async Task<bool> VerificarUsuario(string usuario, string tipo_acesso , string senha, Funcionario funcionario)
+        {
+            
+
+            /*if (string.IsNullOrEmpty(senha) || string.IsNullOrEmpty(CPF))
+            {
+                throw new ArgumentNullException();
+            }*/
+
+            string hashTxtSenha = null;
+
+            try
+            {
+                using (var sqlConnection = conFuncionario as MySqlConnection)
                 {
-                    ListaFuncionario objListaFuncionarios = new ListaFuncionario();
+                    MySqlTransaction transaction;
+                    await sqlConnection.OpenAsync();
 
-                    conFuncionario.ConnectionString = Dados.strConexao;
-                    cmdFuncionario.CommandType = CommandType.StoredProcedure;
-                    cmdFuncionario.CommandText = "selecionar_funcionario";
-                    cmdFuncionario.Parameters.AddWithValue("filtro", filtro);
-                    cmdFuncionario.Connection = conFuncionario;
-                    conFuncionario.Open();
-
-                    MySqlDataReader dr = cmdFuncionario.ExecuteReader();
-                    cmdFuncionario.Parameters.Clear(); 
-                
-                    if (dr.HasRows == true)
+                    transaction = sqlConnection.BeginTransaction(IsolationLevel.Serializable);
+                    using (MySqlCommand command = new MySqlCommand("autenticar_login", sqlConnection, transaction))
                     {
-                        while (dr.Read())
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new MySqlParameter("nome_usuario", usuario));
+                        command.Parameters.Add(new MySqlParameter("tipo_acesso", tipo_acesso));
+
+                        using (var reader = await command.ExecuteReaderAsync())
                         {
-                            // Cria uma instância para o objeto funcionario
-                            Funcionario funcionario = new Funcionario();
-                        
-                            funcionario.Id = int.Parse(dr["fun_id"].ToString());
-                            funcionario.Nome = dr["fun_nome"].ToString();
-                            funcionario.Especialidade = dr["fun_especialidade"].ToString();
-                            funcionario.Tipo = dr["fun_tipo"].ToString();
-                            funcionario.Usuario = dr["fun_usuario"].ToString();
-                            funcionario.Cpf = dr["fun_cpf"].ToString();     
-                            funcionario.Email = dr["fun_email"].ToString();
-                            funcionario.Celular = dr["fun_celular"].ToString();
-                            
-                            objListaFuncionarios.Add(funcionario);
+                            if (await reader.ReadAsync())
+                            {
+                                funcionario.Senha = reader["fun_senha"] as string; //
+                                funcionario.Usuario = reader["fun_usuario"] as string; //
+                                funcionario.Tipo = reader["fun_tipo"] as string;
+
+                                hashTxtSenha = hash.CriptografarSenha(senha);
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
+
+                        transaction.Commit();
+
+                        if (hash.VerificarSenha(hashTxtSenha, funcionario.Senha))
+                        {
+                            return true;
+                        }
+                        return false;
                     }
-                    return objListaFuncionarios;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-                finally
-                {
-                    conFuncionario.Close();
                 }
             }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException("Problemas ao se conectar com o banco.", e);
+            }
+
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Problemas para verificar usuário.", e);
+            }
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace View
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFuncionario));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnInserir = new System.Windows.Forms.ToolStripButton();
@@ -60,8 +61,11 @@ namespace View
             this.txtPesquisar = new System.Windows.Forms.TextBox();
             this.btnPesquisar = new System.Windows.Forms.Button();
             this.cboEspecialidade = new System.Windows.Forms.ComboBox();
+            this.lblMensagem = new System.Windows.Forms.Label();
+            this.err1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionarios)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.err1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -246,6 +250,7 @@ namespace View
             this.txtNome.Size = new System.Drawing.Size(301, 20);
             this.txtNome.TabIndex = 11;
             this.txtNome.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNome_KeyPress);
+            this.txtNome.Validating += new System.ComponentModel.CancelEventHandler(this.txtNome_Validating);
             // 
             // txtEmail
             // 
@@ -264,6 +269,7 @@ namespace View
             this.txtSenha.PasswordChar = '*';
             this.txtSenha.Size = new System.Drawing.Size(127, 20);
             this.txtSenha.TabIndex = 14;
+            this.txtSenha.Validating += new System.ComponentModel.CancelEventHandler(this.txtSenha_Validating);
             // 
             // txtUsuario
             // 
@@ -272,6 +278,7 @@ namespace View
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(127, 20);
             this.txtUsuario.TabIndex = 15;
+            this.txtUsuario.Validating += new System.ComponentModel.CancelEventHandler(this.txtUsuario_Validating);
             // 
             // cboTipo
             // 
@@ -284,6 +291,7 @@ namespace View
             this.cboTipo.Name = "cboTipo";
             this.cboTipo.Size = new System.Drawing.Size(127, 21);
             this.cboTipo.TabIndex = 16;
+            this.cboTipo.Validating += new System.ComponentModel.CancelEventHandler(this.cboTipo_Validating);
             // 
             // mskCpf
             // 
@@ -292,6 +300,8 @@ namespace View
             this.mskCpf.Name = "mskCpf";
             this.mskCpf.Size = new System.Drawing.Size(89, 20);
             this.mskCpf.TabIndex = 17;
+            this.mskCpf.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mskCpf_KeyDown);
+            this.mskCpf.Validating += new System.ComponentModel.CancelEventHandler(this.mskCpf_Validating);
             // 
             // mskCelular
             // 
@@ -300,6 +310,8 @@ namespace View
             this.mskCelular.Name = "mskCelular";
             this.mskCelular.Size = new System.Drawing.Size(88, 20);
             this.mskCelular.TabIndex = 18;
+            this.mskCelular.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mskCpf_KeyDown);
+            this.mskCelular.Validating += new System.ComponentModel.CancelEventHandler(this.mskCelular_Validating);
             // 
             // dgvFuncionarios
             // 
@@ -353,6 +365,21 @@ namespace View
             this.cboEspecialidade.Size = new System.Drawing.Size(217, 21);
             this.cboEspecialidade.TabIndex = 23;
             this.cboEspecialidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNome_KeyPress);
+            this.cboEspecialidade.Validating += new System.ComponentModel.CancelEventHandler(this.cboEspecialidade_Validating);
+            // 
+            // lblMensagem
+            // 
+            this.lblMensagem.AutoSize = true;
+            this.lblMensagem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMensagem.Location = new System.Drawing.Point(399, 274);
+            this.lblMensagem.Name = "lblMensagem";
+            this.lblMensagem.Size = new System.Drawing.Size(0, 20);
+            this.lblMensagem.TabIndex = 24;
+            // 
+            // err1
+            // 
+            this.err1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.err1.ContainerControl = this;
             // 
             // frmFuncionario
             // 
@@ -360,6 +387,7 @@ namespace View
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(548, 545);
+            this.Controls.Add(this.lblMensagem);
             this.Controls.Add(this.cboEspecialidade);
             this.Controls.Add(this.txtPesquisar);
             this.Controls.Add(this.label10);
@@ -392,6 +420,7 @@ namespace View
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionarios)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.err1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -428,5 +457,7 @@ namespace View
         private System.Windows.Forms.TextBox txtPesquisar;
         private System.Windows.Forms.Button btnPesquisar;
         private System.Windows.Forms.ComboBox cboEspecialidade;
+        private System.Windows.Forms.Label lblMensagem;
+        private System.Windows.Forms.ErrorProvider err1;
     }
 }
