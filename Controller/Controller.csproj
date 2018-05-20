@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgendaController.cs" />
+    <Compile Include="ConvenioController.cs" />
     <Compile Include="FuncionarioController.cs" />
     <Compile Include="PacientesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
