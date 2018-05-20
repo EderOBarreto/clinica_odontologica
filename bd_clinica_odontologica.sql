@@ -88,16 +88,16 @@ DROP TABLE IF EXISTS `funcionarios`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionarios` (
   `fun_id` int(11) NOT NULL AUTO_INCREMENT,
-  `fun_nome` varchar(15) DEFAULT NULL,
+  `fun_nome` varchar(50) DEFAULT NULL,
   `fun_cpf` varchar(14) DEFAULT NULL,
-  `fun_senha` varchar(10) DEFAULT NULL,
+  `fun_senha` varchar(128) DEFAULT NULL,
   `fun_usuario` varchar(15) DEFAULT NULL,
-  `fun_tipo` varchar(10) DEFAULT NULL,
+  `fun_tipo` varchar(15) DEFAULT NULL,
   `fun_email` varchar(50) DEFAULT NULL,
   `fun_celular` varchar(20) DEFAULT NULL,
-  `fun_especialidade` varchar(20) DEFAULT NULL,
+  `fun_especialidade` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`fun_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +106,7 @@ CREATE TABLE `funcionarios` (
 
 LOCK TABLES `funcionarios` WRITE;
 /*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
-INSERT INTO `funcionarios` VALUES (1,'Eder','12345','batata','batman','adm','eder@batman.com','221545564','caardiologista'),(2,'','   ,   ,   -','','','Periodonti','','(  )     -','');
+INSERT INTO `funcionarios` VALUES (15,'Éder de Oliveira','111,111,111-11','','asdasd','Administrador','eder@hotmail.com','(11)21215-4545','Implantodontista'),(23,'Éder de Oliveira','124,095,346-19','asdasd','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(24,'Éder de Oliveira','124,095,346-19','349A415E6C','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(25,'Éder de Oliveira','124,095,346-19','A6B064FCB1','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(26,'Éder de Oliveira','124,095,346-19','4714870AFF6C97CA09D135834FDB58A6389A50C11FEF8EC4AFEF466FB60A23AC6B7A9C92658F14DF4993D6B40A4E4D8424196AFC347E97640D68DE61E1CF14B0','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista');
 /*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,18 +226,18 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_funcionario`(
 IN id int,
-IN nome varchar(15),
+IN nome varchar(50),
 IN cpf varchar(14), 
-IN senha varchar(10), 
+IN senha varchar(128), 
 IN usuario varchar(15),
-IN tipo varchar(10), 
+IN tipo varchar(15), 
 IN email varchar(50), 
 IN celular varchar(20), 
-IN especialidade varchar(20))
+IN especialidade varchar(40))
 BEGIN
 	update funcionarios set
     fun_nome = nome,
@@ -289,6 +289,27 @@ BEGIN
 	pac_historico = historico  
 	where pac_id = id_paciente;
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `autenticar_login` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `autenticar_login`(
+IN nome_usuario VARCHAR(10),
+IN tipo_acesso VARCHAR(15))
+BEGIN
+	SELECT fun_usuario, fun_tipo, fun_senha FROM loja.funcionarios WHERE fun_usuario = nome_usuario AND fun_tipo = tipo_acesso;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -448,17 +469,17 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_funcionario`(
-IN nome varchar(15), 
+IN nome varchar(50), 
 IN cpf varchar(14), 
-IN senha varchar(10), 
+IN senha varchar(128), 
 IN usuario varchar(15),
-IN tipo varchar(10), 
+IN tipo varchar(15), 
 IN email varchar(50), 
 IN celular varchar(20), 
-IN especialidade varchar(20))
+IN especialidade varchar(40))
 BEGIN
 
 	insert into funcionarios
@@ -566,4 +587,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-16 16:13:32
+-- Dump completed on 2018-05-19 23:49:36

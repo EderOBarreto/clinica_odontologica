@@ -17,6 +17,8 @@ namespace Persistence
 
         MySqlCommand cmdFuncionario = new MySqlCommand();
 
+        Hash hash = new Hash(SHA512.Create());
+
         public string Mensagem { get; set; }
 
         public void Inserir(Funcionario funcionario)
@@ -35,7 +37,7 @@ namespace Persistence
 
                 cmdFuncionario.Parameters.AddWithValue("nome", funcionario.Nome);
                 cmdFuncionario.Parameters.AddWithValue("cpf", funcionario.Cpf);
-                cmdFuncionario.Parameters.AddWithValue("senha", funcionario.Senha);
+                cmdFuncionario.Parameters.AddWithValue("senha", hash.CriptografarSenha(funcionario.Senha));
                 cmdFuncionario.Parameters.AddWithValue("usuario", funcionario.Usuario);
                 cmdFuncionario.Parameters.AddWithValue("tipo", funcionario.Tipo);
                 cmdFuncionario.Parameters.AddWithValue("email", funcionario.Email);
@@ -68,7 +70,7 @@ namespace Persistence
                 cmdFuncionario.Parameters.AddWithValue("id", funcionario.Id);
                 cmdFuncionario.Parameters.AddWithValue("nome", funcionario.Nome);
                 cmdFuncionario.Parameters.AddWithValue("cpf", funcionario.Cpf);
-                cmdFuncionario.Parameters.AddWithValue("senha", funcionario.Senha);
+                cmdFuncionario.Parameters.AddWithValue("senha", hash.CriptografarSenha(funcionario.Senha));
                 cmdFuncionario.Parameters.AddWithValue("usuario", funcionario.Usuario);
                 cmdFuncionario.Parameters.AddWithValue("tipo", funcionario.Tipo);
                 cmdFuncionario.Parameters.AddWithValue("email", funcionario.Email);
@@ -171,41 +173,40 @@ namespace Persistence
             }
         }
 
-        /*public async Task<bool> VerificarUsuario(string CPF, string senha, Funcionario funcionario)
+        public async Task<bool> VerificarUsuario(string usuario, string tipo_acesso , string senha, Funcionario funcionario)
         {
-            var hash = new Hash(SHA512.Create());
+            
 
-            if (string.IsNullOrEmpty(senha) || string.IsNullOrEmpty(CPF))
+            /*if (string.IsNullOrEmpty(senha) || string.IsNullOrEmpty(CPF))
             {
                 throw new ArgumentNullException();
-            }
+            }*/
 
             string hashTxtSenha = null;
 
             try
             {
-                //using (var sqlConnection = CreateConnection() as SqlConnection)
+                using (var sqlConnection = conFuncionario as MySqlConnection)
                 {
-                    SqlTransaction transaction;
-                    //await sqlConnection.OpenAsync();
+                    MySqlTransaction transaction;
+                    await sqlConnection.OpenAsync();
 
-                   // transaction = sqlConnection.BeginTransaction("VerificaFuncionario");
-                    using (SqlCommand command = new SqlCommand("VerificaFuncionario", sqlConnection, transaction))
+                    transaction = sqlConnection.BeginTransaction(IsolationLevel.Serializable);
+                    using (MySqlCommand command = new MySqlCommand("autenticar_login", sqlConnection, transaction))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@CPF", CPF));
+                        command.Parameters.Add(new MySqlParameter("nome_usuario", usuario));
+                        command.Parameters.Add(new MySqlParameter("tipo_acesso", tipo_acesso));
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
                             if (await reader.ReadAsync())
                             {
-                                funcionario.Senha = reader["Senha"] as string;
-                                funcionario.Nome = (reader["Nome"] as string).Trim();
-                                var guid = reader["UserGuid"] as string;
-                                //funcionario.NomeFuncao = reader["Funcao"] as string;
-                                //funcionario.Prioridade = Convert.ToInt32(reader["ID_Prioridade"]);
+                                funcionario.Senha = reader["fun_senha"] as string; //
+                                funcionario.Usuario = reader["fun_usuario"] as string; //
+                                funcionario.Tipo = reader["fun_tipo"] as string;
 
-                                hashTxtSenha = hash.CriptografarSenha(senha + guid);
+                                hashTxtSenha = hash.CriptografarSenha(senha);
                             }
                             else
                             {
@@ -236,6 +237,6 @@ namespace Persistence
             {
                 throw new Exception("Problemas para verificar usuário.", e);
             }
-        }*/
+        }
     }
 }
