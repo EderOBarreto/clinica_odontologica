@@ -8,18 +8,30 @@ namespace Model
 {
     public class Agenda
     {
-        public int id_consulta { get; set; }
-        public int id_paciente { get; set; }
+        private int id_consulta;
+        private int id_paciente;
         //pode ser mais de 1 funcionario?
-        public int id_funcionario { get; set; }
-        public DateTime data_agendamento { get; set; }
-        public DateTime data_consulta { get; set; }
-        public DateTime data_retorno { get; set; }
-        public DateTime hora { get; set; }
-        public float preco {get; set;}
+        private int id_funcionario;
+        private DateTime data_agendamento;
+        private DateTime data_consulta;
+        private DateTime data_retorno;
+        private DateTime hora_inicio;
+        private DateTime hora_final;
+        private float preco;
         //ainda a serem definidos
-        public String exames { get; set; }
-        public String diagnostico { get; set; }
-       
+        private byte [] exames;
+        private byte [] diagnostico;
+
+        public int Id_consulta { get => id_consulta; set => id_consulta = value; }
+        public int Id_paciente { get => id_paciente; set => id_paciente = value; }
+        public int Id_funcionario { get => id_funcionario; set => id_funcionario = value; }
+        public DateTime Data_agendamento { get => data_agendamento; set => data_agendamento = value; }
+        public DateTime Data_consulta { get => data_consulta; set => data_consulta = value; }
+        public DateTime Data_retorno { get => data_retorno; set => data_retorno = value; }
+        public float Preco { get => preco; set => preco = value; }
+        public byte[] Exames { get => exames; set => exames = value; }
+        public byte[] Diagnostico { get => diagnostico; set => diagnostico = value; }
+        public DateTime Hora_inicio { get => hora_inicio; set => hora_inicio = value; }
+        public DateTime Hora_final { get => hora_final; set => hora_final = value; }
     }
 }
