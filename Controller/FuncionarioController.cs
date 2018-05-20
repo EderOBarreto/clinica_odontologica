@@ -80,22 +80,19 @@ namespace Controller
             try
             {
                 resposta = false;
-                if (funcionario.Id < 1)
+               
+                resposta = objFuncionariosDal.Excluir(funcionario);
+                if (resposta == false)
                 {
-                    Mensagem = "Selecione um funcionario antes de excluir.";
+                    //essa mensagem deve ser exibida em caso de falha ao salvar
+                    //porem deve ser repensada
+                    Mensagem = objFuncionariosDal.Mensagem;
                 }
                 else
                 {
-                    resposta = objFuncionariosDal.Excluir(funcionario);
-                    if (resposta == false)
-                    {
-                        Mensagem = objFuncionariosDal.Mensagem;
-                    }
-                    else
-                    {
-                        Mensagem = "Funcionário excluído com sucesso!";
-                    }
+                    Mensagem = "Funcionário excluído com sucesso!";
                 }
+                
                 return resposta;
             }
             catch (Exception ex)
@@ -115,80 +112,5 @@ namespace Controller
                 throw new Exception(ex.Message);
             }
         }
-
-        /*  private string GeraSenhaMD5(string texto)
-        {
-          //Cria instância da classe MD5CryptoServiceProvider
-            MD5CryptoServiceProvider MD5provider = new MD5CryptoServiceProvider();
-
-            //Gera o hash do texto. Neste caso o hash é a encriptação.
-            //O objeto valorHash é um vetor do tipo byte.
-            //O tipo byte lê e armazena caracteres hexadecimais.
-            byte[] valorHash = MD5provider.ComputeHash(Encoding.Default.GetBytes(texto));
-
-            //A classe StringBuilder é utilizado para fazer concatenação de strings.
-            //A diferença de StringBuilder para String é a seguinte:
-            //Quando concatenamos strings, um novo objeto de string é instanciado a cada 
-            //concatenação tornando o consumo de memória muito alto. Já o StringBuilder, 
-            //não cria instancias de objetos e permite concatenar textos simples, tornando
-            //a operação de concatenação bem mais rápida e com baixo consumo de memória.
-            StringBuilder str = new StringBuilder();
-
-            //retorna o hash encriptado e o converte em formato hexadecimal.
-            for (int contador = 0; contador < valorHash.Length; contador++)
-            {
-                //O formato "x2" exibe caracteres no formato hexadecimal para variáveis do tipo byte, convertida para string.
-                str.Append(valorHash[contador].ToString("x2"));
-            }
-            return str.ToString();
-        }*/
-
-        /*private bool VerificaSenhaMD5(ModeloFuncionarios funcionario)
-        {
-            //gera criptografia para o texto da senha que retornará criptografada.
-            string senha2 = GeraSenhaMD5(funcionario.Funsenha);
-
-            //funcionario.funsenha recebe a senha criptografada para ser procurada na lista 
-            funcionario.Funsenha = senha2;
-
-            //Cria uma StringComparer e compara o hash gerado com o armazenado.
-            //A classe stringComparer compara apenas variáveis, mas não compara objetos.
-            //Assim, esta classe não compara funcionario.Funsenha porque funcionario é objeto.
-            StringComparer strcomparer = StringComparer.OrdinalIgnoreCase;
-
-            //A variável valorHashArmazenado receberá a senha criptografada do banco.
-            string valorHashArmazenado = "";
-
-            string filtro = "";
-
-            ListaFuncionario listaFun = new ListaFuncionario();
-
-            //Busca a lista de funcionarios.
-            listaFun = ListagemFuncionarios(filtro);
-
-            //Expressão Lambda que procura a senha criptografada na lista com f.Funsenha
-            //e a compara com funcionario.Funsenha
-            funcionario = listaFun.Find(f => f.Funsenha == funcionario.Funsenha);
-            //Se o funcionario for diferente de nulo!
-            if (funcionario != null)
-            {
-                //A variável valorHashArmazenado resgata a senha armazenada no banco.
-                valorHashArmazenado = funcionario.Funsenha;
-            }
-            else
-            {
-                Mensagem = "Senha Não Localizada!";
-            }
-
-            //Se o valores dos hashs foram iguais, então retorna true, senão, false
-            if (strcomparer.Compare(senha2, valorHashArmazenado).Equals(0))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
     }
 }
