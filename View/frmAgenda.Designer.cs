@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAgenda));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnInserir = new System.Windows.Forms.ToolStripButton();
@@ -49,8 +50,8 @@
             this.txtPreco = new System.Windows.Forms.TextBox();
             this.btnExame = new System.Windows.Forms.Button();
             this.grbAnexos = new System.Windows.Forms.GroupBox();
-            this.txtExame = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtExame = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.dgvConsultas = new System.Windows.Forms.DataGridView();
             this.txtPesquisar = new System.Windows.Forms.TextBox();
@@ -60,9 +61,11 @@
             this.dtpHoraTermino = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
             this.rtbDiagnostico = new System.Windows.Forms.RichTextBox();
+            this.err1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip1.SuspendLayout();
             this.grbAnexos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsultas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.err1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -117,6 +120,7 @@
             this.btnExcluir.Size = new System.Drawing.Size(60, 51);
             this.btnExcluir.Text = "&Excluir";
             this.btnExcluir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnLimpar
             // 
@@ -174,6 +178,7 @@
             this.cboPacientes.Name = "cboPacientes";
             this.cboPacientes.Size = new System.Drawing.Size(309, 21);
             this.cboPacientes.TabIndex = 18;
+            this.cboPacientes.Validating += new System.ComponentModel.CancelEventHandler(this.cboPacientes_Validating);
             // 
             // label6
             // 
@@ -192,6 +197,7 @@
             this.cboFuncionario.Name = "cboFuncionario";
             this.cboFuncionario.Size = new System.Drawing.Size(309, 21);
             this.cboFuncionario.TabIndex = 20;
+            this.cboFuncionario.Validating += new System.ComponentModel.CancelEventHandler(this.cboFuncionario_Validating);
             // 
             // label2
             // 
@@ -243,6 +249,7 @@
             this.txtPreco.Name = "txtPreco";
             this.txtPreco.Size = new System.Drawing.Size(100, 20);
             this.txtPreco.TabIndex = 28;
+            this.txtPreco.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPreco_KeyPress);
             // 
             // btnExame
             // 
@@ -267,14 +274,6 @@
             this.grbAnexos.TabStop = false;
             this.grbAnexos.Text = "Anexos";
             // 
-            // txtExame
-            // 
-            this.txtExame.Enabled = false;
-            this.txtExame.Location = new System.Drawing.Point(85, 25);
-            this.txtExame.Name = "txtExame";
-            this.txtExame.Size = new System.Drawing.Size(250, 20);
-            this.txtExame.TabIndex = 33;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -283,6 +282,14 @@
             this.label8.Size = new System.Drawing.Size(42, 13);
             this.label8.TabIndex = 36;
             this.label8.Text = "Exame:";
+            // 
+            // txtExame
+            // 
+            this.txtExame.Enabled = false;
+            this.txtExame.Location = new System.Drawing.Point(85, 25);
+            this.txtExame.Name = "txtExame";
+            this.txtExame.Size = new System.Drawing.Size(250, 20);
+            this.txtExame.TabIndex = 33;
             // 
             // label9
             // 
@@ -295,9 +302,12 @@
             // 
             // dgvConsultas
             // 
+            this.dgvConsultas.AllowUserToAddRows = false;
+            this.dgvConsultas.AllowUserToDeleteRows = false;
             this.dgvConsultas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvConsultas.Location = new System.Drawing.Point(12, 467);
             this.dgvConsultas.Name = "dgvConsultas";
+            this.dgvConsultas.ReadOnly = true;
             this.dgvConsultas.Size = new System.Drawing.Size(549, 183);
             this.dgvConsultas.TabIndex = 35;
             this.dgvConsultas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConsultas_CellClick);
@@ -331,6 +341,7 @@
             this.btnPesquisar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPesquisar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnPesquisar.UseVisualStyleBackColor = true;
+            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
             // 
             // dtpHoraInicio
             // 
@@ -369,6 +380,11 @@
             this.rtbDiagnostico.TabIndex = 41;
             this.rtbDiagnostico.Text = "";
             // 
+            // err1
+            // 
+            this.err1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.err1.ContainerControl = this;
+            // 
             // frmAgenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,6 +420,7 @@
             this.grbAnexos.ResumeLayout(false);
             this.grbAnexos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsultas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.err1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -442,5 +459,6 @@
         private System.Windows.Forms.DateTimePicker dtpHoraTermino;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox rtbDiagnostico;
+        private System.Windows.Forms.ErrorProvider err1;
     }
 }

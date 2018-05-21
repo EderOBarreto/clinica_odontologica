@@ -77,15 +77,18 @@ namespace View
         {
             try
             {
-                if (/*ValidarCampos()*/true)
+                if (ValidarCampos())
                 {
                     agenda.Id_funcionario = Convert.ToInt32(cboFuncionario.SelectedValue);
                     agenda.Id_paciente = Convert.ToInt32(cboPacientes.SelectedValue);
                     agenda.Data_consulta = dtpDataConsulta.Value.Date;
-                    agenda.Hora_inicio = dtpDataConsulta.Value;
+                    agenda.Hora_inicio = dtpHoraInicio.Value;
                     agenda.Hora_final = dtpHoraTermino.Value;
                     agenda.Diagnostico = rtbDiagnostico.Text;
-                    agenda.Preco = float.Parse(txtPreco.Text);
+                    if (txtPreco.Text != "")
+                        agenda.Preco = float.Parse(txtPreco.Text);
+                    else
+                        agenda.Preco = 0;
                     if (txtExame.Text != "")
                         agenda.Exames = LerEConverterArquivos(txtExame.Text);
 
@@ -118,14 +121,11 @@ namespace View
             txtPreco.Text = "";
         }
 
-        private bool ValidarCampos()
-        {
-            throw new NotImplementedException();
-        }
-
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             LimparForm();
+            AtualizaGrid();
+            err1.Clear();
         }
 
         public void AtualizaGrid(string filtro = "")
@@ -150,20 +150,19 @@ namespace View
         {
             try
             {
-                /*ValidarCampos() &&*/
+                
                 if (lblIdConsulta.Text != "")
                 {
                     agenda.Id_consulta = int.Parse(lblIdConsulta.Text);
                     agenda.Id_funcionario = Convert.ToInt32(cboFuncionario.SelectedValue);
                     agenda.Id_paciente = Convert.ToInt32(cboPacientes.SelectedValue);
                     agenda.Data_consulta = dtpDataConsulta.Value.Date;
-                    agenda.Hora_inicio = dtpDataConsulta.Value;
+                    agenda.Hora_inicio = dtpHoraInicio.Value;
                     agenda.Hora_final = dtpHoraTermino.Value;
                     agenda.Diagnostico = rtbDiagnostico.Text;
                     agenda.Preco = float.Parse(txtPreco.Text);
                     if (txtExame.Text != "")
                         agenda.Exames = LerEConverterArquivos(txtExame.Text);
-
                     objAgendaBll.Alterar(agenda);
                     AtualizaGrid();
                     LimparForm();
@@ -198,6 +197,82 @@ namespace View
             
             data = DateTime.Parse(data).ToShortTimeString();
             return DateTime.Parse(data);
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lblIdConsulta.Text != "")
+                {
+                    agenda.Id_consulta = int.Parse(lblIdConsulta.Text);
+                    objAgendaBll.Excluir(agenda);
+                    AtualizaGrid();
+                    LimparForm();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void btnPesquisar_Click(object sender, EventArgs e)
+        {
+            AtualizaGrid(txtPesquisar.Text);
+            dgvConsultas.Rows[0].Selected = true;
+        }
+
+        private void VerificarCampoVazio(ComboBox campo, string mensagem)
+        {
+
+            if (campo.Text.Trim().Length == 0)
+            {
+                err1.SetError(campo, mensagem);
+            }
+            else
+            {
+                err1.SetError(campo, "");
+            }
+        }
+
+        private void cboFuncionario_Validating(object sender, CancelEventArgs e)
+        {
+            VerificarCampoVazio(cboFuncionario, "Selecione o funcionário.");
+        }
+
+        private void cboPacientes_Validating(object sender, CancelEventArgs e)
+        {
+            VerificarCampoVazio(cboPacientes, "Selecione o paciente.");
+        }
+
+
+        private bool ValidarCampos()
+        {
+            //encontrar um modo mais inteligente de fazer isso
+            //se possivel
+            foreach (Control c in Controls)
+            {
+                if (c is ComboBox)
+                    c.Focus();
+            }
+            foreach (Control c in Controls)
+            {
+                if (c is ComboBox)
+                    if (err1.GetError(c) != "")
+                        return false;
+            }
+            return true;
+        }
+
+        private void txtPreco_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46); 
         }
     }
 }
