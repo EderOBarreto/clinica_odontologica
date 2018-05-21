@@ -128,6 +128,7 @@
             this.btnLimpar.Size = new System.Drawing.Size(61, 51);
             this.btnLimpar.Text = "&Limpar";
             this.btnLimpar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
             // btnSair
             // 
@@ -141,11 +142,12 @@
             this.btnSair.Size = new System.Drawing.Size(48, 51);
             this.btnSair.Text = "&Sair";
             this.btnSair.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
             // 
             // txtPesquisar
             // 
             this.txtPesquisar.Location = new System.Drawing.Point(74, 500);
-            this.txtPesquisar.MaxLength = 50;
+            this.txtPesquisar.MaxLength = 40;
             this.txtPesquisar.Name = "txtPesquisar";
             this.txtPesquisar.Size = new System.Drawing.Size(200, 20);
             this.txtPesquisar.TabIndex = 24;
@@ -258,12 +260,13 @@
             this.lblConvenio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblConvenio.Location = new System.Drawing.Point(239, 85);
             this.lblConvenio.Name = "lblConvenio";
-            this.lblConvenio.Size = new System.Drawing.Size(170, 23);
+            this.lblConvenio.Size = new System.Drawing.Size(275, 23);
             this.lblConvenio.TabIndex = 35;
             // 
             // txtNome
             // 
             this.txtNome.Location = new System.Drawing.Point(87, 116);
+            this.txtNome.MaxLength = 40;
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(322, 20);
             this.txtNome.TabIndex = 36;
@@ -271,6 +274,7 @@
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(88, 254);
+            this.txtEmail.MaxLength = 40;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(356, 20);
             this.txtEmail.TabIndex = 37;
@@ -278,6 +282,10 @@
             // cboSexo
             // 
             this.cboSexo.FormattingEnabled = true;
+            this.cboSexo.Items.AddRange(new object[] {
+            "MASCULINO",
+            "FEMININO",
+            "OUTRO"});
             this.cboSexo.Location = new System.Drawing.Point(88, 140);
             this.cboSexo.Name = "cboSexo";
             this.cboSexo.Size = new System.Drawing.Size(121, 21);
@@ -285,7 +293,8 @@
             // 
             // mskCpf
             // 
-            this.mskCpf.Location = new System.Drawing.Point(88, 172);
+            this.mskCpf.Location = new System.Drawing.Point(88, 168);
+            this.mskCpf.Mask = "000.000.000-00";
             this.mskCpf.Name = "mskCpf";
             this.mskCpf.Size = new System.Drawing.Size(121, 20);
             this.mskCpf.TabIndex = 39;
@@ -294,6 +303,7 @@
             // 
             this.dtpNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNascimento.Location = new System.Drawing.Point(88, 197);
+            this.dtpNascimento.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpNascimento.Name = "dtpNascimento";
             this.dtpNascimento.Size = new System.Drawing.Size(95, 20);
             this.dtpNascimento.TabIndex = 40;
@@ -301,8 +311,9 @@
             // mskCelular
             // 
             this.mskCelular.Location = new System.Drawing.Point(88, 228);
+            this.mskCelular.Mask = "(00) 0.0000-0000";
             this.mskCelular.Name = "mskCelular";
-            this.mskCelular.Size = new System.Drawing.Size(145, 20);
+            this.mskCelular.Size = new System.Drawing.Size(95, 20);
             this.mskCelular.TabIndex = 41;
             // 
             // frmPaciente
@@ -333,6 +344,7 @@
             this.Controls.Add(this.dgvPacientes);
             this.Name = "frmPaciente";
             this.Text = "Pacientes";
+            this.Load += new System.EventHandler(this.frmPaciente_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacientes)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

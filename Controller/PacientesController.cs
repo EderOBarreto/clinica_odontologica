@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Model;
 using Persistence;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
 
 namespace Controller
 {
-    class PacientesController
+    public class PacientesController
     {
         RepositoryPaciente objPaciente = new RepositoryPaciente();
 
