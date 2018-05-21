@@ -17,6 +17,7 @@ namespace Persistence
 
         MySqlCommand cmdConsulta = new MySqlCommand();
 
+
         public string Mensagem { get; set; }
 
         public void Inserir(Agenda consulta)
@@ -161,11 +162,11 @@ namespace Persistence
                         consulta.Id_paciente = int.Parse(dr["agd_id_paciente"].ToString());
                         consulta.Id_funcionario = int.Parse(dr["agd_id_funcionario"].ToString());
                         consulta.Data_consulta = DateTime.Parse(dr["agd_data_consulta"].ToString()); // 
-                        consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_consulta"].ToString()); //formato errado
-                        consulta.Hora_final = DateTime.Parse(dr["agd_hora_consulta"].ToString());
+                        consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_inicio"].ToString()); //formato errado
+                        consulta.Hora_final = DateTime.Parse(dr["agd_hora_termino"].ToString());
                         consulta.Preco = float.Parse(dr["agd_preco_consulta"].ToString());
-                        consulta.Exames = (byte[])dr["agd_exames"];
-                        consulta.Diagnostico = (byte[])dr["agd_diagnostico"];
+                        //consulta.Exames = (byte[])dr["agd_exames"];
+                        consulta.Diagnostico = dr["agd_diagnostico"].ToString();
 
                         objListaConsultas.Add(consulta);
 
@@ -182,5 +183,63 @@ namespace Persistence
                 conConsulta.Close();
             }
         }
+
+        //preenche combobox funcionarios
+        //cuidado codigo redundante abaixo
+        //mudarei depois
+        public DataTable ListarFuncionarios()
+        {
+            try
+            {
+                conConsulta.ConnectionString = Dados.strConexao;
+                cmdConsulta.Connection = conConsulta;
+                cmdConsulta.CommandType = CommandType.StoredProcedure;
+                cmdConsulta.CommandText = "buscar_funcionarios_combo";
+                //cmdConsulta.Parameters.AddWithValue("filtro", filtro);
+                conConsulta.Open();
+                MySqlDataReader dr = cmdConsulta.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+
+                return dt;
+            }
+            catch (Exception ex )
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conConsulta.Close();
+            }
+        }
+
+        //preenche combobox pacientes
+        public DataTable ListarPacientes()
+        {
+            try
+            {
+                conConsulta.ConnectionString = Dados.strConexao;
+                cmdConsulta.Connection = conConsulta;
+                cmdConsulta.CommandType = CommandType.StoredProcedure;
+                cmdConsulta.CommandText = "buscar_pacientes_combo";
+                //cmdConsulta.Parameters.AddWithValue("filtro", filtro);
+                conConsulta.Open();
+                MySqlDataReader dr = cmdConsulta.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conConsulta.Close();
+            }
+        }
+
+       
     }
 }
