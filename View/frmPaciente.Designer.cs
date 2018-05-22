@@ -92,6 +92,7 @@
             this.btnInserir.Size = new System.Drawing.Size(59, 51);
             this.btnInserir.Text = "&Inserir";
             this.btnInserir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInserir.Click += new System.EventHandler(this.btnInserir_Click);
             // 
             // btnAlterar
             // 
@@ -116,6 +117,7 @@
             this.btnExcluir.Size = new System.Drawing.Size(60, 51);
             this.btnExcluir.Text = "&Excluir";
             this.btnExcluir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnLimpar
             // 

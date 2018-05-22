@@ -15,7 +15,7 @@ namespace View
 {
     public partial class frmPaciente : Form
     {
-        ListaPacientes objListaPacientes = new ListaPacientes();
+        Paciente pacientes = new Paciente();
         PacientesController ctrlPacientes = new PacientesController();
 
         public frmPaciente()
@@ -67,6 +67,8 @@ namespace View
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             limpar();
+            preencherDgv();
+            formatarDgv();
         }
 
         private void limpar()
@@ -80,5 +82,64 @@ namespace View
             lblIdPaciente.Text = "";
             lblConvenio.Text = "";
         }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pacientes.Pid = int.Parse(lblIdPaciente.Text);
+                ctrlPacientes.Excluir(pacientes);
+
+                limpar();
+
+                preencherDgv();
+                formatarDgv();
+
+                MessageBox.Show("Paciente excluido com sucesso.", "Excluido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo de errado aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnInserir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                /*
+                 * TODO:
+                 *      validar email igual o Eder
+                 * */
+                preencherPaciente();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo de errado aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void preencherPaciente()
+        {
+            try
+            {
+                pacientes.Pid = int.Parse(lblIdPaciente.Text);
+                pacientes.Nome = txtNome.Text;
+                pacientes.Sexo = cboSexo.SelectedValue.ToString();
+                pacientes.Email = txtEmail.Text;
+                pacientes.Celular = mskCelular.Text;
+                pacientes.Cpf = mskCpf.Text;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
+
+/*
+ * TODO:
+ *      REVER RELAÇÃO DO ID_CONV
+ *      CRIAR TELA PARA SELECIONAR CONVENIO?
+ **/
