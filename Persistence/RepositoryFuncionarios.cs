@@ -173,14 +173,24 @@ namespace Persistence
             }
         }
 
-        public async Task<bool> VerificarUsuario(string usuario, string tipo_acesso , string senha, Funcionario funcionario)
+        public async Task<bool> VerificarUsuario(string usuario, string senha, string tipo_acesso)
         {
-            
+
 
             /*if (string.IsNullOrEmpty(senha) || string.IsNullOrEmpty(CPF))
             {
                 throw new ArgumentNullException();
             }*/
+
+
+            conFuncionario.ConnectionString = Dados.strConexao;
+            // cmdFuncionario.CommandType = CommandType.StoredProcedure;
+            //cmdFuncionario.CommandText = "selecionar_funcionario";
+            //cmdFuncionario.Connection = conFuncionario;
+            //conFuncionario.Open();
+
+
+            Funcionario funcionario = new Funcionario();
 
             string hashTxtSenha = null;
 

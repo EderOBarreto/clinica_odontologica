@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
+using Controller;
 
 namespace View
 {
@@ -30,7 +31,7 @@ namespace View
 
         private void txtUsuario_Enter(object sender, EventArgs e)
         {
-            if(txtUsuario.Text == "Usuário")
+            if (txtUsuario.Text == "Usuário")
             {
                 txtUsuario.Text = "";
             }
@@ -64,17 +65,13 @@ namespace View
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            /*try
+            try
             {
-                // Variável autentica receberá a resposta sobre a autenticação.
                 bool autentica = false;
 
-                // Criação da instancia do objeto funcionario da classe ModeloFuncionarios
-                ModeloFuncionarios funcionario = new ModeloFuncionarios();
+                FuncionarioController objFuncionariosBll = new FuncionarioController();
 
-                // Instancia do objeto da camada Bll que transporta os dados 
-                // do formulario.
-                FuncionariosBll objFuncionariosBll = new FuncionariosBll();
+                Funcionario funcionario = new Funcionario();
 
                 if (txtUsuario.Text == "" || txtSenha.Text == "")
                 {
@@ -82,31 +79,23 @@ namespace View
                 }
                 else
                 {
-                    // Leitura e armazenamento de dados da interface gráfica no objeto funcionario.
-                    funcionario.Funlogin = txtUsuario.Text;
-                    funcionario.Funsenha = txtSenha.Text;
-                    funcionario.Funtipo = cboTipo.Text;
-                    Globais.strFuncionario = funcionario.Funlogin;
-                    Globais.strTipo = funcionario.Funtipo;
+                    funcionario.Usuario = txtUsuario.Text;
+                    funcionario.Senha = txtSenha.Text;
+                    funcionario.Tipo = cboTipo.Text;
 
-                    // O método Login da camada Bll retorna valor boleano para
-                    // autenticar ou não o usuário
-                    autentica = objFuncionariosBll.Login(funcionario);
-                    lblMensagem.Text = objFuncionariosBll.Mensagem;
 
-                    // Se houver sucesso na autenticação
+                    objFuncionariosBll.RealizarLogin(funcionario.Usuario, funcionario.Senha, funcionario.Tipo);
+                    autentica = objFuncionariosBll.getAutentica();
                     if (autentica == true)
                     {
-                        // Oculta o formulário Login
                         this.Hide();
 
-                        // Cria uma instância do formulário Form1
-                        Form1 objForm1 = new Form1();
-                        objForm1.ShowDialog();
+                        frmMenuPrincipal frmMain = new frmMenuPrincipal();
+                        frmMain.ShowDialog();
                     }
                     else
                     {
-                        MessageBox.Show("Login inválido, verifique os dados.");
+                        MessageBox.Show("Login inválido, verifique os dados.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         // Caso não haja sucesso na autenticação
                         //lblMensagem.Text = objFuncionariosBll.Mensagem;
                         //this.Text = "Login - Tentativa " + Globais.intContador;
@@ -121,7 +110,7 @@ namespace View
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }*/
+            }
         }
     }
 }

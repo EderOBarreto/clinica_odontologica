@@ -32,10 +32,11 @@ namespace Persistence
 
             public bool VerificarSenha(string senhaDigitada, string senhaCadastrada)
             {
-                if (string.IsNullOrEmpty(senhaCadastrada))
-                    throw new NullReferenceException("Cadastre uma senha.");
+            /*if (string.IsNullOrEmpty(senhaCadastrada))
+                throw new NullReferenceException("Cadastre uma senha.");*/
 
-                return CriptografarSenha(senhaDigitada) == senhaCadastrada;
+            //return CriptografarSenha(senhaDigitada) == senhaCadastrada;
+            return senhaDigitada == senhaCadastrada;
             }
 
             private static string CreateSalt(int size)

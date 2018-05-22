@@ -12,7 +12,12 @@ namespace Controller
     {
         RepositoryFuncionarios objFuncionariosDal = new RepositoryFuncionarios();
 
-        // Mensagem de erros.
+        private bool autentica = false;
+
+        public bool getAutentica()
+        {
+            return autentica;
+        }
 
         private string mensagem;
         public string Mensagem {
@@ -93,6 +98,18 @@ namespace Controller
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public async void RealizarLogin(string usuario, string senha,string tipo_acesso)
+        {
+            try
+            {
+               autentica =  await objFuncionariosDal.VerificarUsuario(usuario, senha, tipo_acesso);
+            }
+            catch
+            {
+                autentica = false;
             }
         }
     }
