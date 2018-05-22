@@ -119,13 +119,13 @@ namespace View
             txtExame.Text = "";
             rtbDiagnostico.Text = "";
             txtPreco.Text = "";
+            err1.Clear();
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             LimparForm();
             AtualizaGrid();
-            err1.Clear();
         }
 
         public void AtualizaGrid(string filtro = "")
@@ -140,7 +140,7 @@ namespace View
             }
             finally
             {
-                //FormataGrid();
+                FormataGrid();
             }
         }
 
@@ -190,6 +190,7 @@ namespace View
             dtpHoraInicio.Value = DateTime.Parse(dgvConsultas[6, dgvConsultas.CurrentRow.Index].Value.ToString());
             dtpHoraTermino.Value = DateTime.Parse(dgvConsultas[7, dgvConsultas.CurrentRow.Index].Value.ToString());
             rtbDiagnostico.Text = dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString();
+            err1.Clear();
         }
 
         private DateTime ConverterHora(string data)
@@ -273,6 +274,49 @@ namespace View
         private void txtPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46); 
+        }
+
+        private void FormataGrid()
+        {
+            try
+            {
+                dgvConsultas.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvConsultas.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvConsultas.Columns["Id_consulta"].DisplayIndex = 0;
+                dgvConsultas.Columns["Id_consulta"].HeaderText = "ID Consulta";
+                dgvConsultas.Columns["Id_consulta"].Width = 60;
+                dgvConsultas.Columns["Id_paciente"].DisplayIndex = 1;
+                dgvConsultas.Columns["Id_paciente"].HeaderText = "ID Paciente";
+                dgvConsultas.Columns["Id_paciente"].Width = 60;
+                dgvConsultas.Columns["Id_funcionario"].DisplayIndex = 2;
+                dgvConsultas.Columns["Id_funcionario"].HeaderText = "ID Funcionário";
+                dgvConsultas.Columns["Id_funcionario"].Width = 60;
+                dgvConsultas.Columns["Data_consulta"].DisplayIndex = 3;
+                dgvConsultas.Columns["Data_consulta"].HeaderText = "Data da consulta";
+                dgvConsultas.Columns["Data_consulta"].Width = 80;
+                //Convert.ToDateTime(txtCampoTextoSaida.Text).ToString("hh:mm");
+                dgvConsultas.Columns["Hora_inicio"].DisplayIndex = 4;
+                dgvConsultas.Columns["Hora_inicio"].DefaultCellStyle.Format = "HH:mm";
+                dgvConsultas.Columns["Hora_inicio"].HeaderText = "Início";
+                dgvConsultas.Columns["Hora_inicio"].Width = 60;
+                dgvConsultas.Columns["Hora_final"].DisplayIndex = 5;
+                dgvConsultas.Columns["Hora_final"].DefaultCellStyle.Format = "HH:mm";
+                dgvConsultas.Columns["Hora_final"].HeaderText = "Término";
+                dgvConsultas.Columns["Hora_final"].Width = 60;
+                dgvConsultas.Columns["Preco"].DisplayIndex = 6;
+                dgvConsultas.Columns["Preco"].DefaultCellStyle.Format = "C2";
+                dgvConsultas.Columns["Preco"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                dgvConsultas.Columns["Preco"].HeaderText = "Preço";
+                dgvConsultas.Columns["Preco"].Width = 100;
+                dgvConsultas.Columns["Exames"].HeaderText = "Exames";
+                dgvConsultas.Columns["Exames"].Width = 50;
+                dgvConsultas.Columns[8].HeaderText = "Diagnóstico";
+                dgvConsultas.Columns[8].Width = 120;
+            }
+            catch
+            {
+                LimparForm();
+            }
         }
     }
 }

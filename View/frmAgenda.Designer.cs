@@ -412,7 +412,10 @@
             this.Controls.Add(this.lblIdConsulta);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "frmAgenda";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro de consultas";
             this.Load += new System.EventHandler(this.frmAgenda_Load);
             this.toolStrip1.ResumeLayout(false);

@@ -28,6 +28,7 @@ namespace View
 
         private void frmFuncionario_Load(object sender, EventArgs e)
         {
+            //preciso mudar isso
             cboEspecialidade.Items.Add("Dentista");
             cboEspecialidade.Items.Add("Recepcionista");
             cboEspecialidade.Items.Add("Implantodontista");

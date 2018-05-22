@@ -264,7 +264,7 @@ namespace View
             // txtSenha
             // 
             this.txtSenha.Location = new System.Drawing.Point(57, 249);
-            this.txtSenha.MaxLength = 10;
+            this.txtSenha.MaxLength = 20;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
             this.txtSenha.Size = new System.Drawing.Size(127, 20);
@@ -412,6 +412,7 @@ namespace View
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.btnPesquisar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmFuncionario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

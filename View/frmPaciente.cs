@@ -35,8 +35,10 @@ namespace View
         {
             try
             {
+                //comentei porque estava dando erro
+                /*
                 objListaPacientes = ctrlPacientes.ListagemPacientes("");
-                dgvPacientes.DataSource = objListaPacientes;
+                dgvPacientes.DataSource = objListaPacientes;*/
             }
             catch (Exception ex)
             {
