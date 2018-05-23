@@ -25,6 +25,7 @@ namespace View
             txtUsuario.ForeColor = Color.Gray;
             txtSenha.Text = "Senha";
             txtSenha.ForeColor = Color.Gray;
+
             cboTipo.Items.Add("Administrador");
             cboTipo.Items.Add("Usuário");
         }
@@ -50,6 +51,7 @@ namespace View
         {
             if (txtSenha.Text == "")
             {
+                txtSenha.UseSystemPasswordChar = false;
                 txtSenha.Text = "Senha";
                 txtSenha.ForeColor = Color.Gray;
             }
@@ -60,6 +62,7 @@ namespace View
             if (txtSenha.Text == "Senha")
             {
                 txtSenha.Text = "";
+                txtSenha.UseSystemPasswordChar = true;
             }
         }
 
@@ -83,13 +86,13 @@ namespace View
                     funcionario.Senha = txtSenha.Text;
                     funcionario.Tipo = cboTipo.Text;
 
-
                     objFuncionariosBll.RealizarLogin(funcionario.Usuario, funcionario.Senha, funcionario.Tipo);
                     autentica = objFuncionariosBll.getAutentica();
                     if (autentica == true)
                     {
-                        this.Hide();
-
+                        Globais.strFuncionario = funcionario.Usuario;
+                        Globais.strTipo = funcionario.Tipo;
+                        Hide();
                         frmMenuPrincipal frmMain = new frmMenuPrincipal();
                         frmMain.ShowDialog();
                     }
@@ -101,9 +104,9 @@ namespace View
                         //this.Text = "Login - Tentativa " + Globais.intContador;
                         //lblMensagem.Text = "Login Inválido! Tente Novamente!";
                         //lblMensagem.Text = objFuncionariosBll.Mensagem;
-                        txtUsuario.Clear();
-                        txtSenha.Clear();
-                        txtUsuario.Focus();
+                        //txtUsuario.Clear();
+                        //txtSenha.Clear();
+                        //txtUsuario.Focus();
                     }
                 }
             }

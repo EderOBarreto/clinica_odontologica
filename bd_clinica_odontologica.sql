@@ -33,13 +33,13 @@ CREATE TABLE `agenda` (
   `agd_hora_termino` time DEFAULT NULL,
   `agd_preco_consulta` float DEFAULT NULL,
   `agd_exames` blob,
-  `agd_diagnostico` blob,
+  `agd_diagnostico` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`agd_id_consulta`),
   KEY `agd_id_paciente` (`agd_id_paciente`),
   KEY `agd_id_funcionario` (`agd_id_funcionario`),
   CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`agd_id_paciente`) REFERENCES `pacientes` (`pac_id`),
   CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`agd_id_funcionario`) REFERENCES `funcionarios` (`fun_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +48,7 @@ CREATE TABLE `agenda` (
 
 LOCK TABLES `agenda` WRITE;
 /*!40000 ALTER TABLE `agenda` DISABLE KEYS */;
+INSERT INTO `agenda` VALUES (5,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'olar beleza?'),(6,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'batata'),(7,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'asd'),(8,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'asd');
 /*!40000 ALTER TABLE `agenda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +106,7 @@ CREATE TABLE `funcionarios` (
 
 LOCK TABLES `funcionarios` WRITE;
 /*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
-INSERT INTO `funcionarios` VALUES (15,'Éder de Oliveira','111,111,111-11','','asdasd','Administrador','eder@hotmail.com','(11)21215-4545','Implantodontista'),(23,'Éder de Oliveira','124,095,346-19','asdasd','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(24,'Éder de Oliveira','124,095,346-19','349A415E6C','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(25,'Éder de Oliveira','124,095,346-19','A6B064FCB1','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(26,'Éder de Oliveira','124,095,346-19','4714870AFF6C97CA09D135834FDB58A6389A50C11FEF8EC4AFEF466FB60A23AC6B7A9C92658F14DF4993D6B40A4E4D8424196AFC347E97640D68DE61E1CF14B0','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista');
+INSERT INTO `funcionarios` VALUES (15,'Éder de Oliveira','111,111,111-11','','asdasd','Administrador','eder@hotmail.com','(11)21215-4545','Implantodontista'),(23,'Éder de Oliveira','124,095,346-19','asdasd','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(24,'Éder de Oliveira','124,095,346-19','349A415E6C','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(25,'Éder de Oliveira','124,095,346-19','A6B064FCB1','asdasd','Administrador','eder@hotmail.com','35991197124','Implantodontista'),(26,'Éder de Oliveira','124,095,346-19','0858562831F7CBB5B461EF0D73C68EAD83F2C0910D0F2E0811B455F532653D208B43E3F93A5532508C7EBB70CD7E7BE8BB53D58B4C7C69F0764990657F1C4E1B','adm','Administrador','eder@hotmail.com','35991197124','Implantodontista');
 /*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,6 +126,7 @@ CREATE TABLE `pacientes` (
   `pac_data_nascimento` datetime DEFAULT NULL,
   `pac_celular` varchar(20) DEFAULT NULL,
   `pac_email` varchar(40) DEFAULT NULL,
+  `pac_historico` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`pac_id`),
   KEY `pac_id_convenio` (`pac_id_convenio`),
   CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`pac_id_convenio`) REFERENCES `convenios` (`con_id`)
@@ -137,7 +139,7 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com');
+INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com','');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +165,7 @@ IN hora_inicio time,
 IN hora_termino time,
 IN preco_consulta float,
 IN exames blob,
-IN diagnostico blob)
+IN diagnostico varchar(500))
 BEGIN
 
 	update agenda set  
@@ -171,7 +173,7 @@ BEGIN
 	agd_id_funcionario = id_funcionario,
 	agd_data_consulta = data_consulta,
 	agd_hora_inicio = hora_inicio,
-    agd_hora_inicio = hora_termino,
+    agd_hora_termino = hora_termino,
 	agd_preco_consulta = preco_consulta,
 	agd_exames = exames,
 	agd_diagnostico = diagnostico
@@ -301,11 +303,47 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `autenticar_login`(
-IN nome_usuario VARCHAR(10),
-IN tipo_acesso VARCHAR(15))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `autenticar_login`(IN nome_usuario VARCHAR(15),IN tipo_acesso VARCHAR(15))
 BEGIN
-	SELECT fun_usuario, fun_tipo, fun_senha FROM loja.funcionarios WHERE fun_usuario = nome_usuario AND fun_tipo = tipo_acesso;
+	SELECT fun_usuario, fun_tipo, fun_senha FROM funcionarios WHERE fun_usuario like nome_usuario AND fun_tipo like tipo_acesso;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_funcionarios_combo` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_funcionarios_combo`()
+BEGIN
+	select fun_id,fun_nome from funcionarios; 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_pacientes_combo` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_pacientes_combo`()
+BEGIN
+	select pac_id, pac_nome from pacientes;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -360,13 +398,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_funcionario`(IN id_funcionario int)
 BEGIN
-
-	delete from funcionarios where fun_id = id_funcionario;
-
+	declare qtd int;
+    select count(agd_id_funcionario) into qtd from agenda where agd_id_funcionario = id_funcionario;
+    
+    if qtd = 0 then
+		delete from funcionarios where fun_id = id_funcionario;
+	else
+		SIGNAL SQLSTATE '23000'
+			SET MESSAGE_TEXT = 'Funcionario esta sendo usado em outra tabela';
+	End if;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -412,14 +456,14 @@ IN hora_inicio time,
 IN hora_termino time,
 IN preco_consulta float,
 IN exames blob,
-IN diagnostico blob
+IN diagnostico varchar(500)
 )
 BEGIN
 
 	insert into agenda(agd_id_paciente, agd_id_funcionario, agd_data_consulta,
     agd_hora_inicio,agd_hora_termino, agd_preco_consulta, agd_exames, agd_diagnostico)
     values
-    (id_paciente, id_funcionario, data_consulta, hora_inicio,hora_termino,
+    (id_paciente, id_funcionario, data_consulta, hora_inicio, hora_termino,
     preco_consulta, exames,diagnostico);
 
 END ;;
@@ -544,23 +588,20 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_consulta`(IN filtro varchar(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_consulta`(filtro varchar(50))
 BEGIN
-	IF filtro like "" then
-    
-		SELECT * FROM clinica_odontologica.agenda;
-
-	ELSE
-		select * from funcionarios 
-		where 
-			agd_id_consulta like filtro or
-            agd_id_paciente like filtro or
-            agd_id_funcionario like filtro or
-			agd_data_consulta like filtro or
-			agd_hora_inicio like filtro or
-            agd_hora_termino like filtro or
-			agd_preco_consulta like concat('%',filtro,'%') 
-		order by fun_nome;
+	IF filtro = "" THEN
+		select * from agenda;
+	else
+		select * from agenda where 
+		agd_id_consulta like filtro or
+        agd_id_paciente like filtro or
+        agd_id_funcionario like filtro or
+        agd_data_consulta like filtro or
+        agd_hora_inicio like filtro or
+        agd_hora_termino like filtro or
+        agd_preco_consulta like concat('%',filtro,'%') or
+        agd_diagnostico like concat('%',filtro,'%');
 	END IF;
 END ;;
 DELIMITER ;
@@ -616,4 +657,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-20 13:46:56
+-- Dump completed on 2018-05-23 10:42:49

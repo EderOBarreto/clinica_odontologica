@@ -288,6 +288,7 @@
             this.Controls.Add(this.btnPesquisar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.toolStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmConvenio";
             this.Text = "Convenios";
             this.toolStrip1.ResumeLayout(false);

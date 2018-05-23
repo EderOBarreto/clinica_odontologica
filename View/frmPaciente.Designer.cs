@@ -344,6 +344,7 @@
             this.Controls.Add(this.btnPesquisar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dgvPacientes);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPaciente";
             this.Text = "Pacientes";
             this.Load += new System.EventHandler(this.frmPaciente_Load);

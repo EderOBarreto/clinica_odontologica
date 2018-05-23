@@ -20,7 +20,8 @@ namespace Controller
         }
 
         private string mensagem;
-        public string Mensagem {
+        public string Mensagem
+        {
             get { return mensagem; }
             set { mensagem = value; }
         }
@@ -32,16 +33,16 @@ namespace Controller
         public void Inserir(Funcionario funcionario)
         {
             try
-            {       
-                    objFuncionariosDal.Inserir(funcionario);
-                    if (objFuncionariosDal.Mensagem == "")
-                    {
-                        mensagem = "Funcionário incluído com sucesso";
-                    }
-                    else
-                    {
-                        mensagem = "O funcionário não foi incluído!";
-                    }              
+            {
+                objFuncionariosDal.Inserir(funcionario);
+                if (objFuncionariosDal.Mensagem == "")
+                {
+                    mensagem = "Funcionário incluído com sucesso";
+                }
+                else
+                {
+                    mensagem = "O funcionário não foi incluído!";
+                }
             }
             catch (Exception ex)
             {
@@ -54,8 +55,8 @@ namespace Controller
         {
             try
             {
-                    objFuncionariosDal.Alterar(funcionario);
-                    Mensagem = "Funcionário alterado com sucesso!";
+                objFuncionariosDal.Alterar(funcionario);
+                Mensagem = "Funcionário alterado com sucesso!";
             }
             catch (Exception ex)
             {
@@ -68,7 +69,7 @@ namespace Controller
             try
             {
                 resposta = false;
-               
+
                 resposta = objFuncionariosDal.Excluir(funcionario);
                 if (resposta == false)
                 {
@@ -80,7 +81,7 @@ namespace Controller
                 {
                     Mensagem = "Funcionário excluído com sucesso!";
                 }
-                
+
                 return resposta;
             }
             catch (Exception ex)
@@ -101,11 +102,11 @@ namespace Controller
             }
         }
 
-        public async void RealizarLogin(string usuario, string senha,string tipo_acesso)
+        public async void RealizarLogin(string usuario, string senha, string tipo_acesso)
         {
             try
             {
-               autentica =  await objFuncionariosDal.VerificarUsuario(usuario, senha, tipo_acesso);
+                autentica = await objFuncionariosDal.VerificarUsuario(usuario, senha, tipo_acesso);
             }
             catch
             {
