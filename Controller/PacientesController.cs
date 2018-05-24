@@ -2,6 +2,7 @@
 
 using Model;
 using Persistence;
+using System.Data;
 
 namespace Controller
 {
@@ -65,7 +66,6 @@ namespace Controller
         public ListaPacientes ListagemPacientes(string filtro)
         {
             filtro = SqlIFilter(filtro);
-
             try
             {
                 return objPaciente.ListagemPacientes(filtro);
@@ -74,11 +74,14 @@ namespace Controller
             {
                 throw ex;
             }
-
         }
 
         private string SqlIFilter(string to_validate)
         {
+            to_validate = to_validate.Trim();
+            if (to_validate.Length == 0)
+                return to_validate;
+
             string[] trash = {"SELECT", "'", ";",
                                 "\"", "--", "INSERT", "=",
                                 "UPDATE", "DELETE"};

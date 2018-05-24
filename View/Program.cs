@@ -17,10 +17,8 @@ namespace View
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new frmAgenda());
-            Application.Run(new frmAgenda());
+            //Application.Run(new frmLogin());
+            Application.Run(new frmPaciente());
         }
     }
 }
-
-

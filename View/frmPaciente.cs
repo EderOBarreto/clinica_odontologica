@@ -16,6 +16,7 @@ namespace View
     public partial class frmPaciente : Form
     {
         Paciente pacientes = new Paciente();
+        Convenio convenio = new Convenio();
         PacientesController ctrlPacientes = new PacientesController();
 
         public frmPaciente()
@@ -35,10 +36,7 @@ namespace View
         {
             try
             {
-                //comentei porque estava dando erro
-                /*
-                objListaPacientes = ctrlPacientes.ListagemPacientes("");
-                dgvPacientes.DataSource = objListaPacientes;*/
+                dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes("");
             }
             catch (Exception ex)
             {
@@ -51,12 +49,14 @@ namespace View
             try
             {
                 dgvPacientes.Columns[0].HeaderText = "ID";
-                dgvPacientes.Columns[1].HeaderText = "Convenio";
+                dgvPacientes.Columns[1].HeaderText = "ID Convenio";
+                dgvPacientes.Columns[1].Visible = false;
                 dgvPacientes.Columns[2].HeaderText = "Nome";
                 dgvPacientes.Columns[3].HeaderText = "Sexo";
-                dgvPacientes.Columns[4].HeaderText = "Nascimento";
-                dgvPacientes.Columns[5].HeaderText = "Celular";
-                dgvPacientes.Columns[6].HeaderText = "Email";
+                dgvPacientes.Columns[4].HeaderText = "CPF";
+                dgvPacientes.Columns[5].HeaderText = "Nascimento";
+                dgvPacientes.Columns[6].HeaderText = "Celular";
+                dgvPacientes.Columns[7].HeaderText = "Email";
             }
             catch (Exception ex)
             {
@@ -69,8 +69,8 @@ namespace View
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             limpar();
-            preencherDgv();
             formatarDgv();
+            preencherDgv();
         }
 
         private void limpar()
@@ -112,8 +112,11 @@ namespace View
                 /*
                  * TODO:
                  *      validar email igual o Eder
-                 * */
+                 **/
                 preencherPaciente();
+                ctrlPacientes.Inserir(pacientes);
+                limpar();
+                preencherDgv();
             }
             catch (Exception ex)
             {
@@ -125,17 +128,26 @@ namespace View
         {
             try
             {
-                pacientes.Pid = int.Parse(lblIdPaciente.Text);
                 pacientes.Nome = txtNome.Text;
-                pacientes.Sexo = cboSexo.SelectedValue.ToString();
+                pacientes.Sexo = cboSexo.SelectedText;
                 pacientes.Email = txtEmail.Text;
                 pacientes.Celular = mskCelular.Text;
-                pacientes.Cpf = mskCpf.Text;
+                pacientes.Cpf = mskCpf.Text.Replace(".", "").Replace("-","").Replace(",", "");
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        private void btnConvenio_Click(object sender, EventArgs e)
+        {
+            /*
+             *  VER COMO PEGAR POSX e POSY
+             
+            frmListaConvenios lstConv = new frmListaConvenios(convenio);
+            lstConv.ShowDialog();
+            */
         }
     }
 }

@@ -83,38 +83,40 @@ namespace Persistence
             try
             {
                 cmdPaciente.CommandType = CommandType.StoredProcedure;
-                cmdPaciente.CommandText = "selecionar_paciente";
+                cmdPaciente.CommandText = "selecionar_pacientes";
                 cmdPaciente.Connection = conPaciente;
 
-                cmdPaciente.Parameters.AddWithValue("pfiltro", filtro);
+                cmdPaciente.Parameters.AddWithValue("filtro", filtro);
 
                 conPaciente.Open();
 
                 MySqlDataReader dr = cmdPaciente.ExecuteReader();
                 cmdPaciente.Parameters.Clear();
 
-                if (dr.HasRows)
-                {
-                    foreach (DataRow row in dr)
-                    {
-                        Paciente pac = new Paciente();
-                        pac.Pid = int.Parse(row["pac_id"].ToString());
-                        pac.Pid_conv = int.Parse(row["pac_id_convenio"].ToString());
-                        pac.Nome = row["pac_nome"].ToString();
-                        pac.Sexo = row["pac_sexo"].ToString();
-                        pac.Cpf = row["pac_cpf"].ToString();
-                        pac.DataNascimento = Convert.ToDateTime(row["pac_data_nascimento"].ToString());
-                        pac.Celular = row["pac_celular"].ToString();
-                        pac.Email = row["pac_email"].ToString();
 
-                        lisp.Add(pac);
-                    }
+                if (!dr.HasRows)
+                    return lisp;
+
+                while (dr.Read())
+                {
+                    Paciente pac = new Paciente();
+
+                    pac.Pid = int.Parse(dr["pac_id"].ToString());
+                    pac.Pid_conv = int.Parse(dr["pac_id_convenio"].ToString());
+                    pac.Nome = dr["pac_nome"].ToString();
+                    pac.Sexo = dr["pac_sexo"].ToString();
+                    pac.Cpf = dr["pac_cpf"].ToString();
+                    pac.DataNascimento = Convert.ToDateTime(dr["pac_data_nascimento"].ToString());
+                    pac.Celular = dr["pac_celular"].ToString();
+                    pac.Email = dr["pac_email"].ToString();
+
+                    lisp.Add(pac);
                 }
                 return lisp;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.ToString());
             }
             finally
             {
@@ -142,7 +144,7 @@ namespace Persistence
                 conPaciente.Open();
 
                 cmdPaciente.ExecuteNonQuery();
-               
+
             }
             catch (Exception ex)
             {
@@ -159,10 +161,10 @@ namespace Persistence
             try
             {
                 cmdPaciente.CommandType = CommandType.StoredProcedure;
-                cmdPaciente.CommandText = "paciente_existe";
+                cmdPaciente.CommandText = "existe_paciente";
                 cmdPaciente.Connection = conPaciente;
 
-                cmdPaciente.Parameters.AddWithValue("pnome", paciente.Nome);
+                cmdPaciente.Parameters.AddWithValue("pCpf", paciente.Cpf);
 
                 conPaciente.Open();
 
