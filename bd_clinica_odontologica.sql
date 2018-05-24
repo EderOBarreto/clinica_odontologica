@@ -121,12 +121,11 @@ CREATE TABLE `pacientes` (
   `pac_id` int(11) NOT NULL AUTO_INCREMENT,
   `pac_id_convenio` int(11) DEFAULT NULL,
   `pac_nome` varchar(40) DEFAULT NULL,
-  `pac_sexo` varchar(1) DEFAULT NULL,
+  `pac_sexo` varchar(10) DEFAULT NULL,
   `pac_cpf` varchar(10) DEFAULT NULL,
   `pac_data_nascimento` datetime DEFAULT NULL,
   `pac_celular` varchar(20) DEFAULT NULL,
   `pac_email` varchar(40) DEFAULT NULL,
-  `pac_historico` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`pac_id`),
   KEY `pac_id_convenio` (`pac_id_convenio`),
   CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`pac_id_convenio`) REFERENCES `convenios` (`con_id`)
@@ -139,7 +138,7 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com','');
+INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -780,4 +779,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-24  0:01:17
+-- Dump completed on 2018-05-24  0:11:37

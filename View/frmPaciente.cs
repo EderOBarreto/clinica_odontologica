@@ -28,7 +28,6 @@ namespace View
         {
             dtpNascimento.MaxDate = DateTime.Now;
 
-
             preencherDgv();
             formatarDgv();
         }
