@@ -16,6 +16,7 @@ namespace View
     public partial class frmPaciente : Form
     {
         Paciente pacientes = new Paciente();
+        Convenio convenio = new Convenio();
         PacientesController ctrlPacientes = new PacientesController();
 
         public frmPaciente()
@@ -27,6 +28,7 @@ namespace View
         {
             dtpNascimento.MaxDate = DateTime.Now;
 
+
             preencherDgv();
             formatarDgv();
         }
@@ -35,10 +37,7 @@ namespace View
         {
             try
             {
-                //comentei porque estava dando erro
-                /*
-                objListaPacientes = ctrlPacientes.ListagemPacientes("");
-                dgvPacientes.DataSource = objListaPacientes;*/
+                dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes("");
             }
             catch (Exception ex)
             {
@@ -51,12 +50,13 @@ namespace View
             try
             {
                 dgvPacientes.Columns[0].HeaderText = "ID";
-                dgvPacientes.Columns[1].HeaderText = "Convenio";
-                dgvPacientes.Columns[2].HeaderText = "Nome";
-                dgvPacientes.Columns[3].HeaderText = "Sexo";
-                dgvPacientes.Columns[4].HeaderText = "Nascimento";
-                dgvPacientes.Columns[5].HeaderText = "Celular";
-                dgvPacientes.Columns[6].HeaderText = "Email";
+                dgvPacientes.Columns[1].Visible = false;
+                dgvPacientes.Columns[2].HeaderText = "Convenio";
+                dgvPacientes.Columns[3].HeaderText = "Nome";
+                dgvPacientes.Columns[4].HeaderText = "Sexo";
+                dgvPacientes.Columns[5].HeaderText = "Nascimento";
+                dgvPacientes.Columns[6].HeaderText = "Celular";
+                dgvPacientes.Columns[7].HeaderText = "Email";
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace View
                 /*
                  * TODO:
                  *      validar email igual o Eder
-                 * */
+                 **/
                 preencherPaciente();
             }
             catch (Exception ex)
@@ -136,6 +136,16 @@ namespace View
             {
                 throw ex;
             }
+        }
+
+        private void btnConvenio_Click(object sender, EventArgs e)
+        {
+            /*
+             *  VER COMO PEGAR POSX e POSY
+             
+            frmListaConvenios lstConv = new frmListaConvenios(convenio);
+            lstConv.ShowDialog();
+            */
         }
     }
 }
