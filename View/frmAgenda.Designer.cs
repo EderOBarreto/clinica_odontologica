@@ -271,7 +271,7 @@
             this.grbAnexos.Controls.Add(this.btnExame);
             this.grbAnexos.Location = new System.Drawing.Point(24, 247);
             this.grbAnexos.Name = "grbAnexos";
-            this.grbAnexos.Size = new System.Drawing.Size(431, 55);
+            this.grbAnexos.Size = new System.Drawing.Size(437, 55);
             this.grbAnexos.TabIndex = 32;
             this.grbAnexos.TabStop = false;
             this.grbAnexos.Text = "Anexos";
@@ -389,11 +389,12 @@
             // 
             // btnAbrir
             // 
-            this.btnAbrir.Location = new System.Drawing.Point(376, 20);
+            this.btnAbrir.Location = new System.Drawing.Point(376, 19);
             this.btnAbrir.Name = "btnAbrir";
-            this.btnAbrir.Size = new System.Drawing.Size(44, 23);
+            this.btnAbrir.Size = new System.Drawing.Size(55, 26);
             this.btnAbrir.TabIndex = 37;
             this.btnAbrir.Text = "Abrir";
+            this.btnAbrir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnAbrir.UseVisualStyleBackColor = true;
             this.btnAbrir.Click += new System.EventHandler(this.btnAbrir_Click);
             // 

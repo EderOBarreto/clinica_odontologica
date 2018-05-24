@@ -15,7 +15,7 @@ namespace Model
         private DateTime data_consulta;
         private DateTime hora_inicio;
         private DateTime hora_final;
-        private float preco;    
+        private float preco;
         private string diagnostico;
         private byte[] exames;
         [Bindable(true)]
@@ -28,7 +28,8 @@ namespace Model
         public DateTime Data_consulta { get => data_consulta; set => data_consulta = value; }
         public float Preco { get => preco; set => preco = value; }
         public byte[] Exames
-        { get => exames;
+        {
+            get => exames;
             set
             {
                 if (value.Equals(DBNull.Value) || value == null)

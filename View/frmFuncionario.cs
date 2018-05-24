@@ -16,6 +16,7 @@ namespace View
 {
     public partial class frmFuncionario : Form
     {
+
         Funcionario funcionario = new Funcionario();
         FuncionarioController objFuncionariosBll = new FuncionarioController();
         

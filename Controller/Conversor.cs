@@ -8,7 +8,7 @@ namespace Controller
 {
     public static class Conversor
     {
-        public static string ConvertToPDF(byte [] file)
+        public static string ConvertToPDF(byte[] file)
         {
             string spathfile = System.IO.Path.GetTempFileName();
             //move from soures to destination the extension until now is .temp
@@ -19,6 +19,6 @@ namespace Controller
 
             return spathfile;
         }
-       
+
     }
 }

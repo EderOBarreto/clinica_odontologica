@@ -102,17 +102,17 @@ namespace View
                         LimparForm();
                         AtualizaGrid();
                     }
-                        
+
                 }
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
                 throw new Exception(ex.Message);
             }
             finally
             {
-                
+
             }
         }
 
@@ -158,7 +158,7 @@ namespace View
         {
             try
             {
-                
+
                 if (lblIdConsulta.Text != "")
                 {
                     agenda.Id_consulta = int.Parse(lblIdConsulta.Text);
@@ -181,10 +181,6 @@ namespace View
 
                 throw;
             }
-            finally
-            {
-
-            }
         }
 
         private void dgvConsultas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -193,11 +189,12 @@ namespace View
             cboPacientes.SelectedValue = dgvConsultas[1, dgvConsultas.CurrentRow.Index].Value.ToString();
             cboFuncionario.SelectedValue = dgvConsultas[2, dgvConsultas.CurrentRow.Index].Value.ToString();
             dtpDataConsulta.Value = DateTime.Parse(dgvConsultas[3, dgvConsultas.CurrentRow.Index].Value.ToString());
-            txtPreco.Text = dgvConsultas[4, dgvConsultas.CurrentRow.Index].Value.ToString();       
+            txtPreco.Text = dgvConsultas[4, dgvConsultas.CurrentRow.Index].Value.ToString();
             dtpHoraInicio.Value = DateTime.Parse(dgvConsultas[6, dgvConsultas.CurrentRow.Index].Value.ToString());
             dtpHoraTermino.Value = DateTime.Parse(dgvConsultas[7, dgvConsultas.CurrentRow.Index].Value.ToString());
             rtbDiagnostico.Text = dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString();
             tempFile = Encoding.UTF8.GetBytes(dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString());
+
             err1.Clear();
         }
 
@@ -262,7 +259,7 @@ namespace View
                 return false;
             }
             else err1.SetError(dtpHoraInicio, "");
- 
+
             //da focus nos controles para ativar o evento de validação
             foreach (Control c in Controls)
             {
@@ -281,7 +278,7 @@ namespace View
 
         private void txtPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46); 
+            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46);
         }
 
         private void FormataGrid()
@@ -323,7 +320,7 @@ namespace View
                 dgvConsultas.Columns["Exames"].DisplayIndex = 8;
                 //dgvConsultas.Columns["Exames"].HeaderText = "Exames";
                 //dgvConsultas.Columns["Exames"].Width = 50;
-                
+
             }
             catch
             {
@@ -333,7 +330,7 @@ namespace View
 
         private void btnAbrir_Click(object sender, EventArgs e)
         {
-            if (agenda.Exames.Length != 0)
+            if (agenda.Exames != null)
             {
                 string path;
                 path = Conversor.ConvertToPDF(agenda.Exames);

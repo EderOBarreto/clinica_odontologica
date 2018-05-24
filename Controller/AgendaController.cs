@@ -28,7 +28,8 @@ namespace Controller
         {
             try
             {
-                if (ValidarDadosInserir(agenda)) { 
+                if (ValidarDadosInserir(agenda))
+                {
                     objAgendaDal.Inserir(agenda);
                     if (objAgendaDal.Mensagem == "")
                     {
@@ -47,7 +48,7 @@ namespace Controller
                     return false;
                 }
 
-                    
+
             }
             catch (Exception ex)
             {
@@ -108,23 +109,21 @@ namespace Controller
             }
         }
 
-        public DataTable MostrarFuncionarios() 
+        public DataTable MostrarFuncionarios()
             => objAgendaDal.ListarFuncionarios();
 
-        public DataTable MostrarPacientes() 
+        public DataTable MostrarPacientes()
             => objAgendaDal.ListarPacientes();
 
         public bool ValidarDadosInserir(Agenda agenda)
         {
-            bool result;
             /*if (agenda.Data_consulta < DateTime.Now.Date)
             {
                 Mensagem = "Data da consulta incorreta.";
                 return false;
             }(*/
-
-            result = objAgendaDal.VerificarDisponibilidade(agenda);
-            return result;
+           return objAgendaDal.VerificarDisponibilidade(agenda);
+            
         }
     }
 }

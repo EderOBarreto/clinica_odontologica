@@ -42,11 +42,12 @@ namespace Persistence
                 cmdConsulta.Parameters.AddWithValue("exames", consulta.Exames);
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
                 //poderia criar uma variavel para saber se a consulta está finaliza, em processo ou iniciada.
-                
+
 
                 conConsulta.Open();
 
                 consulta.Id_consulta = Convert.ToInt32(cmdConsulta.ExecuteScalar());
+                cmdConsulta.Parameters.Clear();
             }
             catch (Exception ex)
             {
@@ -150,11 +151,11 @@ namespace Persistence
                         consulta.Id_consulta = int.Parse(dr["agd_id_consulta"].ToString());
                         consulta.Id_paciente = int.Parse(dr["agd_id_paciente"].ToString());
                         consulta.Id_funcionario = int.Parse(dr["agd_id_funcionario"].ToString());
-                        consulta.Data_consulta = DateTime.Parse(dr["agd_data_consulta"].ToString()); // 
-                        consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_inicio"].ToString()); //formato errado
+                        consulta.Data_consulta = DateTime.Parse(dr["agd_data_consulta"].ToString()); 
+                        consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_inicio"].ToString()); 
                         consulta.Hora_final = DateTime.Parse(dr["agd_hora_termino"].ToString());
                         consulta.Preco = float.Parse(dr["agd_preco_consulta"].ToString());
-                        consulta.Exames = (byte [])(dr["agd_exames"] == System.DBNull.Value ? new byte[0]: dr["agd_exames"]);
+                        consulta.Exames = (byte[])(dr["agd_exames"] == System.DBNull.Value ? new byte[0] : dr["agd_exames"]);
                         consulta.Diagnostico = dr["agd_diagnostico"].ToString();
 
                         objListaConsultas.Add(consulta);
@@ -183,7 +184,6 @@ namespace Persistence
                 cmdConsulta.Connection = conConsulta;
                 cmdConsulta.CommandType = CommandType.StoredProcedure;
                 cmdConsulta.CommandText = "buscar_funcionarios_combo";
-                //cmdConsulta.Parameters.AddWithValue("filtro", filtro);
                 conConsulta.Open();
                 MySqlDataReader dr = cmdConsulta.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -191,7 +191,7 @@ namespace Persistence
 
                 return dt;
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -209,9 +209,9 @@ namespace Persistence
                 cmdConsulta.Connection = conConsulta;
                 cmdConsulta.CommandType = CommandType.StoredProcedure;
                 cmdConsulta.CommandText = "buscar_pacientes_combo";
-                //cmdConsulta.Parameters.AddWithValue("filtro", filtro);
                 conConsulta.Open();
                 MySqlDataReader dr = cmdConsulta.ExecuteReader();
+                cmdConsulta.Parameters.Clear();
                 DataTable dt = new DataTable();
                 dt.Load(dr);
 
@@ -227,7 +227,7 @@ namespace Persistence
             }
         }
         public bool VerificarDisponibilidade(Agenda agenda)
-        {           
+        {
             try
             {
                 int valida;
@@ -235,7 +235,7 @@ namespace Persistence
                 cmdConsulta.Connection = conConsulta;
                 cmdConsulta.CommandType = CommandType.StoredProcedure;
                 cmdConsulta.CommandText = "verificar_disponibilidade";
-                cmdConsulta.Parameters.AddWithValue("dia", agenda.Data_consulta );
+                cmdConsulta.Parameters.AddWithValue("dia", agenda.Data_consulta);
                 cmdConsulta.Parameters.AddWithValue("hora_inicio", agenda.Hora_inicio);
                 cmdConsulta.Parameters.AddWithValue("hora_final", agenda.Hora_final);
                 cmdConsulta.Parameters.AddWithValue("id_funcionario", agenda.Id_funcionario);
@@ -245,7 +245,10 @@ namespace Persistence
                 valida = Convert.ToInt32(cmdConsulta.ExecuteScalar());
                 cmdConsulta.Parameters.Clear();
                 if (valida == 0)
+                {
+                    Mensagem = "";
                     return true;
+                }
                 Mensagem = "Data já utilizada.\nTente em outro dia ou horário.";
                 return false;
             }
@@ -257,6 +260,6 @@ namespace Persistence
             {
                 conConsulta.Close();
             }
-        }      
+        }
     }
 }
