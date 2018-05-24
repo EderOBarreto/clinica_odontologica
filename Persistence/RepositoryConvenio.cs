@@ -178,7 +178,7 @@ namespace Persistence
                 cmdConvenio.CommandText = "selecionar_convenio_id";
                 cmdConvenio.Connection = conConvenio;
 
-                cmdConvenio.Parameters.AddWithValue("id_conv", id);
+                cmdConvenio.Parameters.AddWithValue("cid", id);
 
                 conConvenio.Open();
 

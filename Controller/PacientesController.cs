@@ -63,34 +63,17 @@ namespace Controller
             }
         }
 
-        public DataTable ListagemPacientes(string filtro)
+        public ListaPacientes ListagemPacientes(string filtro)
         {
             filtro = SqlIFilter(filtro);
-
-            DataTable dtResultado = new DataTable();
-
             try
             {
-                RepositoryConvenio conv = new RepositoryConvenio();
-                ListaPacientes pacs = objPaciente.ListagemPacientes(filtro);
-                for (int i = 0, tam = pacs.Count; i < tam; i++)
-                {
-                    dtResultado.Rows[i][0] = pacs[i].Pid;
-                    dtResultado.Rows[i][1] = pacs[i].Pid_conv;
-                    dtResultado.Rows[i][2] = conv.ListaById(pacs[i].Pid_conv);
-                    dtResultado.Rows[i][3] = pacs[i].Nome;
-                    dtResultado.Rows[i][4] = pacs[i].Sexo;
-                    dtResultado.Rows[i][5] = pacs[i].DataNascimento;
-                    dtResultado.Rows[i][6] = pacs[i].Celular;
-                    dtResultado.Rows[i][7] = pacs[i].Email;
-                }
+                return objPaciente.ListagemPacientes(filtro);
             }
-            catch (IndexOutOfRangeException) { }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                throw ex;
             }
-            return dtResultado;
         }
 
         private string SqlIFilter(string to_validate)
