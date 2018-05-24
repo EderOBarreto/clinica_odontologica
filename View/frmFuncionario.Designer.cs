@@ -360,6 +360,17 @@ namespace View
             // 
             this.cboEspecialidade.FormattingEnabled = true;
             this.cboEspecialidade.Location = new System.Drawing.Point(280, 139);
+            this.cboEspecialidade.Items.AddRange(new object[] {
+            "Administrativo",
+            "Clínico",
+            "Ortodontia",
+            "Odontopediatria",
+            "Odontogeriatria",
+            "Pacientes especiais",
+            "Endodontia",
+            "Periodontia",
+            "Cirurgia",
+            "Traumatologia"});
             this.cboEspecialidade.MaxLength = 40;
             this.cboEspecialidade.Name = "cboEspecialidade";
             this.cboEspecialidade.Size = new System.Drawing.Size(217, 21);

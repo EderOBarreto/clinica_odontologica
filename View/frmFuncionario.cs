@@ -16,7 +16,6 @@ namespace View
 {
     public partial class frmFuncionario : Form
     {
-        String filtro;
 
         Funcionario funcionario = new Funcionario();
         FuncionarioController objFuncionariosBll = new FuncionarioController();
@@ -28,12 +27,6 @@ namespace View
 
         private void frmFuncionario_Load(object sender, EventArgs e)
         {
-            //preciso mudar isso
-            cboEspecialidade.Items.Add("Dentista");
-            cboEspecialidade.Items.Add("Recepcionista");
-            cboEspecialidade.Items.Add("Implantodontista");
-            cboEspecialidade.Items.Add("Periodontista");
-
             AtualizaGrid();
         }
 

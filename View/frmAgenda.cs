@@ -20,6 +20,8 @@ namespace View
 
         AgendaController objAgendaBll = new AgendaController();
 
+        byte[] tempFile;
+
 
         public frmAgenda()
         {
@@ -34,7 +36,6 @@ namespace View
             cboPacientes.DataSource = objAgendaBll.MostrarPacientes();
             cboPacientes.ValueMember = "pac_id";
             cboPacientes.DisplayMember = "pac_nome";
-            //cboFuncionario.Update();
             AtualizaGrid();
         }
 
@@ -92,19 +93,26 @@ namespace View
                     if (txtExame.Text != "")
                         agenda.Exames = LerEConverterArquivos(txtExame.Text);
 
-                    objAgendaBll.Inserir(agenda);
-                    LimparForm();
-                    AtualizaGrid();
+                    //verifica se foi inserido com sucesso
+                    if (!objAgendaBll.Inserir(agenda))
+                        MessageBox.Show(objAgendaBll.Mensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        //limpa e atualiza caso tenha funcionado corretamente
+                        LimparForm();
+                        AtualizaGrid();
+                    }
+
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception(ex.Message);
             }
             finally
             {
-                
+
             }
         }
 
@@ -114,8 +122,8 @@ namespace View
             cboFuncionario.SelectedIndex = -1;
             cboPacientes.SelectedIndex = -1;
             dtpDataConsulta.Value = DateTime.Now;
-            dtpHoraInicio.Value = DateTime.Now;
-            dtpHoraTermino.Value = DateTime.Now;
+            dtpHoraInicio.Value = DateTime.Parse("12:00");
+            dtpHoraTermino.Value = DateTime.Parse("12:00");
             txtExame.Text = "";
             rtbDiagnostico.Text = "";
             txtPreco.Text = "";
@@ -150,7 +158,7 @@ namespace View
         {
             try
             {
-                
+
                 if (lblIdConsulta.Text != "")
                 {
                     agenda.Id_consulta = int.Parse(lblIdConsulta.Text);
@@ -186,18 +194,11 @@ namespace View
             cboFuncionario.SelectedValue = dgvConsultas[2, dgvConsultas.CurrentRow.Index].Value.ToString();
             dtpDataConsulta.Value = DateTime.Parse(dgvConsultas[3, dgvConsultas.CurrentRow.Index].Value.ToString());
             txtPreco.Text = dgvConsultas[4, dgvConsultas.CurrentRow.Index].Value.ToString();
-            //exame
             dtpHoraInicio.Value = DateTime.Parse(dgvConsultas[6, dgvConsultas.CurrentRow.Index].Value.ToString());
             dtpHoraTermino.Value = DateTime.Parse(dgvConsultas[7, dgvConsultas.CurrentRow.Index].Value.ToString());
             rtbDiagnostico.Text = dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString();
+            tempFile = Encoding.UTF8.GetBytes(dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString());
             err1.Clear();
-        }
-
-        private DateTime ConverterHora(string data)
-        {
-            
-            data = DateTime.Parse(data).ToShortTimeString();
-            return DateTime.Parse(data);
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
@@ -226,10 +227,9 @@ namespace View
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
             AtualizaGrid(txtPesquisar.Text);
-            dgvConsultas.Rows[0].Selected = true;
         }
 
-        private void VerificarCampoVazio(ComboBox campo, string mensagem)
+        private void VerificarCampoVazio(Control campo, string mensagem)
         {
 
             if (campo.Text.Trim().Length == 0)
@@ -252,19 +252,27 @@ namespace View
             VerificarCampoVazio(cboPacientes, "Selecione o paciente.");
         }
 
-
         private bool ValidarCampos()
         {
-            //encontrar um modo mais inteligente de fazer isso
-            //se possivel
+
+            //verifica se a hora de início é menor do que a de término
+            if (dtpHoraInicio.Value >= dtpHoraTermino.Value)
+            {
+                err1.SetError(dtpHoraInicio, "A hora de inicio deve ser menor do que término");
+                return false;
+            }
+            else err1.SetError(dtpHoraInicio, "");
+
+            //da focus nos controles para ativar o evento de validação
             foreach (Control c in Controls)
             {
-                if (c is ComboBox)
+                if (c is ComboBox || c is DateTimePicker)
                     c.Focus();
             }
+            //verifica se alguma validação retorna erro
             foreach (Control c in Controls)
             {
-                if (c is ComboBox)
+                if (c is ComboBox || c is DateTimePicker)
                     if (err1.GetError(c) != "")
                         return false;
             }
@@ -273,7 +281,7 @@ namespace View
 
         private void txtPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46); 
+            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46);
         }
 
         private void FormataGrid()
@@ -308,14 +316,28 @@ namespace View
                 dgvConsultas.Columns["Preco"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 dgvConsultas.Columns["Preco"].HeaderText = "Preço";
                 dgvConsultas.Columns["Preco"].Width = 100;
-                dgvConsultas.Columns["Exames"].HeaderText = "Exames";
-                dgvConsultas.Columns["Exames"].Width = 50;
-                dgvConsultas.Columns[8].HeaderText = "Diagnóstico";
-                dgvConsultas.Columns[8].Width = 120;
+                dgvConsultas.Columns["Diagnostico"].DisplayIndex = 7;
+                dgvConsultas.Columns["Diagnostico"].HeaderText = "Diagnóstico";
+                dgvConsultas.Columns["Diagnostico"].Width = 120;
+                dgvConsultas.Columns["Exames"].Visible = false;
+                dgvConsultas.Columns["Exames"].DisplayIndex = 8;
+                //dgvConsultas.Columns["Exames"].HeaderText = "Exames";
+                //dgvConsultas.Columns["Exames"].Width = 50;
+
             }
             catch
             {
                 LimparForm();
+            }
+        }
+
+        private void btnAbrir_Click(object sender, EventArgs e)
+        {
+            if (agenda.Exames.Length != 0)
+            {
+                string path;
+                path = Conversor.ConvertToPDF(agenda.Exames);
+                System.Diagnostics.Process.Start(path);
             }
         }
     }

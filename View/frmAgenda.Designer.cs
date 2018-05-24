@@ -62,6 +62,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.rtbDiagnostico = new System.Windows.Forms.RichTextBox();
             this.err1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnAbrir = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.grbAnexos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsultas)).BeginInit();
@@ -264,12 +265,13 @@
             // 
             // grbAnexos
             // 
+            this.grbAnexos.Controls.Add(this.btnAbrir);
             this.grbAnexos.Controls.Add(this.label8);
             this.grbAnexos.Controls.Add(this.txtExame);
             this.grbAnexos.Controls.Add(this.btnExame);
             this.grbAnexos.Location = new System.Drawing.Point(24, 247);
             this.grbAnexos.Name = "grbAnexos";
-            this.grbAnexos.Size = new System.Drawing.Size(376, 55);
+            this.grbAnexos.Size = new System.Drawing.Size(437, 55);
             this.grbAnexos.TabIndex = 32;
             this.grbAnexos.TabStop = false;
             this.grbAnexos.Text = "Anexos";
@@ -385,6 +387,17 @@
             this.err1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.err1.ContainerControl = this;
             // 
+            // btnAbrir
+            // 
+            this.btnAbrir.Location = new System.Drawing.Point(376, 19);
+            this.btnAbrir.Name = "btnAbrir";
+            this.btnAbrir.Size = new System.Drawing.Size(55, 26);
+            this.btnAbrir.TabIndex = 37;
+            this.btnAbrir.Text = "Abrir";
+            this.btnAbrir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAbrir.UseVisualStyleBackColor = true;
+            this.btnAbrir.Click += new System.EventHandler(this.btnAbrir_Click);
+            // 
             // frmAgenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -464,5 +477,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox rtbDiagnostico;
         private System.Windows.Forms.ErrorProvider err1;
+        private System.Windows.Forms.Button btnAbrir;
     }
 }
