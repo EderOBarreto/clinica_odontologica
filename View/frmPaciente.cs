@@ -114,6 +114,9 @@ namespace View
                  *      validar email igual o Eder
                  **/
                 preencherPaciente();
+                ctrlPacientes.Inserir(pacientes);
+                limpar();
+                preencherDgv();
             }
             catch (Exception ex)
             {
@@ -125,12 +128,11 @@ namespace View
         {
             try
             {
-                pacientes.Pid = int.Parse(lblIdPaciente.Text);
                 pacientes.Nome = txtNome.Text;
-                pacientes.Sexo = cboSexo.SelectedValue.ToString();
+                pacientes.Sexo = cboSexo.SelectedText;
                 pacientes.Email = txtEmail.Text;
                 pacientes.Celular = mskCelular.Text;
-                pacientes.Cpf = mskCpf.Text;
+                pacientes.Cpf = mskCpf.Text.Replace(".", "").Replace("-","").Replace(",", "");
             }
             catch (Exception ex)
             {
