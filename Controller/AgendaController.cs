@@ -13,8 +13,6 @@ namespace Controller
     {
         RepositoryAgenda objAgendaDal = new RepositoryAgenda();
 
-        // Mensagem de erros.
-
         private string mensagem;
         public string Mensagem
         {
@@ -26,19 +24,30 @@ namespace Controller
         private bool resposta = false;
 
 
-        public void Inserir(Agenda agenda)
+        public bool Inserir(Agenda agenda)
         {
             try
             {
-                objAgendaDal.Inserir(agenda);
-                if (objAgendaDal.Mensagem == "")
-                {
-                    Mensagem = "Agendamento realizado com sucesso.";
+                if (ValidarDadosInserir(agenda)) { 
+                    objAgendaDal.Inserir(agenda);
+                    if (objAgendaDal.Mensagem == "")
+                    {
+                        Mensagem = "Agendamento realizado com sucesso.";
+                        return true;
+                    }
+                    else
+                    {
+                        Mensagem = "O agendamento não foi realizado.";
+                        return false;
+                    }
                 }
                 else
                 {
-                    Mensagem = "O agendamento não foi realizado.";
+                    Mensagem = objAgendaDal.Mensagem;
+                    return false;
                 }
+
+                    
             }
             catch (Exception ex)
             {
@@ -99,16 +108,23 @@ namespace Controller
             }
         }
 
-        public DataTable MostrarFuncionarios()
-        {
-            return objAgendaDal.ListarFuncionarios();
-        }
+        public DataTable MostrarFuncionarios() 
+            => objAgendaDal.ListarFuncionarios();
 
-        public DataTable MostrarPacientes()
-        {
-            return objAgendaDal.ListarPacientes();
-        }
+        public DataTable MostrarPacientes() 
+            => objAgendaDal.ListarPacientes();
 
-        
+        public bool ValidarDadosInserir(Agenda agenda)
+        {
+            bool result;
+            /*if (agenda.Data_consulta < DateTime.Now.Date)
+            {
+                Mensagem = "Data da consulta incorreta.";
+                return false;
+            }(*/
+
+            result = objAgendaDal.VerificarDisponibilidade(agenda);
+            return result;
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace Persistence
 {
     public class RepositoryAgenda
     {
-
         MySqlConnection conConsulta = new MySqlConnection();
 
         MySqlCommand cmdConsulta = new MySqlCommand();
@@ -23,7 +22,6 @@ namespace Persistence
         public void Inserir(Agenda consulta)
         {
             //verificar se já existe algum consulta com o mesmo nome
-
             try
             {
                 conConsulta.ConnectionString = Dados.strConexao;
@@ -34,17 +32,14 @@ namespace Persistence
 
                 cmdConsulta.Connection = conConsulta;
 
-                
                 cmdConsulta.Parameters.AddWithValue("id_paciente", consulta.Id_paciente);
                 cmdConsulta.Parameters.AddWithValue("id_funcionario", consulta.Id_funcionario);
-                //data agendamento não faz muito sentido aqui, acho que a data de consulta já iria servir
                 cmdConsulta.Parameters.AddWithValue("data_consulta", consulta.Data_consulta);
                 cmdConsulta.Parameters.AddWithValue("hora_inicio", consulta.Hora_inicio);
                 cmdConsulta.Parameters.AddWithValue("hora_termino", consulta.Hora_final);
                 cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Data_consulta);
                 //os exames serao arquivos em pdf
                 cmdConsulta.Parameters.AddWithValue("exames", consulta.Exames);
-                //o dianóstico talvez seja um pdf também, mas antes é preciso pesquisar um pouco sobre.
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
                 //poderia criar uma variavel para saber se a consulta está finaliza, em processo ou iniciada.
                 
@@ -82,10 +77,7 @@ namespace Persistence
                 cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Data_consulta);
                 //os exames serao arquivos em pdf
                 cmdConsulta.Parameters.AddWithValue("exames", consulta.Exames);
-                //o dianóstico talvez seja um pdf também, mas antes é preciso pesquisar um pouco sobre.
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
-                //poderia criar uma variavel para saber se a consulta está finaliza, em processo ou iniciada.
-
                 conConsulta.Open();
                 cmdConsulta.ExecuteNonQuery();
             }
@@ -139,7 +131,6 @@ namespace Persistence
         {
             try
             {
-                //criar procedure selecionar_agendas ou consultas
                 ListaAgenda objListaConsultas = new ListaAgenda();
                 conConsulta.ConnectionString = Dados.strConexao;
                 cmdConsulta.Connection = conConsulta;
@@ -154,9 +145,7 @@ namespace Persistence
                 {
                     while (dr.Read())
                     {
-                        // Cria uma instâncoa para o objeto cliente
                         Agenda consulta = new Agenda();
-
 
                         consulta.Id_consulta = int.Parse(dr["agd_id_consulta"].ToString());
                         consulta.Id_paciente = int.Parse(dr["agd_id_paciente"].ToString());
@@ -165,7 +154,7 @@ namespace Persistence
                         consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_inicio"].ToString()); //formato errado
                         consulta.Hora_final = DateTime.Parse(dr["agd_hora_termino"].ToString());
                         consulta.Preco = float.Parse(dr["agd_preco_consulta"].ToString());
-                        //consulta.Exames = (byte[])dr["agd_exames"];
+                        consulta.Exames = (byte [])(dr["agd_exames"] == System.DBNull.Value ? new byte[0]: dr["agd_exames"]);
                         consulta.Diagnostico = dr["agd_diagnostico"].ToString();
 
                         objListaConsultas.Add(consulta);
@@ -183,7 +172,6 @@ namespace Persistence
                 conConsulta.Close();
             }
         }
-
         //preenche combobox funcionarios
         //cuidado codigo redundante abaixo
         //mudarei depois
@@ -212,7 +200,6 @@ namespace Persistence
                 conConsulta.Close();
             }
         }
-
         //preenche combobox pacientes
         public DataTable ListarPacientes()
         {
@@ -239,7 +226,37 @@ namespace Persistence
                 conConsulta.Close();
             }
         }
+        public bool VerificarDisponibilidade(Agenda agenda)
+        {           
+            try
+            {
+                int valida;
+                conConsulta.ConnectionString = Dados.strConexao;
+                cmdConsulta.Connection = conConsulta;
+                cmdConsulta.CommandType = CommandType.StoredProcedure;
+                cmdConsulta.CommandText = "verificar_disponibilidade";
+                cmdConsulta.Parameters.AddWithValue("dia", agenda.Data_consulta );
+                cmdConsulta.Parameters.AddWithValue("hora_inicio", agenda.Hora_inicio);
+                cmdConsulta.Parameters.AddWithValue("hora_final", agenda.Hora_final);
+                cmdConsulta.Parameters.AddWithValue("id_funcionario", agenda.Id_funcionario);
 
-       
+                conConsulta.Open();
+
+                valida = Convert.ToInt32(cmdConsulta.ExecuteScalar());
+                cmdConsulta.Parameters.Clear();
+                if (valida == 0)
+                    return true;
+                Mensagem = "Data já utilizada.\nTente em outro dia ou horário.";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conConsulta.Close();
+            }
+        }      
     }
 }
