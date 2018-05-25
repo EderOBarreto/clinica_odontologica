@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPaciente));
             this.dgvPacientes = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -48,15 +49,17 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblIdPaciente = new System.Windows.Forms.Label();
-            this.lblConvenio = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.cboSexo = new System.Windows.Forms.ComboBox();
             this.mskCpf = new System.Windows.Forms.MaskedTextBox();
             this.dtpNascimento = new System.Windows.Forms.DateTimePicker();
             this.mskCelular = new System.Windows.Forms.MaskedTextBox();
+            this.cboConvenio = new System.Windows.Forms.ComboBox();
+            this.erro = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacientes)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erro)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPacientes
@@ -66,6 +69,7 @@
             this.dgvPacientes.Name = "dgvPacientes";
             this.dgvPacientes.Size = new System.Drawing.Size(528, 189);
             this.dgvPacientes.TabIndex = 0;
+            this.dgvPacientes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPacientes_CellDoubleClick);
             // 
             // toolStrip1
             // 
@@ -105,6 +109,7 @@
             this.btnAlterar.Size = new System.Drawing.Size(62, 51);
             this.btnAlterar.Text = "&Alterar";
             this.btnAlterar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // btnExcluir
             // 
@@ -257,14 +262,6 @@
             this.lblIdPaciente.Size = new System.Drawing.Size(72, 23);
             this.lblIdPaciente.TabIndex = 34;
             // 
-            // lblConvenio
-            // 
-            this.lblConvenio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblConvenio.Location = new System.Drawing.Point(239, 85);
-            this.lblConvenio.Name = "lblConvenio";
-            this.lblConvenio.Size = new System.Drawing.Size(275, 23);
-            this.lblConvenio.TabIndex = 35;
-            // 
             // txtNome
             // 
             this.txtNome.Location = new System.Drawing.Point(87, 116);
@@ -272,6 +269,8 @@
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(322, 20);
             this.txtNome.TabIndex = 36;
+            this.txtNome.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNome_KeyPress);
+            this.txtNome.Validating += new System.ComponentModel.CancelEventHandler(this.txtNome_Validating);
             // 
             // txtEmail
             // 
@@ -280,6 +279,7 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(356, 20);
             this.txtEmail.TabIndex = 37;
+            this.txtEmail.Validated += new System.EventHandler(this.txtEmail_Validated);
             // 
             // cboSexo
             // 
@@ -292,14 +292,17 @@
             this.cboSexo.Name = "cboSexo";
             this.cboSexo.Size = new System.Drawing.Size(121, 21);
             this.cboSexo.TabIndex = 38;
+            this.cboSexo.Validating += new System.ComponentModel.CancelEventHandler(this.cboSexo_Validating);
             // 
             // mskCpf
             // 
             this.mskCpf.Location = new System.Drawing.Point(88, 168);
             this.mskCpf.Mask = "000.000.000-00";
             this.mskCpf.Name = "mskCpf";
-            this.mskCpf.Size = new System.Drawing.Size(121, 20);
+            this.mskCpf.Size = new System.Drawing.Size(95, 20);
             this.mskCpf.TabIndex = 39;
+            this.mskCpf.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mskCpf_KeyDown);
+            this.mskCpf.Validating += new System.ComponentModel.CancelEventHandler(this.mskCpf_Validating);
             // 
             // dtpNascimento
             // 
@@ -317,19 +320,35 @@
             this.mskCelular.Name = "mskCelular";
             this.mskCelular.Size = new System.Drawing.Size(95, 20);
             this.mskCelular.TabIndex = 41;
+            this.mskCelular.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mskCelular_KeyDown);
+            this.mskCelular.Validating += new System.ComponentModel.CancelEventHandler(this.mskCelular_Validating);
+            // 
+            // cboConvenio
+            // 
+            this.cboConvenio.FormattingEnabled = true;
+            this.cboConvenio.Location = new System.Drawing.Point(239, 85);
+            this.cboConvenio.Name = "cboConvenio";
+            this.cboConvenio.Size = new System.Drawing.Size(272, 21);
+            this.cboConvenio.TabIndex = 42;
+            this.cboConvenio.Validating += new System.ComponentModel.CancelEventHandler(this.cboConvenio_Validating);
+            // 
+            // erro
+            // 
+            this.erro.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.erro.ContainerControl = this;
             // 
             // frmPaciente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 545);
+            this.Controls.Add(this.cboConvenio);
             this.Controls.Add(this.mskCelular);
             this.Controls.Add(this.dtpNascimento);
             this.Controls.Add(this.mskCpf);
             this.Controls.Add(this.cboSexo);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.txtNome);
-            this.Controls.Add(this.lblConvenio);
             this.Controls.Add(this.lblIdPaciente);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -351,6 +370,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacientes)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,12 +397,13 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblIdPaciente;
-        private System.Windows.Forms.Label lblConvenio;
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.ComboBox cboSexo;
         private System.Windows.Forms.MaskedTextBox mskCpf;
         private System.Windows.Forms.DateTimePicker dtpNascimento;
         private System.Windows.Forms.MaskedTextBox mskCelular;
+        private System.Windows.Forms.ComboBox cboConvenio;
+        private System.Windows.Forms.ErrorProvider erro;
     }
 }

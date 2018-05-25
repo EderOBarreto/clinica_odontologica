@@ -348,7 +348,5 @@ namespace View
 
             return true;
         }
-
-       
     }
 }

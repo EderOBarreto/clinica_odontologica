@@ -3,6 +3,7 @@
 using Model;
 using Persistence;
 using System.Text.RegularExpressions;
+using System.Data;
 
 namespace Controller
 {
@@ -56,6 +57,18 @@ namespace Controller
                 filtro = SqlIFilter(filtro);
 
                 return objConvenio.ListagemConvenio(filtro);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DataTable ListarConvenios()
+        {
+            try
+            {
+                return objConvenio.ListagemConvenio();
             }
             catch (Exception ex)
             {
