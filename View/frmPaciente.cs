@@ -10,14 +10,16 @@ using System.Windows.Forms;
 
 using Model;
 using Controller;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace View
 {
     public partial class frmPaciente : Form
     {
         Paciente pacientes = new Paciente();
-        Convenio convenio = new Convenio();
         PacientesController ctrlPacientes = new PacientesController();
+        ConvenioController ctrlConvenio = new ConvenioController();
 
         public frmPaciente()
         {
@@ -30,6 +32,22 @@ namespace View
 
             preencherDgv();
             formatarDgv();
+            preencherCombo();
+        }
+
+        private void preencherCombo()
+        {
+            try
+            {
+                cboConvenio.DataSource = ctrlConvenio.ListarConvenios();
+                cboConvenio.DisplayMember = "con_convenio";
+                cboConvenio.ValueMember = "con_id";
+                cboConvenio.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void preencherDgv()
@@ -82,7 +100,9 @@ namespace View
             mskCpf.Text = "";
             cboSexo.SelectedIndex = -1;
             lblIdPaciente.Text = "";
-            lblConvenio.Text = "";
+            cboConvenio.SelectedIndex = -1;
+
+            erro.Clear();
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
@@ -115,6 +135,9 @@ namespace View
                  **/
                 preencherPaciente();
                 ctrlPacientes.Inserir(pacientes);
+
+                MessageBox.Show("Paciente incluido com sucesso.", "Sucesso...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 limpar();
                 preencherDgv();
             }
@@ -133,6 +156,7 @@ namespace View
                 pacientes.Email = txtEmail.Text;
                 pacientes.Celular = mskCelular.Text;
                 pacientes.Cpf = mskCpf.Text.Replace(".", "").Replace("-","").Replace(",", "");
+                pacientes.Pid_conv = int.Parse(cboConvenio.SelectedValue.ToString());
             }
             catch (Exception ex)
             {
@@ -140,20 +164,128 @@ namespace View
             }
         }
 
-        private void btnConvenio_Click(object sender, EventArgs e)
+        private void txtNome_KeyPress(object sender, KeyPressEventArgs e)
         {
-            /*
-             *  VER COMO PEGAR POSX e POSY
-             
-            frmListaConvenios lstConv = new frmListaConvenios(convenio);
-            lstConv.ShowDialog();
-            */
+            e.Handled = !(char.IsLetter(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == (char)Keys.Space);
+        }
+
+        private void txtEmail_Validated(object sender, EventArgs e)
+        {
+            try
+            {
+                MailAddress mail = new MailAddress(txtEmail.Text);
+
+                erro.SetError(txtEmail, "");
+            }
+            catch (Exception)
+            {
+                erro.SetError(txtEmail, "Email inválido.");
+            }
+        }
+
+        private void txtNome_Validating(object sender, CancelEventArgs e)
+        {
+            if (txtNome.Text.Trim().Length == 3)
+                erro.SetError(txtNome, "Informe um nome.");
+            else
+                erro.SetError(txtNome, "");
+        }
+
+        private void mskCpf_Validating(object sender, CancelEventArgs e)
+        {
+            if (mskCpf.Text.Length < 14)
+                erro.SetError(mskCpf, "Informe o CPF.");
+            else if (!ValidarDocumentos.ValidaCpf(mskCpf.Text))
+                erro.SetError(mskCpf, "CPF inválido.");
+            else
+                erro.SetError(mskCpf, "");
+        }
+
+        private void mskCpf_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Space)
+                e.SuppressKeyPress = true;
+        }
+
+        private void mskCelular_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Space)
+                e.SuppressKeyPress = true;
+        }
+
+        private void mskCelular_Validating(object sender, CancelEventArgs e)
+        {
+            mskCelular.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            string num_celular = mskCelular.Text;
+
+            if (num_celular.Length < 12)
+            {
+                erro.SetError(mskCelular, "Número incompleto.");
+                return;
+            }
+
+            Match celular_eh_valido = Regex.Match(mskCelular.Text, "^[1-9]{2}9[1-9][0-9]{7}$");
+
+            if (!celular_eh_valido.Success)
+                erro.SetError(mskCelular, "Número inválido.");
+            else
+                erro.SetError(mskCelular, "");
+        }
+
+        private void cboSexo_Validating(object sender, CancelEventArgs e)
+        {
+            if (cboSexo.SelectedIndex == -1)
+                erro.SetError(cboSexo, "Selecione um sexo.");
+            else
+                erro.SetError(cboSexo, "");
+        }
+
+        private void cboConvenio_Validating(object sender, CancelEventArgs e)
+        {
+            if (cboConvenio.SelectedIndex == -1)
+                erro.SetError(cboSexo, "Selecione um convênio.");
+            else
+                erro.SetError(cboSexo, "");
+        }
+
+        private void dgvPacientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int index_nome_convenio = cboConvenio.FindStringExact(dgvPacientes[1, dgvPacientes.CurrentRow.Index].Value.ToString());
+
+                lblIdPaciente.Text = dgvPacientes[0, dgvPacientes.CurrentRow.Index].Value.ToString();
+                cboConvenio.SelectedIndex = index_nome_convenio;
+                txtNome.Text = dgvPacientes[2, dgvPacientes.CurrentRow.Index].Value.ToString();
+                cboConvenio.Text = dgvPacientes[3, dgvPacientes.CurrentRow.Index].Value.ToString();
+                mskCpf.Text = dgvPacientes[4, dgvPacientes.CurrentRow.Index].Value.ToString();
+                dtpNascimento.Value = Convert.ToDateTime(dgvPacientes[5, dgvPacientes.CurrentRow.Index].Value.ToString());
+                mskCelular.Text = dgvPacientes[6, dgvPacientes.CurrentRow.Index].Value.ToString();
+                txtEmail.Text = dgvPacientes[7, dgvPacientes.CurrentRow.Index].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo de errado aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                limpar();
+                formatarDgv();
+                preencherDgv();
+            }
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+                preencherPaciente();
+                pacientes.Pid = int.Parse(lblIdPaciente.Text);
         }
     }
 }
 
+
 /*
- * TODO:
- *      REVER RELAÇÃO DO ID_CONV
- *      CRIAR TELA PARA SELECIONAR CONVENIO?
- **/
+ *  TODO:
+ *      ALTERAR;
+ *      EXCLUIR;
+ *      VER ERRO DE INSERIR DATA;
+ *      VER ERRO DE INSERIR SEXO;
+ *      VER ERRO DE SELECIONAR CELULA.
+ */ 

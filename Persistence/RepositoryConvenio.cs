@@ -196,5 +196,31 @@ namespace Persistence
                 conConvenio.Close();
             }
         }
+
+        public DataTable ListagemConvenio()
+        {
+            try
+            {
+                cmdConvenio.Connection = conConvenio;
+                cmdConvenio.CommandType = CommandType.StoredProcedure;
+                cmdConvenio.CommandText = "buscar_convenios_combo";
+
+                conConvenio.Open();
+
+                MySqlDataReader dr = cmdConvenio.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conConvenio.Close();
+            }
+        }
     }
 }

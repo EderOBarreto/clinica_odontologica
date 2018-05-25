@@ -117,13 +117,8 @@ namespace Controller
 
         public bool ValidarDadosInserir(Agenda agenda)
         {
-            /*if (agenda.Data_consulta < DateTime.Now.Date)
-            {
-                Mensagem = "Data da consulta incorreta.";
-                return false;
-            }(*/
+           bool result;
            return objAgendaDal.VerificarDisponibilidade(agenda);
-            
         }
     }
 }
