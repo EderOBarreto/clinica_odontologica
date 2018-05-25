@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `clinica_odontologica` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `clinica_odontologica`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: clinica_odontologica
+-- Host: localhost    Database: clinica_odontologica
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.29-MariaDB
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -122,14 +122,14 @@ CREATE TABLE `pacientes` (
   `pac_id_convenio` int(11) DEFAULT NULL,
   `pac_nome` varchar(40) DEFAULT NULL,
   `pac_sexo` varchar(10) DEFAULT NULL,
-  `pac_cpf` varchar(10) DEFAULT NULL,
+  `pac_cpf` varchar(13) DEFAULT NULL,
   `pac_data_nascimento` datetime DEFAULT NULL,
   `pac_celular` varchar(20) DEFAULT NULL,
   `pac_email` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`pac_id`),
   KEY `pac_id_convenio` (`pac_id_convenio`),
   CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`pac_id_convenio`) REFERENCES `convenios` (`con_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,9 +138,13 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com');
+INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com'),(2,1,'CONSOLI','','84378967030','0001-01-01 00:00:00','(11) 9,7648-2531','matheus@consoli.com'),(3,1,'TESTE','','84378967030','0001-01-01 00:00:00','(11) 5,4682-7911','teste@testador.com');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'clinica_odontologica'
+--
 
 --
 -- Dumping routines for database 'clinica_odontologica'
@@ -267,7 +271,7 @@ IN id_paciente int,
 IN id_convenio int,
 IN nome varchar(40),
 IN sexo varchar(1),
-IN cpf varchar(10),
+IN cpf varchar(13),
 IN data_nascimento datetime,
 IN celular varchar(20),
 IN email varchar(40))
@@ -303,6 +307,26 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `autenticar_login`(IN nome_usuario VARCHAR(15),IN tipo_acesso VARCHAR(15))
 BEGIN
 	SELECT fun_usuario, fun_tipo, fun_senha FROM funcionarios WHERE fun_usuario like nome_usuario AND fun_tipo like tipo_acesso;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_convenios_combo` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_convenios_combo`()
+BEGIN
+	SELECT con_id, con_convenio
+		FROM convenios;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -464,7 +488,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `existe_paciente`(IN pCpf VARCHAR(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `existe_paciente`(IN pCpf VARCHAR(13))
 BEGIN
 	SELECT * FROM pacientes
 		where
@@ -590,7 +614,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_paciente`(
 IN id_convenio int,
 IN nome varchar(40),
 IN sexo varchar(1),
-IN cpf varchar(10),
+IN cpf varchar(13),
 IN data_nascimento datetime,
 IN celular varchar(20),
 IN email varchar(40))
@@ -806,4 +830,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-24 14:47:31
+-- Dump completed on 2018-05-24 22:15:48
