@@ -33,18 +33,18 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.cadastrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcClientes = new System.Windows.Forms.ToolStripMenuItem();
+            this.opcConsultas = new System.Windows.Forms.ToolStripMenuItem();
             this.opcConvenios = new System.Windows.Forms.ToolStripMenuItem();
             this.opcPacientes = new System.Windows.Forms.ToolStripMenuItem();
-            this.opcFuncionarios = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.opcConsultas = new System.Windows.Forms.ToolStripMenuItem();
+            this.opcFuncionarios = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.lblData = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.lblHora = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.lblComputer = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -83,42 +83,42 @@
             // opcClientes
             // 
             this.opcClientes.Name = "opcClientes";
-            this.opcClientes.Size = new System.Drawing.Size(152, 22);
+            this.opcClientes.Size = new System.Drawing.Size(142, 22);
             this.opcClientes.Text = "Clientes";
             this.opcClientes.Click += new System.EventHandler(this.opcClientes_Click);
+            // 
+            // opcConsultas
+            // 
+            this.opcConsultas.Name = "opcConsultas";
+            this.opcConsultas.Size = new System.Drawing.Size(142, 22);
+            this.opcConsultas.Text = "Consultas";
+            this.opcConsultas.Click += new System.EventHandler(this.opcConsultas_Click);
             // 
             // opcConvenios
             // 
             this.opcConvenios.Name = "opcConvenios";
-            this.opcConvenios.Size = new System.Drawing.Size(152, 22);
+            this.opcConvenios.Size = new System.Drawing.Size(142, 22);
             this.opcConvenios.Text = "Convênios";
             this.opcConvenios.Click += new System.EventHandler(this.opcConvenios_Click);
             // 
             // opcPacientes
             // 
             this.opcPacientes.Name = "opcPacientes";
-            this.opcPacientes.Size = new System.Drawing.Size(152, 22);
+            this.opcPacientes.Size = new System.Drawing.Size(142, 22);
             this.opcPacientes.Text = "Pacientes";
             this.opcPacientes.Click += new System.EventHandler(this.opcPacientes_Click);
-            // 
-            // opcFuncionarios
-            // 
-            this.opcFuncionarios.Name = "opcFuncionarios";
-            this.opcFuncionarios.Size = new System.Drawing.Size(152, 22);
-            this.opcFuncionarios.Text = "Funcionários";
-            this.opcFuncionarios.Click += new System.EventHandler(this.opcFuncionarios_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
             // 
-            // opcConsultas
+            // opcFuncionarios
             // 
-            this.opcConsultas.Name = "opcConsultas";
-            this.opcConsultas.Size = new System.Drawing.Size(152, 22);
-            this.opcConsultas.Text = "Consultas";
-            this.opcConsultas.Click += new System.EventHandler(this.opcConsultas_Click);
+            this.opcFuncionarios.Name = "opcFuncionarios";
+            this.opcFuncionarios.Size = new System.Drawing.Size(142, 22);
+            this.opcFuncionarios.Text = "Funcionários";
+            this.opcFuncionarios.Click += new System.EventHandler(this.opcFuncionarios_Click);
             // 
             // toolStrip1
             // 
@@ -153,27 +153,27 @@
             this.lblData.Size = new System.Drawing.Size(77, 22);
             this.lblData.Text = "dd/mm/aaaa";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
             this.toolStripLabel2.Size = new System.Drawing.Size(36, 22);
             this.toolStripLabel2.Text = "Hora:";
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
             // lblHora
             // 
             this.lblHora.Name = "lblHora";
             this.lblHora.Size = new System.Drawing.Size(50, 22);
             this.lblHora.Text = "HH:mm";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabel3
             // 
@@ -235,6 +235,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu Principal";
             this.Load += new System.EventHandler(this.frmMenuPrincipal_Load);
+            this.Leave += new System.EventHandler(this.frmMenuPrincipal_Leave);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

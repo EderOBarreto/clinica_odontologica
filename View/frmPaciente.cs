@@ -20,6 +20,7 @@ namespace View
         Paciente pacientes = new Paciente();
         PacientesController ctrlPacientes = new PacientesController();
         ConvenioController ctrlConvenio = new ConvenioController();
+        DataTable dtConvenioSource;
 
         public frmPaciente()
         {
@@ -39,7 +40,8 @@ namespace View
         {
             try
             {
-                cboConvenio.DataSource = ctrlConvenio.ListarConvenios();
+                dtConvenioSource = ctrlConvenio.ListarConvenios();
+                cboConvenio.DataSource = dtConvenioSource;
                 cboConvenio.DisplayMember = "con_convenio";
                 cboConvenio.ValueMember = "con_id";
                 cboConvenio.SelectedIndex = -1;
@@ -129,10 +131,6 @@ namespace View
         {
             try
             {
-                /*
-                 * TODO:
-                 *      validar email igual o Eder
-                 **/
                 preencherPaciente();
                 ctrlPacientes.Inserir(pacientes);
 
@@ -151,12 +149,13 @@ namespace View
         {
             try
             {
+                pacientes.Pid_conv = getIndex_dtConvenio(cboConvenio.Text);
                 pacientes.Nome = txtNome.Text;
-                pacientes.Sexo = cboSexo.SelectedText;
+                pacientes.Sexo = cboSexo.SelectedItem.ToString();
                 pacientes.Email = txtEmail.Text;
                 pacientes.Celular = mskCelular.Text;
                 pacientes.Cpf = mskCpf.Text.Replace(".", "").Replace("-","").Replace(",", "");
-                pacientes.Pid_conv = int.Parse(cboConvenio.SelectedValue.ToString());
+                pacientes.DataNascimento = dtpNascimento.Value;
             }
             catch (Exception ex)
             {
@@ -185,7 +184,7 @@ namespace View
 
         private void txtNome_Validating(object sender, CancelEventArgs e)
         {
-            if (txtNome.Text.Trim().Length == 3)
+            if (txtNome.Text.Trim().Length <= 3)
                 erro.SetError(txtNome, "Informe um nome.");
             else
                 erro.SetError(txtNome, "");
@@ -218,7 +217,7 @@ namespace View
             mskCelular.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             string num_celular = mskCelular.Text;
 
-            if (num_celular.Length < 12)
+            if (num_celular.Length < 11)
             {
                 erro.SetError(mskCelular, "Número incompleto.");
                 return;
@@ -252,12 +251,16 @@ namespace View
         {
             try
             {
-                int index_nome_convenio = cboConvenio.FindStringExact(dgvPacientes[1, dgvPacientes.CurrentRow.Index].Value.ToString());
 
                 lblIdPaciente.Text = dgvPacientes[0, dgvPacientes.CurrentRow.Index].Value.ToString();
-                cboConvenio.SelectedIndex = index_nome_convenio;
+
+                // TODO:
+                //      Ver erro bizarro no cboConvenio ao clicar varias vezes em uma celula.
+                var _value = dgvPacientes[1, dgvPacientes.CurrentRow.Index].Value;
+                cboConvenio.SelectedText = getConvenio_dtConvenio((int)_value);
+                
                 txtNome.Text = dgvPacientes[2, dgvPacientes.CurrentRow.Index].Value.ToString();
-                cboConvenio.Text = dgvPacientes[3, dgvPacientes.CurrentRow.Index].Value.ToString();
+                cboSexo.Text = dgvPacientes[3, dgvPacientes.CurrentRow.Index].Value.ToString();
                 mskCpf.Text = dgvPacientes[4, dgvPacientes.CurrentRow.Index].Value.ToString();
                 dtpNascimento.Value = Convert.ToDateTime(dgvPacientes[5, dgvPacientes.CurrentRow.Index].Value.ToString());
                 mskCelular.Text = dgvPacientes[6, dgvPacientes.CurrentRow.Index].Value.ToString();
@@ -272,20 +275,43 @@ namespace View
             }
         }
 
+        private int getIndex_dtConvenio(string conv_nome)
+        {
+            var index = from DataRowView view in dtConvenioSource.AsDataView()
+                        where view.Row.Field<string>("con_convenio") == conv_nome
+                        select view.Row.Field<int>("con_id");
+
+            return index.ToList<int>()[0];
+        }
+
+        private string getConvenio_dtConvenio(int index_convenio)
+        {
+            var con_name = from DataRowView view in dtConvenioSource.AsDataView()
+                           where view.Row.Field<int>("con_id") == index_convenio
+                           select view.Row.Field<string>("con_convenio");
+
+            return con_name.ToList<string>()[0];
+        }
+
         private void btnAlterar_Click(object sender, EventArgs e)
         {
+            try
+            {
                 preencherPaciente();
                 pacientes.Pid = int.Parse(lblIdPaciente.Text);
+
+                ctrlPacientes.Alterar(pacientes);
+
+                MessageBox.Show("Paciente alterado com sucesso!", "Sucesso.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                limpar();
+                preencherDgv();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo deu errado...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
-
-
-/*
- *  TODO:
- *      ALTERAR;
- *      EXCLUIR;
- *      VER ERRO DE INSERIR DATA;
- *      VER ERRO DE INSERIR SEXO;
- *      VER ERRO DE SELECIONAR CELULA.
- */ 

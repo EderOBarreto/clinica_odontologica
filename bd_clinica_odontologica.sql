@@ -129,7 +129,7 @@ CREATE TABLE `pacientes` (
   PRIMARY KEY (`pac_id`),
   KEY `pac_id_convenio` (`pac_id_convenio`),
   CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`pac_id_convenio`) REFERENCES `convenios` (`con_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,7 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com'),(2,1,'CONSOLI','','84378967030','0001-01-01 00:00:00','(11) 9,7648-2531','matheus@consoli.com'),(3,1,'TESTE','','84378967030','0001-01-01 00:00:00','(11) 5,4682-7911','teste@testador.com');
+INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','15485','ederoliveira@gmail.com'),(4,1,'CONSOLI','MASCULINO','24369231086','2018-05-25 00:00:00','(11) 9,7682-4532','consoli@email.com');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +270,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_paciente`(
 IN id_paciente int,
 IN id_convenio int,
 IN nome varchar(40),
-IN sexo varchar(1),
+IN sexo varchar(10),
 IN cpf varchar(13),
 IN data_nascimento datetime,
 IN celular varchar(20),
@@ -613,7 +613,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_paciente`(
 IN id_convenio int,
 IN nome varchar(40),
-IN sexo varchar(1),
+IN sexo varchar(10),
 IN cpf varchar(13),
 IN data_nascimento datetime,
 IN celular varchar(20),
@@ -830,4 +830,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-24 22:15:48
+-- Dump completed on 2018-05-25 22:26:36
