@@ -78,9 +78,9 @@ namespace Controller
 
         private string SqlIFilter(string to_validate)
         {
-            string[] trash = {"SELECT", "'", ";",
-                                "\"", "--", "INSERT", "=",
-                                "UPDATE", "DELETE"};
+            string[] trash = {"select", "'", ";",
+                                "\"", "--", "insert", "=",
+                                "update", "delete"};
 
             foreach (string item in trash)
             {
@@ -97,11 +97,11 @@ namespace Controller
                 if (!ValidarDocumentos.ValidaCnpj(convenio.Cnpj))
                     throw new Exception("CNPJ inválido.");
 
-                convenio.NomeConvenio = SqlIFilter(convenio.NomeConvenio.ToUpper());
+                convenio.NomeConvenio = SqlIFilter(convenio.NomeConvenio.ToLower());
                 if (convenio.NomeConvenio.Length < 3)
                     throw new Exception("Nome do convenio inválido.");
 
-                convenio.Contato = SqlIFilter(convenio.Contato.ToUpper());
+                convenio.Contato = SqlIFilter(convenio.Contato.ToLower());
                 if (convenio.Contato.Length > 3)
                     throw new Exception("Contato inválido.");
 

@@ -65,6 +65,7 @@ CREATE TABLE `convenios` (
   `con_cnpj` varchar(20) DEFAULT NULL,
   `con_contato` varchar(20) DEFAULT NULL,
   `con_telefone` varchar(16) DEFAULT NULL,
+  `con_email` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`con_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -75,7 +76,7 @@ CREATE TABLE `convenios` (
 
 LOCK TABLES `convenios` WRITE;
 /*!40000 ALTER TABLE `convenios` DISABLE KEYS */;
-INSERT INTO `convenios` VALUES (1,'Teste','123','123','123');
+INSERT INTO `convenios` VALUES (1,'Teste','123','123','123',NULL);
 /*!40000 ALTER TABLE `convenios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,14 +204,16 @@ IN id int,
 IN convenio varchar(40),
 IN cnpj varchar(20),
 IN contato varchar(20),
-IN telefone varchar(16))
+IN telefone varchar(16),
+IN email varchar(40))
 BEGIN
 
 	update convenios set 
     con_convenio = convenio,
     con_cnpj = cnpj,
     con_contato = contato,
-    con_telefone = telefone
+    con_telefone = telefone,
+    con_email = email
     where con_id = id;
 
 END ;;
@@ -547,13 +550,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_convenio`(
 IN convenio varchar(40),
 IN cnpj varchar(20),
 IN contato varchar(20),
-IN telefone varchar(16))
+IN telefone varchar(16),
+IN email varchar(40))
 BEGIN
 
 	insert into convenios 
-    (con_convenio, con_cnpj, con_contato, con_telefone) 
+    (con_convenio, con_cnpj, con_contato, con_telefone, con_email) 
     values 
-    (convenio, cnpj, contato, telefone);
+    (convenio, cnpj, contato, telefone, email);
 
 END ;;
 DELIMITER ;
@@ -689,7 +693,8 @@ BEGIN
             con_convenio like concat('%', filtro, '%') or
             con_cnpj like concat('%', filtro, '%') or
             con_contato like filtro or
-            con_telefone like concat('%', filtro, '%');
+            con_telefone like concat('%', filtro, '%') or
+            con_email like concat('%', filtro, '%');
 	END IF;
 
 END ;;
@@ -830,4 +835,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-25 22:26:36
+-- Dump completed on 2018-05-26 19:27:09
