@@ -76,5 +76,11 @@ namespace View
         {
             lblHora.Text = DateTime.Now.ToString("HH:mm:ss");
         }
+
+        private void frmMenuPrincipal_Leave(object sender, EventArgs e)
+        {
+            // Ele estava deixando o processo aberto
+            Application.Exit();
+        }
     }
 }

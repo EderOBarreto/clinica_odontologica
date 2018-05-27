@@ -23,6 +23,7 @@ namespace Controller
                     throw new Exception("Nome do paciente inválido.");
 
                 paciente.Email = paciente.Email.ToLower();
+                paciente.Celular = paciente.Celular.Replace("(", "").Replace(")", "").Replace(",", "").Replace(".", "").Replace("-", "");
 
                 objPaciente.Inserir(paciente);
             }

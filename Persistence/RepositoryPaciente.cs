@@ -32,7 +32,7 @@ namespace Persistence
                 cmdPaciente.Parameters.AddWithValue("nome", paciente.Nome);
                 cmdPaciente.Parameters.AddWithValue("sexo", paciente.Sexo);
                 cmdPaciente.Parameters.AddWithValue("cpf", paciente.Cpf);
-                cmdPaciente.Parameters.AddWithValue("data_nascimento", paciente.DataNascimento);
+                cmdPaciente.Parameters.AddWithValue("data_nascimento", paciente.DataNascimento.ToString("yyyy/MM/dd"));
                 cmdPaciente.Parameters.AddWithValue("celular", paciente.Celular);
                 cmdPaciente.Parameters.AddWithValue("email", paciente.Email);
 
@@ -137,7 +137,7 @@ namespace Persistence
                 cmdPaciente.Parameters.AddWithValue("nome", paciente.Nome);
                 cmdPaciente.Parameters.AddWithValue("sexo", paciente.Sexo);
                 cmdPaciente.Parameters.AddWithValue("cpf", paciente.Cpf);
-                cmdPaciente.Parameters.AddWithValue("data_nascimento", paciente.DataNascimento.ToString());
+                cmdPaciente.Parameters.AddWithValue("data_nascimento", paciente.DataNascimento.ToString("yyyy/MM/dd"));
                 cmdPaciente.Parameters.AddWithValue("celular", paciente.Celular);
                 cmdPaciente.Parameters.AddWithValue("email", paciente.Email);
 
@@ -148,10 +148,11 @@ namespace Persistence
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.ToString());
             }
             finally
             {
+                cmdPaciente.Parameters.Clear();
                 conPaciente.Close();
             }
         }
