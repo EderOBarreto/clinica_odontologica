@@ -318,7 +318,7 @@ namespace View
         {
             try
             {
-                dgvPacientes.DataSource = ctrlConvenio.ListarConvenios(txtPesquisar.Text);
+                dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes(txtPesquisar.Text);
             }
             catch (Exception ex)
             {
