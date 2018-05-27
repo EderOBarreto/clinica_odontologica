@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
 using Controller;
-
+using System.Security;
 
 namespace View
 {
@@ -43,35 +43,24 @@ namespace View
         {
             try
             {
-                using (OpenFileDialog odf = new OpenFileDialog())
+                DialogResult dr = ofd1.ShowDialog();
+                if (dr == System.Windows.Forms.DialogResult.OK)
                 {
-                    DialogResult res = odf.ShowDialog();
-                    if (res == DialogResult.OK)
-                    {
-                        txtExame.Text = odf.FileName;
-                    }
+                    txtExame.Text = ofd1.FileName;
                 }
+                
             }
-            catch
+            catch(SecurityException ex)
             {
-
+                // O usuário  não possui permissão para ler arquivos
+                MessageBox.Show("Erro de segurança Contate o administrador de segurança da rede.\n\n" +
+                                            "Mensagem : " + ex.Message + "\n\n" +
+                                            "Detalhes (enviar ao suporte):\n\n" + ex.StackTrace);
             }
-        }
-
-        private byte[] LerEConverterArquivos(String nomeArquivo)
-        {
-            byte[] buffer = null;
-
-            StreamReader oStreamReader = new StreamReader(nomeArquivo);
-
-            buffer = new byte[oStreamReader.BaseStream.Length];
-
-            oStreamReader.BaseStream.Read(buffer, 0, buffer.Length);
-
-            oStreamReader.Close();
-            oStreamReader.Dispose();
-
-            return buffer;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         private void btnInserir_Click(object sender, EventArgs e)
@@ -86,12 +75,22 @@ namespace View
                     agenda.Hora_inicio = dtpHoraInicio.Value;
                     agenda.Hora_final = dtpHoraTermino.Value;
                     agenda.Diagnostico = rtbDiagnostico.Text;
+
                     if (txtPreco.Text != "")
                         agenda.Preco = float.Parse(txtPreco.Text);
                     else
                         agenda.Preco = 0;
+
                     if (txtExame.Text != "")
-                        agenda.Exames = LerEConverterArquivos(txtExame.Text);
+                    {
+                        agenda.Exames.Nome = Path.GetFileName(txtExame.Text);
+                        agenda.Exames.Arquivo = System.IO.File.ReadAllBytes(txtExame.Text);
+                    }
+                    else
+                    {
+                        agenda.Exames.Nome = null;
+                        agenda.Exames.Arquivo = null;
+                    }
 
                     //verifica se foi inserido com sucesso
                     if (!objAgendaBll.Inserir(agenda))
@@ -127,6 +126,7 @@ namespace View
             txtExame.Text = "";
             rtbDiagnostico.Text = "";
             txtPreco.Text = "";
+            btnAbrir.Enabled = false;
             err1.Clear();
         }
 
@@ -168,9 +168,23 @@ namespace View
                     agenda.Hora_inicio = dtpHoraInicio.Value;
                     agenda.Hora_final = dtpHoraTermino.Value;
                     agenda.Diagnostico = rtbDiagnostico.Text;
-                    agenda.Preco = float.Parse(txtPreco.Text);
+                    if (txtPreco.Text != "")
+                        agenda.Preco = float.Parse(txtPreco.Text.Replace(",", "."));
+                    else
+                        agenda.Preco = 0;
+
                     if (txtExame.Text != "")
-                        agenda.Exames = LerEConverterArquivos(txtExame.Text);
+                    {
+                        agenda.Exames.Id_exame = int.Parse(dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString());
+                        agenda.Exames.Nome = txtExame.Text;
+                        agenda.Exames.Arquivo = System.IO.File.ReadAllBytes(txtExame.Text);
+                    }
+                    else
+                    {
+                        agenda.Exames.Nome = null;
+                        agenda.Exames.Arquivo = null;
+                    }
+
                     objAgendaBll.Alterar(agenda);
                     AtualizaGrid();
                     LimparForm();
@@ -185,15 +199,20 @@ namespace View
 
         private void dgvConsultas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            //passa os valores do grid para os campos
             lblIdConsulta.Text = dgvConsultas[0, dgvConsultas.CurrentRow.Index].Value.ToString();
             cboPacientes.SelectedValue = dgvConsultas[1, dgvConsultas.CurrentRow.Index].Value.ToString();
             cboFuncionario.SelectedValue = dgvConsultas[2, dgvConsultas.CurrentRow.Index].Value.ToString();
             dtpDataConsulta.Value = DateTime.Parse(dgvConsultas[3, dgvConsultas.CurrentRow.Index].Value.ToString());
-            txtPreco.Text = dgvConsultas[4, dgvConsultas.CurrentRow.Index].Value.ToString();
-            dtpHoraInicio.Value = DateTime.Parse(dgvConsultas[6, dgvConsultas.CurrentRow.Index].Value.ToString());
-            dtpHoraTermino.Value = DateTime.Parse(dgvConsultas[7, dgvConsultas.CurrentRow.Index].Value.ToString());
-            rtbDiagnostico.Text = dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString();
-            tempFile = Encoding.UTF8.GetBytes(dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString());
+            dtpHoraInicio.Value = DateTime.Parse(dgvConsultas[4, dgvConsultas.CurrentRow.Index].Value.ToString());
+            dtpHoraTermino.Value = DateTime.Parse(dgvConsultas[5, dgvConsultas.CurrentRow.Index].Value.ToString());
+            txtPreco.Text = dgvConsultas[6, dgvConsultas.CurrentRow.Index].Value.ToString();
+            rtbDiagnostico.Text = dgvConsultas[7, dgvConsultas.CurrentRow.Index].Value.ToString();
+            //se o campo estiver vazio retorna null
+            tempFile = dgvConsultas[10, dgvConsultas.CurrentRow.Index].Value != DBNull.Value ?
+                (byte[])dgvConsultas[10, dgvConsultas.CurrentRow.Index].Value : null;
+            //se o tempFile estiver vazio desabilita botão abrir
+            btnAbrir.Enabled = tempFile == null ? false : true;
 
             err1.Clear();
         }
@@ -214,10 +233,6 @@ namespace View
             {
 
                 throw;
-            }
-            finally
-            {
-
             }
         }
 
@@ -278,49 +293,53 @@ namespace View
 
         private void txtPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 46);
+            e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 44);
         }
 
         private void FormataGrid()
         {
             try
             {
+                //consulta
                 dgvConsultas.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgvConsultas.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dgvConsultas.Columns["Id_consulta"].DisplayIndex = 0;
-                dgvConsultas.Columns["Id_consulta"].HeaderText = "ID Consulta";
-                dgvConsultas.Columns["Id_consulta"].Width = 60;
-                dgvConsultas.Columns["Id_paciente"].DisplayIndex = 1;
-                dgvConsultas.Columns["Id_paciente"].HeaderText = "ID Paciente";
-                dgvConsultas.Columns["Id_paciente"].Width = 60;
-                dgvConsultas.Columns["Id_funcionario"].DisplayIndex = 2;
-                dgvConsultas.Columns["Id_funcionario"].HeaderText = "ID Funcionário";
-                dgvConsultas.Columns["Id_funcionario"].Width = 60;
-                dgvConsultas.Columns["Data_consulta"].DisplayIndex = 3;
-                dgvConsultas.Columns["Data_consulta"].HeaderText = "Data da consulta";
-                dgvConsultas.Columns["Data_consulta"].Width = 80;
-                //Convert.ToDateTime(txtCampoTextoSaida.Text).ToString("hh:mm");
-                dgvConsultas.Columns["Hora_inicio"].DisplayIndex = 4;
-                dgvConsultas.Columns["Hora_inicio"].DefaultCellStyle.Format = "HH:mm";
-                dgvConsultas.Columns["Hora_inicio"].HeaderText = "Início";
-                dgvConsultas.Columns["Hora_inicio"].Width = 60;
-                dgvConsultas.Columns["Hora_final"].DisplayIndex = 5;
-                dgvConsultas.Columns["Hora_final"].DefaultCellStyle.Format = "HH:mm";
-                dgvConsultas.Columns["Hora_final"].HeaderText = "Término";
-                dgvConsultas.Columns["Hora_final"].Width = 60;
-                dgvConsultas.Columns["Preco"].DisplayIndex = 6;
-                dgvConsultas.Columns["Preco"].DefaultCellStyle.Format = "C2";
-                dgvConsultas.Columns["Preco"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                dgvConsultas.Columns["Preco"].HeaderText = "Preço";
-                dgvConsultas.Columns["Preco"].Width = 100;
-                dgvConsultas.Columns["Diagnostico"].DisplayIndex = 7;
-                dgvConsultas.Columns["Diagnostico"].HeaderText = "Diagnóstico";
-                dgvConsultas.Columns["Diagnostico"].Width = 120;
-                dgvConsultas.Columns["Exames"].Visible = false;
-                dgvConsultas.Columns["Exames"].DisplayIndex = 8;
-                //dgvConsultas.Columns["Exames"].HeaderText = "Exames";
-                //dgvConsultas.Columns["Exames"].Width = 50;
 
+                dgvConsultas.Columns["agd_id_consulta"].HeaderText = "ID Consulta";
+                dgvConsultas.Columns["agd_id_consulta"].Width = 60;
+                dgvConsultas.Columns["agd_id_paciente"].DisplayIndex = 1;
+                dgvConsultas.Columns["agd_id_paciente"].HeaderText = "ID Paciente";
+                dgvConsultas.Columns["agd_id_paciente"].Width = 60;
+                dgvConsultas.Columns["agd_id_funcionario"].DisplayIndex = 2;
+                dgvConsultas.Columns["agd_id_funcionario"].HeaderText = "ID Funcionário";
+                dgvConsultas.Columns["agd_id_funcionario"].Width = 60;
+                dgvConsultas.Columns["agd_data_consulta"].DisplayIndex = 3;
+                dgvConsultas.Columns["agd_data_consulta"].HeaderText = "Data da consulta";
+                dgvConsultas.Columns["agd_data_consulta"].Width = 80;
+                dgvConsultas.Columns["agd_hora_inicio"].DisplayIndex = 4;
+                //dgvConsultas.Columns["agd_hora_inicio"].DefaultCellStyle.Format = "HH:mm";
+                dgvConsultas.Columns["agd_hora_inicio"].HeaderText = "Início";
+                dgvConsultas.Columns["agd_hora_inicio"].Width = 60;
+                dgvConsultas.Columns["agd_hora_termino"].DisplayIndex = 5;
+                //dgvConsultas.Columns["agd_hora_termino"].DefaultCellStyle.Format = "HH:mm";
+                dgvConsultas.Columns["agd_hora_termino"].HeaderText = "Término";
+                dgvConsultas.Columns["agd_hora_termino"].Width = 60;
+                dgvConsultas.Columns["agd_preco_consulta"].DisplayIndex = 6;
+                dgvConsultas.Columns["agd_preco_consulta"].DefaultCellStyle.Format = "C2";
+                dgvConsultas.Columns["agd_preco_consulta"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                dgvConsultas.Columns["agd_preco_consulta"].HeaderText = "Preço";
+                dgvConsultas.Columns["agd_preco_consulta"].Width = 100;
+                dgvConsultas.Columns["agd_diagnostico"].DisplayIndex = 7;
+                dgvConsultas.Columns["agd_diagnostico"].HeaderText = "Diagnóstico";
+                dgvConsultas.Columns["agd_diagnostico"].Width = 120;
+                //exames
+                dgvConsultas.Columns["exa_id"].DisplayIndex = 8;
+                dgvConsultas.Columns["exa_id"].Visible = false;
+                dgvConsultas.Columns["exa_nome"].DisplayIndex = 9;
+                dgvConsultas.Columns["exa_nome"].Visible = false;
+                dgvConsultas.Columns["exa_arquivo"].DisplayIndex = 10;
+                dgvConsultas.Columns["exa_arquivo"].Visible = false;
+                dgvConsultas.Columns["exa_id_agenda"].DisplayIndex = 11;
+                dgvConsultas.Columns["exa_id_agenda"].Visible = false;
             }
             catch
             {
@@ -330,10 +349,11 @@ namespace View
 
         private void btnAbrir_Click(object sender, EventArgs e)
         {
-            if (agenda.Exames != null)
+
+            if (tempFile != null)
             {
-                string path;
-                path = Conversor.ConvertToPDF(agenda.Exames);
+                //path recebe o endereço do arquivo temp criando para receber os dados
+                string path = Conversor.ConvertToPDF(tempFile);
                 System.Diagnostics.Process.Start(path);
             }
         }

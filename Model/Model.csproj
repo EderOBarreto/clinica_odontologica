@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Agenda.cs" />
     <Compile Include="Convenio.cs" />
+    <Compile Include="Exames.cs" />
     <Compile Include="Funcionario.cs" />
     <Compile Include="ListaAgenda.cs" />
     <Compile Include="ListaConvenios.cs" />

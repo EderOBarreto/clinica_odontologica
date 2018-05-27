@@ -97,7 +97,7 @@ namespace Controller
             }
         }
 
-        public ListaAgenda ListagemConsultas(string filtro)
+        public DataTable ListagemConsultas(string filtro)
         {
             try
             {
@@ -117,7 +117,6 @@ namespace Controller
 
         public bool ValidarDadosInserir(Agenda agenda)
         {
-           bool result;
            return objAgendaDal.VerificarDisponibilidade(agenda);
         }
     }

@@ -50,6 +50,7 @@
             this.txtPreco = new System.Windows.Forms.TextBox();
             this.btnExame = new System.Windows.Forms.Button();
             this.grbAnexos = new System.Windows.Forms.GroupBox();
+            this.btnAbrir = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.txtExame = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -62,7 +63,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.rtbDiagnostico = new System.Windows.Forms.RichTextBox();
             this.err1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnAbrir = new System.Windows.Forms.Button();
+            this.ofd1 = new System.Windows.Forms.OpenFileDialog();
             this.toolStrip1.SuspendLayout();
             this.grbAnexos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsultas)).BeginInit();
@@ -276,6 +277,17 @@
             this.grbAnexos.TabStop = false;
             this.grbAnexos.Text = "Anexos";
             // 
+            // btnAbrir
+            // 
+            this.btnAbrir.Location = new System.Drawing.Point(376, 19);
+            this.btnAbrir.Name = "btnAbrir";
+            this.btnAbrir.Size = new System.Drawing.Size(55, 26);
+            this.btnAbrir.TabIndex = 37;
+            this.btnAbrir.Text = "Abrir";
+            this.btnAbrir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAbrir.UseVisualStyleBackColor = true;
+            this.btnAbrir.Click += new System.EventHandler(this.btnAbrir_Click);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -387,16 +399,10 @@
             this.err1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.err1.ContainerControl = this;
             // 
-            // btnAbrir
+            // ofd1
             // 
-            this.btnAbrir.Location = new System.Drawing.Point(376, 19);
-            this.btnAbrir.Name = "btnAbrir";
-            this.btnAbrir.Size = new System.Drawing.Size(55, 26);
-            this.btnAbrir.TabIndex = 37;
-            this.btnAbrir.Text = "Abrir";
-            this.btnAbrir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnAbrir.UseVisualStyleBackColor = true;
-            this.btnAbrir.Click += new System.EventHandler(this.btnAbrir_Click);
+            this.ofd1.Filter = "Pdf Files|*.pdf";
+            this.ofd1.Title = "Selecionar Exames";
             // 
             // frmAgenda
             // 
@@ -478,5 +484,6 @@
         private System.Windows.Forms.RichTextBox rtbDiagnostico;
         private System.Windows.Forms.ErrorProvider err1;
         private System.Windows.Forms.Button btnAbrir;
+        private System.Windows.Forms.OpenFileDialog ofd1;
     }
 }

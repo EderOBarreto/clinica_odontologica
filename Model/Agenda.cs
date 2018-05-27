@@ -17,34 +17,16 @@ namespace Model
         private DateTime hora_final;
         private float preco;
         private string diagnostico;
-        private byte[] exames;
-        [Bindable(true)]
-        [Category("Data Input fields")]
-        [Localizable(true)]
+        private Exames exames = new Exames();
 
         public int Id_consulta { get => id_consulta; set => id_consulta = value; }
         public int Id_paciente { get => id_paciente; set => id_paciente = value; }
         public int Id_funcionario { get => id_funcionario; set => id_funcionario = value; }
         public DateTime Data_consulta { get => data_consulta; set => data_consulta = value; }
         public float Preco { get => preco; set => preco = value; }
-        public byte[] Exames
-        {
-            get => exames;
-            set
-            {
-                if (value.Equals(DBNull.Value) || value == null)
-                {
-                    exames = Encoding.UTF8.GetBytes(String.Empty);
-                }
-                else
-                {
-                    exames = value;
-                }
-
-            }
-        }
         public DateTime Hora_inicio { get => hora_inicio; set => hora_inicio = value; }
         public DateTime Hora_final { get => hora_final; set => hora_final = value; }
         public string Diagnostico { get => diagnostico; set => diagnostico = value; }
+        public Exames Exames { get => exames; set => exames = value; }
     }
 }

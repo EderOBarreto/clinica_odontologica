@@ -38,11 +38,11 @@ namespace Persistence
                 cmdConsulta.Parameters.AddWithValue("hora_inicio", consulta.Hora_inicio);
                 cmdConsulta.Parameters.AddWithValue("hora_termino", consulta.Hora_final);
                 cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Data_consulta);
-                //os exames serao arquivos em pdf
-                cmdConsulta.Parameters.AddWithValue("exames", consulta.Exames);
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
-                //poderia criar uma variavel para saber se a consulta está finaliza, em processo ou iniciada.
+                cmdConsulta.Parameters.AddWithValue("nome_exame", consulta.Exames.Nome);
+                cmdConsulta.Parameters.AddWithValue("arquivo_exame", consulta.Exames.Arquivo);
 
+                //poderia criar uma variavel para saber se a consulta está finaliza, em processo ou iniciada.
 
                 conConsulta.Open();
 
@@ -76,9 +76,11 @@ namespace Persistence
                 cmdConsulta.Parameters.AddWithValue("hora_inicio", consulta.Hora_inicio);
                 cmdConsulta.Parameters.AddWithValue("hora_termino", consulta.Hora_final);
                 cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Data_consulta);
-                //os exames serao arquivos em pdf
-                cmdConsulta.Parameters.AddWithValue("exames", consulta.Exames);
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
+                cmdConsulta.Parameters.AddWithValue("id_exame", consulta.Exames.Id_exame);
+                cmdConsulta.Parameters.AddWithValue("nome_exame", consulta.Exames.Nome);
+                cmdConsulta.Parameters.AddWithValue("arquivo_exame", consulta.Exames.Arquivo);
+
                 conConsulta.Open();
                 cmdConsulta.ExecuteNonQuery();
             }
@@ -128,10 +130,10 @@ namespace Persistence
             }
         }
 
-        public ListaAgenda ListagemAgendas(string filtro)
+        public DataTable ListagemAgendas(string filtro)
         {
             try
-            {
+            {  
                 ListaAgenda objListaConsultas = new ListaAgenda();
                 conConsulta.ConnectionString = Dados.strConexao;
                 cmdConsulta.Connection = conConsulta;
@@ -141,8 +143,11 @@ namespace Persistence
                 conConsulta.Open();
 
                 MySqlDataReader dr = cmdConsulta.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
                 cmdConsulta.Parameters.Clear();
-                if (dr.HasRows == true)
+                return dt;
+                /*if (dr.HasRows == true)
                 {
                     while (dr.Read())
                     {
@@ -155,14 +160,17 @@ namespace Persistence
                         consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_inicio"].ToString()); 
                         consulta.Hora_final = DateTime.Parse(dr["agd_hora_termino"].ToString());
                         consulta.Preco = float.Parse(dr["agd_preco_consulta"].ToString());
-                        consulta.Exames = (byte[])(dr["agd_exames"] == System.DBNull.Value ? new byte[0] : dr["agd_exames"]);
                         consulta.Diagnostico = dr["agd_diagnostico"].ToString();
+                        consulta.Exames.Id_exame = int.Parse(dr["exa_id"].ToString());
+                        consulta.Exames.Nome = dr["exa_nome"].ToString();
+                        consulta.Exames.Arquivo = (byte[])dr["exa_arquivo"];
+                        //consulta.Exames = (byte[])(dr["agd_exames"] == System.DBNull.Value ? new byte[0] : dr["agd_exames"]);
 
                         objListaConsultas.Add(consulta);
 
                     }
-                }
-                return objListaConsultas;
+                }*/
+                //return objListaConsultas;
             }
             catch (Exception ex)
             {
