@@ -94,19 +94,28 @@ namespace Controller
         {
             try
             {
+                convenio.Cnpj = convenio.Cnpj.Replace(",", "").Replace(".", "").Replace("/", "").Replace("-", "");
                 if (!ValidarDocumentos.ValidaCnpj(convenio.Cnpj))
                     throw new Exception("CNPJ inválido.");
 
                 convenio.NomeConvenio = SqlIFilter(convenio.NomeConvenio.ToLower());
+                convenio.NomeConvenio = convenio.NomeConvenio.ToLower();
                 if (convenio.NomeConvenio.Length < 3)
                     throw new Exception("Nome do convenio inválido.");
 
+                convenio.Contato = convenio.Contato.ToLower();
                 convenio.Contato = SqlIFilter(convenio.Contato.ToLower());
                 if (convenio.Contato.Length > 3)
                     throw new Exception("Contato inválido.");
 
                 if (!validarTelefone(convenio.Telefone))
                     throw new Exception("Telefone inválido.");
+
+               convenio.Telefone = convenio.Telefone.Replace("(", "")
+                                                                    .Replace(")", "")
+                                                                    .Replace(".", "")
+                                                                    .Replace(",", "")
+                                                                    .Replace("-", "");
             }
             catch (Exception ex)
             {

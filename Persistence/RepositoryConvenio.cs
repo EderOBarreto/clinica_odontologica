@@ -118,7 +118,7 @@ namespace Persistence
                 MySqlDataReader dr = cmdConvenio.ExecuteReader();
                 cmdConvenio.Parameters.Clear();
 
-                if (dr.HasRows)
+                if (!dr.HasRows)
                 {
                     foreach (DataRow row in dr)
                     {
