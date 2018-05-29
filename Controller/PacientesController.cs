@@ -66,9 +66,9 @@ namespace Controller
 
         public ListaPacientes ListagemPacientes(string filtro)
         {
-            filtro = SqlIFilter(filtro);
             try
             {
+                filtro = SqlIFilter(filtro);
                 return objPaciente.ListagemPacientes(filtro);
             }
             catch (Exception ex)

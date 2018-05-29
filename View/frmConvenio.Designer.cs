@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConvenio));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnInserir = new System.Windows.Forms.ToolStripButton();
@@ -35,24 +36,26 @@
             this.btnExcluir = new System.Windows.Forms.ToolStripButton();
             this.btnLimpar = new System.Windows.Forms.ToolStripButton();
             this.btnSair = new System.Windows.Forms.ToolStripButton();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvConvenios = new System.Windows.Forms.DataGridView();
             this.txtPesquisar = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.btnPesquisar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblId = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
+            this.txtConvenio = new System.Windows.Forms.TextBox();
+            this.txtContato = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.mskCnpj = new System.Windows.Forms.MaskedTextBox();
+            this.mskTelefone = new System.Windows.Forms.MaskedTextBox();
+            this.erro = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvConvenios)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erro)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -80,6 +83,7 @@
             this.btnInserir.Size = new System.Drawing.Size(59, 51);
             this.btnInserir.Text = "&Inserir";
             this.btnInserir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInserir.Click += new System.EventHandler(this.btnInserir_Click);
             // 
             // btnAlterar
             // 
@@ -116,6 +120,7 @@
             this.btnLimpar.Size = new System.Drawing.Size(61, 51);
             this.btnLimpar.Text = "&Limpar";
             this.btnLimpar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
             // btnSair
             // 
@@ -129,19 +134,20 @@
             this.btnSair.Size = new System.Drawing.Size(48, 51);
             this.btnSair.Text = "&Sair";
             this.btnSair.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
             // 
-            // dataGridView1
+            // dgvConvenios
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 297);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(528, 189);
-            this.dataGridView1.TabIndex = 3;
+            this.dgvConvenios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvConvenios.Location = new System.Drawing.Point(12, 297);
+            this.dgvConvenios.Name = "dgvConvenios";
+            this.dgvConvenios.Size = new System.Drawing.Size(528, 189);
+            this.dgvConvenios.TabIndex = 3;
             // 
             // txtPesquisar
             // 
             this.txtPesquisar.Location = new System.Drawing.Point(74, 500);
-            this.txtPesquisar.MaxLength = 50;
+            this.txtPesquisar.MaxLength = 40;
             this.txtPesquisar.Name = "txtPesquisar";
             this.txtPesquisar.Size = new System.Drawing.Size(200, 20);
             this.txtPesquisar.TabIndex = 27;
@@ -177,14 +183,14 @@
             this.label1.TabIndex = 29;
             this.label1.Text = "ID:";
             // 
-            // label2
+            // lblId
             // 
-            this.label2.BackColor = System.Drawing.SystemColors.Control;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(74, 78);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 23);
-            this.label2.TabIndex = 30;
+            this.lblId.BackColor = System.Drawing.SystemColors.Control;
+            this.lblId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblId.Location = new System.Drawing.Point(74, 78);
+            this.lblId.Name = "lblId";
+            this.lblId.Size = new System.Drawing.Size(58, 23);
+            this.lblId.TabIndex = 30;
             // 
             // label3
             // 
@@ -216,7 +222,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 228);
+            this.label6.Location = new System.Drawing.Point(13, 225);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(38, 13);
             this.label6.TabIndex = 34;
@@ -231,69 +237,89 @@
             this.label7.TabIndex = 35;
             this.label7.Text = "Telefone:";
             // 
-            // textBox1
+            // txtConvenio
             // 
-            this.textBox1.Location = new System.Drawing.Point(75, 112);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(369, 20);
-            this.textBox1.TabIndex = 36;
+            this.txtConvenio.Location = new System.Drawing.Point(75, 112);
+            this.txtConvenio.MaxLength = 40;
+            this.txtConvenio.Name = "txtConvenio";
+            this.txtConvenio.Size = new System.Drawing.Size(330, 20);
+            this.txtConvenio.TabIndex = 36;
+            this.txtConvenio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtConvenio_KeyPress);
+            this.txtConvenio.Validating += new System.ComponentModel.CancelEventHandler(this.txtConvenio_Validating);
             // 
-            // textBox2
+            // txtContato
             // 
-            this.textBox2.Location = new System.Drawing.Point(74, 169);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(290, 20);
-            this.textBox2.TabIndex = 37;
+            this.txtContato.Location = new System.Drawing.Point(74, 169);
+            this.txtContato.MaxLength = 20;
+            this.txtContato.Name = "txtContato";
+            this.txtContato.Size = new System.Drawing.Size(172, 20);
+            this.txtContato.TabIndex = 37;
+            this.txtContato.Validating += new System.ComponentModel.CancelEventHandler(this.txtContato_Validating);
             // 
-            // textBox3
+            // txtEmail
             // 
-            this.textBox3.Location = new System.Drawing.Point(74, 223);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(314, 20);
-            this.textBox3.TabIndex = 38;
+            this.txtEmail.Location = new System.Drawing.Point(74, 223);
+            this.txtEmail.MaxLength = 40;
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(314, 20);
+            this.txtEmail.TabIndex = 38;
+            this.txtEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEmail_KeyDown);
+            this.txtEmail.Validated += new System.EventHandler(this.txtEmail_Validated);
             // 
-            // maskedTextBox1
+            // mskCnpj
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(74, 140);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(138, 20);
-            this.maskedTextBox1.TabIndex = 39;
+            this.mskCnpj.Location = new System.Drawing.Point(74, 140);
+            this.mskCnpj.Mask = "99.999.999/9999-99";
+            this.mskCnpj.Name = "mskCnpj";
+            this.mskCnpj.Size = new System.Drawing.Size(115, 20);
+            this.mskCnpj.TabIndex = 39;
+            this.mskCnpj.Validating += new System.ComponentModel.CancelEventHandler(this.mskCnpj_Validating);
             // 
-            // maskedTextBox2
+            // mskTelefone
             // 
-            this.maskedTextBox2.Location = new System.Drawing.Point(75, 196);
-            this.maskedTextBox2.Name = "maskedTextBox2";
-            this.maskedTextBox2.Size = new System.Drawing.Size(137, 20);
-            this.maskedTextBox2.TabIndex = 40;
+            this.mskTelefone.Location = new System.Drawing.Point(75, 196);
+            this.mskTelefone.Mask = "(99)9.9999-9999";
+            this.mskTelefone.Name = "mskTelefone";
+            this.mskTelefone.Size = new System.Drawing.Size(99, 20);
+            this.mskTelefone.TabIndex = 40;
+            this.mskTelefone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mskTelefone_KeyDown);
+            this.mskTelefone.Validating += new System.ComponentModel.CancelEventHandler(this.mskTelefone_Validating);
+            // 
+            // erro
+            // 
+            this.erro.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.erro.ContainerControl = this;
             // 
             // frmConvenio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 545);
-            this.Controls.Add(this.maskedTextBox2);
-            this.Controls.Add(this.maskedTextBox1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.mskTelefone);
+            this.Controls.Add(this.mskCnpj);
+            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.txtContato);
+            this.Controls.Add(this.txtConvenio);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblId);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPesquisar);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.btnPesquisar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvConvenios);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmConvenio";
             this.Text = "Convenios";
+            this.Load += new System.EventHandler(this.frmConvenio_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvConvenios)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -307,21 +333,22 @@
         private System.Windows.Forms.ToolStripButton btnExcluir;
         private System.Windows.Forms.ToolStripButton btnLimpar;
         private System.Windows.Forms.ToolStripButton btnSair;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvConvenios;
         private System.Windows.Forms.TextBox txtPesquisar;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnPesquisar;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblId;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.TextBox txtConvenio;
+        private System.Windows.Forms.TextBox txtContato;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.MaskedTextBox mskCnpj;
+        private System.Windows.Forms.MaskedTextBox mskTelefone;
+        private System.Windows.Forms.ErrorProvider erro;
     }
 }

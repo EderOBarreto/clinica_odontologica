@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `clinica_odontologica` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `clinica_odontologica`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: clinica_odontologica
+-- Host: localhost    Database: clinica_odontologica
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.29-MariaDB
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,13 +30,14 @@ CREATE TABLE `agenda` (
   `agd_hora_inicio` time DEFAULT NULL,
   `agd_hora_termino` time DEFAULT NULL,
   `agd_preco_consulta` float DEFAULT NULL,
+  `agd_exames` blob,
   `agd_diagnostico` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`agd_id_consulta`),
   KEY `agd_id_paciente` (`agd_id_paciente`),
   KEY `agd_id_funcionario` (`agd_id_funcionario`),
   CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`agd_id_paciente`) REFERENCES `pacientes` (`pac_id`),
   CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`agd_id_funcionario`) REFERENCES `funcionarios` (`fun_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +46,7 @@ CREATE TABLE `agenda` (
 
 LOCK TABLES `agenda` WRITE;
 /*!40000 ALTER TABLE `agenda` DISABLE KEYS */;
+INSERT INTO `agenda` VALUES (5,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'olar beleza?'),(6,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'batata'),(7,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'asd'),(8,1,15,'2018-05-20 00:00:00','03:14:08','13:15:08',2018,NULL,'asd');
 /*!40000 ALTER TABLE `agenda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,6 +63,7 @@ CREATE TABLE `convenios` (
   `con_cnpj` varchar(20) DEFAULT NULL,
   `con_contato` varchar(20) DEFAULT NULL,
   `con_telefone` varchar(16) DEFAULT NULL,
+  `con_email` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`con_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -73,7 +74,7 @@ CREATE TABLE `convenios` (
 
 LOCK TABLES `convenios` WRITE;
 /*!40000 ALTER TABLE `convenios` DISABLE KEYS */;
-INSERT INTO `convenios` VALUES (1,'Teste','123','123','123');
+INSERT INTO `convenios` VALUES (1,'Teste','123','123','123',NULL);
 /*!40000 ALTER TABLE `convenios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,6 +169,10 @@ INSERT INTO `pacientes` VALUES (1,1,'Teste','M','123','1997-12-31 00:00:00','154
 UNLOCK TABLES;
 
 --
+-- Dumping events for database 'clinica_odontologica'
+--
+
+--
 -- Dumping routines for database 'clinica_odontologica'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `alterar_agenda` */;
@@ -178,7 +183,7 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_agenda`(
 IN id_consulta int,
@@ -210,7 +215,6 @@ BEGIN
 	where 
     exa_id_agenda = id_consulta AND
     exa_id = id_exame;
-
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -232,14 +236,16 @@ IN id int,
 IN convenio varchar(40),
 IN cnpj varchar(20),
 IN contato varchar(20),
-IN telefone varchar(16))
+IN telefone varchar(16),
+IN email varchar(40))
 BEGIN
 
 	update convenios set 
     con_convenio = convenio,
     con_cnpj = cnpj,
     con_contato = contato,
-    con_telefone = telefone
+    con_telefone = telefone,
+    con_email = email
     where con_id = id;
 
 END ;;
@@ -408,7 +414,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_agenda`(IN id_consulta int)
 BEGIN
@@ -539,7 +545,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_agenda`(
 IN id_paciente int,
@@ -585,13 +591,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_convenio`(
 IN convenio varchar(40),
 IN cnpj varchar(20),
 IN contato varchar(20),
-IN telefone varchar(16))
+IN telefone varchar(16),
+IN email varchar(40))
 BEGIN
 
 	insert into convenios 
-    (con_convenio, con_cnpj, con_contato, con_telefone) 
+    (con_convenio, con_cnpj, con_contato, con_telefone, con_email) 
     values 
-    (convenio, cnpj, contato, telefone);
+    (convenio, cnpj, contato, telefone, email);
 
 END ;;
 DELIMITER ;
@@ -688,10 +695,9 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_consulta`(filtro varchar(50))
 BEGIN
 	IF filtro = "" THEN
-		select * from agenda inner join exames on exa_id_agenda = agd_id_consulta;
+		select * from agenda;
 	else
-		select * from agenda inner join exames on exa_id_agenda = agd_id_consulta
-        where 
+		select * from agenda where 
 		agd_id_consulta like filtro or
         agd_id_paciente like filtro or
         agd_id_funcionario like filtro or
@@ -700,9 +706,7 @@ BEGIN
         agd_hora_termino like filtro or
         agd_preco_consulta like concat('%',filtro,'%') or
         agd_diagnostico like concat('%',filtro,'%');
-        
 	END IF;
-    
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -719,7 +723,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_convenio`(IN fintro VARCHAR(40))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_convenio`(IN filtro VARCHAR(40))
 BEGIN
 	IF filtro LIKE "" THEN
 		SELECT * FROM convenios;
@@ -730,7 +734,8 @@ BEGIN
             con_convenio like concat('%', filtro, '%') or
             con_cnpj like concat('%', filtro, '%') or
             con_contato like filtro or
-            con_telefone like concat('%', filtro, '%');
+            con_telefone like concat('%', filtro, '%') or
+            con_email like concat('%', filtro, '%');
 	END IF;
 
 END ;;
@@ -871,4 +876,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-27 16:27:42
+-- Dump completed on 2018-05-29 18:54:49

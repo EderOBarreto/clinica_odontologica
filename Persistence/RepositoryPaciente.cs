@@ -79,7 +79,7 @@ namespace Persistence
 
         public ListaPacientes ListagemPacientes(string filtro)
         {
-            ListaPacientes lisp = new ListaPacientes();  /* LISP é daora! Emacs Rocks! */
+            ListaPacientes lisp = new ListaPacientes();  /* LISP? 'Cz Emacs Rocks! */
             try
             {
                 cmdPaciente.CommandType = CommandType.StoredProcedure;
