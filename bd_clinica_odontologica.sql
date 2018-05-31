@@ -539,6 +539,74 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `historico_dados_exame` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `historico_dados_exame`(IN id_paciente INT)
+BEGIN
+
+	START TRANSACTION;
+    
+    SELECT ex.exa_nome
+			, ag.agd_data_consulta
+			, ag.agd_hora_inicio
+			, ag.agd_hora_termino
+			, ag.agd_preco_consulta
+			, ag.agd_diagnostico
+			, fun.fun_nome
+			, fun.fun_especialidade
+		FROM agenda ag
+			INNER JOIN exames ex
+				ON (ex.exa_id_agenda = ag.agd_id_consulta)
+			INNER JOIN funcionarios fun
+				ON (fun.fun_id = ag.agd_id_funcionario)
+			INNER JOIN pacientes pac
+				ON (pac.pac_id = id_paciente);
+    
+    COMMIT;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `historico_nome_convenio` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `historico_nome_convenio`(IN id_paciente INT)
+BEGIN
+	START TRANSACTION;
+    
+	SELECT pac.pac_nome, con.con_convenio,
+			pac.pac_cpf, pac.pac_data_nascimento,
+            pac.pac_email, pac_celular
+		FROM pacientes pac
+			INNER JOIN convenios con
+				ON (pac.pac_id_convenio = con.con_id)
+		WHERE pac.pac_id = id_paciente;
+        
+	COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `inserir_agenda` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -898,4 +966,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-31 13:28:06
+-- Dump completed on 2018-05-31 20:17:07
