@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 using Model;
 using Controller;
+using MySql.Data.MySqlClient;
 
 namespace View
 {
@@ -152,10 +153,12 @@ namespace View
             try
             {
                 dgvConvenios.Columns[0].HeaderText = "ID";
+                dgvConvenios.Columns[0].Width = 30;
                 dgvConvenios.Columns[1].HeaderText = "Convenio";
-                dgvConvenios.Columns[2].HeaderText = "Contato";
-                dgvConvenios.Columns[3].HeaderText = "Telefone";
-                dgvConvenios.Columns[4].HeaderText = "E-Mail";
+                dgvConvenios.Columns[2].HeaderText = "CNPJ";
+                dgvConvenios.Columns[3].HeaderText = "Contato";
+                dgvConvenios.Columns[4].HeaderText = "Telefone";
+                dgvConvenios.Columns[5].HeaderText = "E-Mail";
             }
             catch (Exception ex)
             {
@@ -170,10 +173,14 @@ namespace View
                 preencherConvenio();
 
                 ctrlConvenio.Inserir(convenio);
+
+                preencherConvenio();
+
+                MessageBox.Show("Convênio cadastrado com sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Parece que algo deu errado...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,6 +190,95 @@ namespace View
             convenio.Contato = txtContato.Text;
             convenio.NomeConvenio = txtConvenio.Text;
             convenio.Telefone = mskTelefone.Text;
+            convenio.Email = txtEmail.Text;
+        }
+
+        private void btnPesquisar_Click(object sender, EventArgs e)
+        {
+            preencherDgv();
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                convenio.Cid = int.Parse(lblId.Text);
+
+                ctrlConvenio.Excluir(convenio);
+
+                MessageBox.Show("Convenio excluido com sucesso!", "Sucesso.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (FormatException)
+            {
+                DialogResult answer = MessageBox.Show("Nenhum convênio foi selecionado para exclusão." + "\r\n\r\n" +
+                                                        "Deseja limpar a tela?", "Parece que algo estranho aconteceu...",
+                                                        MessageBoxButtons.YesNo,
+                                                        MessageBoxIcon.Asterisk);
+                if (answer == DialogResult.Yes)
+                    limpar();
+            }
+            catch (MySqlException)
+            {
+                DialogResult answer = MessageBox.Show("Você não pode excluir este convênio pois existem pacientes cadastros nele." + "\r\n\r\n" +
+                                                        "Deseja ver os pacientes?", "Parece que algo estranho aconteceu...",
+                                                        MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+
+                if (answer == DialogResult.Yes)
+                {
+                    frmPaciente frmPac = new frmPaciente();
+                    frmPac.pesquisar(convenio.Cid.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAlterar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                preencherConvenio();
+                convenio.Cid = int.Parse(lblId.Text);
+
+                ctrlConvenio.Alterar(convenio);
+
+                MessageBox.Show("Convênio alterado com sucesso!", "Sucesso.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                limpar();
+                preencherDgv();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Nenhum convênio selecionado para alteração.", "Selecione um convênio primeiro...", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo de estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvConvenios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int cur_index = dgvConvenios.CurrentRow.Index;
+
+                lblId.Text = dgvConvenios[0, cur_index].Value.ToString();
+                txtConvenio.Text = dgvConvenios[1, cur_index].Value.ToString();
+                mskCnpj.Text = dgvConvenios[2, cur_index].Value.ToString();
+                txtContato.Text = dgvConvenios[3, cur_index].Value.ToString();
+                mskTelefone.Text = dgvConvenios[4, cur_index].Value.ToString();
+                txtEmail.Text = dgvConvenios[5, cur_index].Value.ToString();           
+            }
+            catch (NullReferenceException) { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                limpar();
+                preencherDgv();
+            }
         }
     }
 }

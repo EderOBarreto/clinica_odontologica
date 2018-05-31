@@ -78,6 +78,9 @@ namespace Controller
 
         private string SqlIFilter(string to_validate)
         {
+            if (to_validate.Trim().Length == 0)
+                return to_validate.Trim();
+
             string[] trash = {"select", "'", ";",
                                 "\"", "--", "insert", "=",
                                 "update", "delete"};
@@ -105,17 +108,18 @@ namespace Controller
 
                 convenio.Contato = convenio.Contato.ToLower();
                 convenio.Contato = SqlIFilter(convenio.Contato.ToLower());
-                if (convenio.Contato.Length > 3)
+                if (convenio.Contato.Length < 3)
                     throw new Exception("Contato inválido.");
 
-                if (!validarTelefone(convenio.Telefone))
-                    throw new Exception("Telefone inválido.");
 
                convenio.Telefone = convenio.Telefone.Replace("(", "")
                                                                     .Replace(")", "")
                                                                     .Replace(".", "")
                                                                     .Replace(",", "")
                                                                     .Replace("-", "");
+                if (!validarTelefone(convenio.Telefone))
+                    throw new Exception("Telefone inválido.");
+
             }
             catch (Exception ex)
             {
@@ -127,10 +131,6 @@ namespace Controller
         {
             Match matchCelular = Regex.Match(telefone, "^[1-9]{2}9[1-9][0-9]{7}$");
             if (matchCelular.Success)
-                return true;
-
-            Match matchTelefone = Regex.Match(telefone, "^[0-9]{8}$");
-            if (matchTelefone.Success)
                 return true;
 
             return false;

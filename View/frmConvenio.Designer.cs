@@ -96,6 +96,7 @@
             this.btnAlterar.Size = new System.Drawing.Size(62, 51);
             this.btnAlterar.Text = "&Alterar";
             this.btnAlterar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // btnExcluir
             // 
@@ -108,6 +109,7 @@
             this.btnExcluir.Size = new System.Drawing.Size(60, 51);
             this.btnExcluir.Text = "&Excluir";
             this.btnExcluir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnLimpar
             // 
@@ -143,6 +145,7 @@
             this.dgvConvenios.Name = "dgvConvenios";
             this.dgvConvenios.Size = new System.Drawing.Size(528, 189);
             this.dgvConvenios.TabIndex = 3;
+            this.dgvConvenios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConvenios_CellDoubleClick);
             // 
             // txtPesquisar
             // 
@@ -173,6 +176,7 @@
             this.btnPesquisar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPesquisar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnPesquisar.UseVisualStyleBackColor = true;
+            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
             // 
             // label1
             // 

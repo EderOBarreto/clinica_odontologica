@@ -31,6 +31,7 @@ namespace Persistence
                 cmdConvenio.Parameters.AddWithValue("cnpj", novo_convenio.Cnpj);
                 cmdConvenio.Parameters.AddWithValue("contato", novo_convenio.Contato);
                 cmdConvenio.Parameters.AddWithValue("telefone", novo_convenio.Telefone);
+                cmdConvenio.Parameters.AddWithValue("email", novo_convenio.Email);
 
                 conConvenio.Open();
 
@@ -42,6 +43,7 @@ namespace Persistence
             }
             finally
             {
+                cmdConvenio.Parameters.Clear();
                 conConvenio.Close();
             }
         }
@@ -87,6 +89,7 @@ namespace Persistence
                 cmdConvenio.Parameters.AddWithValue("cnpj", convenio.Cnpj);
                 cmdConvenio.Parameters.AddWithValue("contato", convenio.Contato);
                 cmdConvenio.Parameters.AddWithValue("telefone", convenio.Telefone);
+                cmdConvenio.Parameters.AddWithValue("email", convenio.Email);
 
                 conConvenio.Open();
 
@@ -98,6 +101,7 @@ namespace Persistence
             }
             finally
             {
+                cmdConvenio.Parameters.Clear();
                 conConvenio.Close();
             }
         }
@@ -116,22 +120,23 @@ namespace Persistence
                 conConvenio.Open();
 
                 MySqlDataReader dr = cmdConvenio.ExecuteReader();
-                cmdConvenio.Parameters.Clear();
 
                 if (!dr.HasRows)
-                {
-                    foreach (DataRow row in dr)
-                    {
-                        Convenio con = new Convenio();
-                        con.Cid = int.Parse(row["con_id"].ToString());
-                        con.NomeConvenio = row["con_convenio"].ToString();
-                        con.Cnpj = row["con_cnpj"].ToString();
-                        con.Contato = row["con_contato"].ToString();
-                        con.Telefone = row["con_telefone"].ToString();
+                    return lisc;
 
-                        lisc.Add(con);
-                    }
+                while(dr.Read())
+                { 
+                    Convenio con = new Convenio();
+                    con.Cid = int.Parse(dr["con_id"].ToString());
+                    con.NomeConvenio = dr["con_convenio"].ToString();
+                    con.Cnpj = dr["con_cnpj"].ToString();
+                    con.Contato = dr["con_contato"].ToString();
+                    con.Telefone = dr["con_telefone"].ToString();
+                    con.Email = dr["con_email"].ToString();
+
+                    lisc.Add(con);
                 }
+
                 return lisc;
             }
             catch (Exception ex)
@@ -140,6 +145,7 @@ namespace Persistence
             }
             finally
             {
+                cmdConvenio.Parameters.Clear();
                 conConvenio.Close();
             }
         }
@@ -149,7 +155,7 @@ namespace Persistence
             try
             {
                 cmdConvenio.CommandType = CommandType.StoredProcedure;
-                cmdConvenio.CommandText = "convenio_existe";
+                cmdConvenio.CommandText = "existe_convenio";
                 cmdConvenio.Connection = conConvenio;
 
                 cmdConvenio.Parameters.AddWithValue("pcnpj", convenio.Cnpj);
@@ -166,6 +172,7 @@ namespace Persistence
             }
             finally
             {
+                cmdConvenio.Parameters.Clear();
                 conConvenio.Close();
             }
         }

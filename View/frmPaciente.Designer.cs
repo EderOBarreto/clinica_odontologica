@@ -386,7 +386,7 @@
         private System.Windows.Forms.ToolStripButton btnExcluir;
         private System.Windows.Forms.ToolStripButton btnLimpar;
         private System.Windows.Forms.ToolStripButton btnSair;
-        private System.Windows.Forms.TextBox txtPesquisar;
+        public System.Windows.Forms.TextBox txtPesquisar;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnPesquisar;
         private System.Windows.Forms.Label label1;

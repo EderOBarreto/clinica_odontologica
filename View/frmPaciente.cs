@@ -56,7 +56,7 @@ namespace View
         {
             try
             {
-                dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes("");
+                pesquisar("");
             }
             catch (Exception ex)
             {
@@ -270,7 +270,6 @@ namespace View
             {
                 MessageBox.Show(ex.Message, "Algo de errado aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 limpar();
-                formatarDgv();
                 preencherDgv();
             }
         }
@@ -318,7 +317,19 @@ namespace View
         {
             try
             {
-                dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes(txtPesquisar.Text);
+                pesquisar(txtPesquisar.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void pesquisar(string filtro)
+        {
+            try
+            {
+                dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes(filtro);
             }
             catch (Exception ex)
             {
