@@ -140,7 +140,7 @@ namespace View
         {
             try
             {
-                dgvConvenios.DataSource = ctrlConvenio.ListarConvenios("");
+                pesquisar();
             }
             catch (Exception ex)
             {
@@ -195,7 +195,19 @@ namespace View
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            preencherDgv();
+            pesquisar(txtPesquisar.Text);
+        }
+
+        private void pesquisar(string filtro="")
+        {
+            try
+            {
+                dgvConvenios.DataSource = ctrlConvenio.ListarConvenios(filtro);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo deu errado...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
@@ -226,7 +238,8 @@ namespace View
                 if (answer == DialogResult.Yes)
                 {
                     frmPaciente frmPac = new frmPaciente();
-                    frmPac.pesquisar(convenio.Cid.ToString());
+                    frmPac.pesquisarConvenios(convenio.Cid);
+                    frmPac.ShowDialog();
                 }
             }
             catch (Exception ex)

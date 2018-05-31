@@ -94,5 +94,17 @@ namespace Controller
 
             return to_validate.Trim();
         }
+
+        public ListaPacientes PacientesDoConvenio(int con_id)
+        {
+            try
+            {
+                return objPaciente.PacientesDoConvenio(con_id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

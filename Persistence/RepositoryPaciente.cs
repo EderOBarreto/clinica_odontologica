@@ -45,6 +45,7 @@ namespace Persistence
             }
             finally
             {
+                cmdPaciente.Parameters.Clear();
                 conPaciente.Close();
             }
         }
@@ -73,6 +74,7 @@ namespace Persistence
             }
             finally
             {
+                cmdPaciente.Parameters.Clear();
                 conPaciente.Close();
             }
         }
@@ -91,8 +93,6 @@ namespace Persistence
                 conPaciente.Open();
 
                 MySqlDataReader dr = cmdPaciente.ExecuteReader();
-                cmdPaciente.Parameters.Clear();
-
 
                 if (!dr.HasRows)
                     return lisp;
@@ -120,6 +120,53 @@ namespace Persistence
             }
             finally
             {
+                cmdPaciente.Parameters.Clear();
+                conPaciente.Close();
+            }
+        }
+
+        public ListaPacientes PacientesDoConvenio(int con_id)
+        {
+            ListaPacientes lisp = new ListaPacientes();
+            try
+            {
+                cmdPaciente.CommandType = CommandType.StoredProcedure;
+                cmdPaciente.CommandText = "selecionar_pacientes_por_convenio";
+                cmdPaciente.Connection = conPaciente;
+
+                cmdPaciente.Parameters.AddWithValue("pcon_id", con_id);
+
+                conPaciente.Open();
+
+                MySqlDataReader dr = cmdPaciente.ExecuteReader();
+
+                if (!dr.HasRows)
+                    return lisp;
+
+                while (dr.Read())
+                {
+                    Paciente pac = new Paciente();
+
+                    pac.Pid = int.Parse(dr["pac_id"].ToString());
+                    pac.Pid_conv = int.Parse(dr["pac_id_convenio"].ToString());
+                    pac.Nome = dr["pac_nome"].ToString();
+                    pac.Sexo = dr["pac_sexo"].ToString();
+                    pac.Cpf = dr["pac_cpf"].ToString();
+                    pac.DataNascimento = Convert.ToDateTime(dr["pac_data_nascimento"].ToString());
+                    pac.Celular = dr["pac_celular"].ToString();
+                    pac.Email = dr["pac_email"].ToString();
+
+                    lisp.Add(pac);
+                }
+                return lisp;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cmdPaciente.Parameters.Clear();
                 conPaciente.Close();
             }
         }
@@ -179,6 +226,7 @@ namespace Persistence
             }
             finally
             {
+                cmdPaciente.Parameters.Clear();
                 conPaciente.Close();
             }
         }

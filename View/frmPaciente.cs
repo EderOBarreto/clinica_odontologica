@@ -31,7 +31,8 @@ namespace View
         {
             dtpNascimento.MaxDate = DateTime.Now;
 
-            preencherDgv();
+            if (dgvPacientes.RowCount == 0)
+                preencherDgv();
             formatarDgv();
             preencherCombo();
         }
@@ -325,11 +326,24 @@ namespace View
             }
         }
 
-        public void pesquisar(string filtro)
+        private void pesquisar(string filtro)
         {
             try
             {
                 dgvPacientes.DataSource = ctrlPacientes.ListagemPacientes(filtro);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void pesquisarConvenios(int id_conv)
+        {
+            // Usado no form convenios ;)
+            try
+            {
+                dgvPacientes.DataSource = ctrlPacientes.PacientesDoConvenio(id_conv);
             }
             catch (Exception ex)
             {
