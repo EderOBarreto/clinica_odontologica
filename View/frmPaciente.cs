@@ -350,5 +350,25 @@ namespace View
                 MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnHistorico_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lblIdPaciente.Text == "")
+                    throw new Exception("Nenhum paciente selecionado...");
+
+                RelatorioHistorico historico = new RelatorioHistorico();
+                historico.SetParameterValue("id_paciente", lblIdPaciente.Text);
+
+                frmImpressao imprimir = new frmImpressao(historico);
+                imprimir.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

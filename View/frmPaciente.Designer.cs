@@ -37,6 +37,7 @@
             this.btnExcluir = new System.Windows.Forms.ToolStripButton();
             this.btnLimpar = new System.Windows.Forms.ToolStripButton();
             this.btnSair = new System.Windows.Forms.ToolStripButton();
+            this.btnHistorico = new System.Windows.Forms.ToolStripButton();
             this.txtPesquisar = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.btnPesquisar = new System.Windows.Forms.Button();
@@ -78,7 +79,8 @@
             this.btnAlterar,
             this.btnExcluir,
             this.btnLimpar,
-            this.btnSair});
+            this.btnSair,
+            this.btnHistorico});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(548, 54);
@@ -150,6 +152,19 @@
             this.btnSair.Text = "&Sair";
             this.btnSair.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
+            // 
+            // btnHistorico
+            // 
+            this.btnHistorico.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnHistorico.Image = ((System.Drawing.Image)(resources.GetObject("btnHistorico.Image")));
+            this.btnHistorico.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnHistorico.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnHistorico.Name = "btnHistorico";
+            this.btnHistorico.Padding = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.btnHistorico.Size = new System.Drawing.Size(73, 51);
+            this.btnHistorico.Text = "&Histórico";
+            this.btnHistorico.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnHistorico.Click += new System.EventHandler(this.btnHistorico_Click);
             // 
             // txtPesquisar
             // 
@@ -406,5 +421,6 @@
         private System.Windows.Forms.MaskedTextBox mskCelular;
         private System.Windows.Forms.ComboBox cboConvenio;
         private System.Windows.Forms.ErrorProvider erro;
+        private System.Windows.Forms.ToolStripButton btnHistorico;
     }
 }
