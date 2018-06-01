@@ -357,5 +357,26 @@ namespace View
                 System.Diagnostics.Process.Start(path);
             }
         }
+
+        private void btnRecibo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lblIdConsulta.Text == "")
+                    throw new Exception("Nenhuma consulta selecionada.");
+
+                RelatorioRecibo recibo = new RelatorioRecibo();
+                recibo.SetParameterValue("id_paciente", lblIdConsulta.Text);
+
+                frmImpressao imprimir = new frmImpressao(recibo);
+                imprimir.Show();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+                
+        }
     }
 }

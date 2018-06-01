@@ -362,7 +362,7 @@ namespace View
                 historico.SetParameterValue("id_paciente", lblIdPaciente.Text);
 
                 frmImpressao imprimir = new frmImpressao(historico);
-                imprimir.ShowDialog();
+                imprimir.Show();
             }
             catch (Exception ex)
             {

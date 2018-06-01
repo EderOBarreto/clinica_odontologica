@@ -35,7 +35,6 @@
             this.btnAlterar = new System.Windows.Forms.ToolStripButton();
             this.btnExcluir = new System.Windows.Forms.ToolStripButton();
             this.btnLimpar = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSair = new System.Windows.Forms.ToolStripButton();
             this.label1 = new System.Windows.Forms.Label();
             this.lblIdConsulta = new System.Windows.Forms.Label();
@@ -64,6 +63,7 @@
             this.rtbDiagnostico = new System.Windows.Forms.RichTextBox();
             this.err1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofd1 = new System.Windows.Forms.OpenFileDialog();
+            this.btnRecibo = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.grbAnexos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsultas)).BeginInit();
@@ -77,8 +77,8 @@
             this.btnAlterar,
             this.btnExcluir,
             this.btnLimpar,
-            this.toolStripSeparator1,
-            this.btnSair});
+            this.btnSair,
+            this.btnRecibo});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(575, 54);
@@ -137,13 +137,9 @@
             this.btnLimpar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 54);
-            // 
             // btnSair
             // 
+            this.btnSair.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.btnSair.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnSair.Image = ((System.Drawing.Image)(resources.GetObject("btnSair.Image")));
             this.btnSair.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -404,6 +400,18 @@
             this.ofd1.Filter = "Pdf Files|*.pdf";
             this.ofd1.Title = "Selecionar Exames";
             // 
+            // btnRecibo
+            // 
+            this.btnRecibo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnRecibo.Image = ((System.Drawing.Image)(resources.GetObject("btnRecibo.Image")));
+            this.btnRecibo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnRecibo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRecibo.Name = "btnRecibo";
+            this.btnRecibo.Size = new System.Drawing.Size(49, 51);
+            this.btnRecibo.Text = "&Recibo";
+            this.btnRecibo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRecibo.Click += new System.EventHandler(this.btnRecibo_Click);
+            // 
             // frmAgenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,7 +464,6 @@
         private System.Windows.Forms.ToolStripButton btnAlterar;
         private System.Windows.Forms.ToolStripButton btnExcluir;
         private System.Windows.Forms.ToolStripButton btnLimpar;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnSair;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblIdConsulta;
@@ -485,5 +492,6 @@
         private System.Windows.Forms.ErrorProvider err1;
         private System.Windows.Forms.Button btnAbrir;
         private System.Windows.Forms.OpenFileDialog ofd1;
+        private System.Windows.Forms.ToolStripButton btnRecibo;
     }
 }
