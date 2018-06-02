@@ -68,6 +68,12 @@
     <Compile Include="frmConvenio.Designer.cs">
       <DependentUpon>frmConvenio.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmDiasAtestado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDiasAtestado.Designer.cs">
+      <DependentUpon>frmDiasAtestado.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmFuncionario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RelatorioAtestado.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAtestado.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RelatorioHistorico.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -126,6 +138,9 @@
     <EmbeddedResource Include="frmConvenio.resx">
       <DependentUpon>frmConvenio.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmDiasAtestado.resx">
+      <DependentUpon>frmDiasAtestado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmFuncionario.resx">
       <DependentUpon>frmFuncionario.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +159,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RelatorioAtestado.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAtestado.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="RelatorioHistorico.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

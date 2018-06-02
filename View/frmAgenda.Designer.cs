@@ -63,7 +63,8 @@
             this.rtbDiagnostico = new System.Windows.Forms.RichTextBox();
             this.err1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.ofd1 = new System.Windows.Forms.OpenFileDialog();
-            this.btnRecibo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnAtestado = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.grbAnexos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsultas)).BeginInit();
@@ -78,7 +79,8 @@
             this.btnExcluir,
             this.btnLimpar,
             this.btnSair,
-            this.btnRecibo});
+            this.toolStripButton1,
+            this.btnAtestado});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(575, 54);
@@ -400,17 +402,28 @@
             this.ofd1.Filter = "Pdf Files|*.pdf";
             this.ofd1.Title = "Selecionar Exames";
             // 
-            // btnRecibo
+            // toolStripButton1
             // 
-            this.btnRecibo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnRecibo.Image = ((System.Drawing.Image)(resources.GetObject("btnRecibo.Image")));
-            this.btnRecibo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnRecibo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRecibo.Name = "btnRecibo";
-            this.btnRecibo.Size = new System.Drawing.Size(49, 51);
-            this.btnRecibo.Text = "&Recibo";
-            this.btnRecibo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnRecibo.Click += new System.EventHandler(this.btnRecibo_Click);
+            this.toolStripButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(49, 51);
+            this.toolStripButton1.Text = "&Recibo";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // btnAtestado
+            // 
+            this.btnAtestado.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAtestado.Image = ((System.Drawing.Image)(resources.GetObject("btnAtestado.Image")));
+            this.btnAtestado.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnAtestado.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAtestado.Name = "btnAtestado";
+            this.btnAtestado.Size = new System.Drawing.Size(61, 51);
+            this.btnAtestado.Text = "A&testado";
+            this.btnAtestado.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAtestado.Click += new System.EventHandler(this.btnAtestado_Click);
             // 
             // frmAgenda
             // 
@@ -492,6 +505,7 @@
         private System.Windows.Forms.ErrorProvider err1;
         private System.Windows.Forms.Button btnAbrir;
         private System.Windows.Forms.OpenFileDialog ofd1;
-        private System.Windows.Forms.ToolStripButton btnRecibo;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnAtestado;
     }
 }

@@ -376,7 +376,22 @@ namespace View
             {
                 MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                
+        }
+
+        private void btnAtestado_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lblIdConsulta.Text == "")
+                    throw new Exception("Nenhuma consulta selecionada.");
+
+                frmDiasAtestado dias = new frmDiasAtestado(lblIdConsulta.Text);
+                dias.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
