@@ -110,7 +110,7 @@ namespace View
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -123,7 +123,7 @@ namespace View
             }
             catch
             {
-                MessageBox.Show("Deu ruim");
+                MessageBox.Show("Erro ao conectar com o Banco");
             }
             finally
             {
@@ -150,6 +150,7 @@ namespace View
                 dgvFuncionarios.Columns[6].HeaderText = "E-mail";
                 dgvFuncionarios.Columns[6].Width = 150;
                 dgvFuncionarios.Columns[7].HeaderText = "Celular";
+                //dgvFuncionarios.Columns[7].DefaultCellStyle.Format = @"#######-####";
                 dgvFuncionarios.Columns[7].Width = 100;
                 
                 dgvFuncionarios.Columns.Remove("Senha");

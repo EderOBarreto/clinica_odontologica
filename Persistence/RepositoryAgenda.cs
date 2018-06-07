@@ -75,7 +75,7 @@ namespace Persistence
                 cmdConsulta.Parameters.AddWithValue("data_consulta", consulta.Data_consulta);
                 cmdConsulta.Parameters.AddWithValue("hora_inicio", consulta.Hora_inicio);
                 cmdConsulta.Parameters.AddWithValue("hora_termino", consulta.Hora_final);
-                cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Data_consulta);
+                cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Preco);
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
                 cmdConsulta.Parameters.AddWithValue("id_exame", consulta.Exames.Id_exame);
                 cmdConsulta.Parameters.AddWithValue("nome_exame", consulta.Exames.Nome);
@@ -147,30 +147,6 @@ namespace Persistence
                 dt.Load(dr);
                 cmdConsulta.Parameters.Clear();
                 return dt;
-                /*if (dr.HasRows == true)
-                {
-                    while (dr.Read())
-                    {
-                        Agenda consulta = new Agenda();
-
-                        consulta.Id_consulta = int.Parse(dr["agd_id_consulta"].ToString());
-                        consulta.Id_paciente = int.Parse(dr["agd_id_paciente"].ToString());
-                        consulta.Id_funcionario = int.Parse(dr["agd_id_funcionario"].ToString());
-                        consulta.Data_consulta = DateTime.Parse(dr["agd_data_consulta"].ToString()); 
-                        consulta.Hora_inicio = DateTime.Parse(dr["agd_hora_inicio"].ToString()); 
-                        consulta.Hora_final = DateTime.Parse(dr["agd_hora_termino"].ToString());
-                        consulta.Preco = float.Parse(dr["agd_preco_consulta"].ToString());
-                        consulta.Diagnostico = dr["agd_diagnostico"].ToString();
-                        consulta.Exames.Id_exame = int.Parse(dr["exa_id"].ToString());
-                        consulta.Exames.Nome = dr["exa_nome"].ToString();
-                        consulta.Exames.Arquivo = (byte[])dr["exa_arquivo"];
-                        //consulta.Exames = (byte[])(dr["agd_exames"] == System.DBNull.Value ? new byte[0] : dr["agd_exames"]);
-
-                        objListaConsultas.Add(consulta);
-
-                    }
-                }*/
-                //return objListaConsultas;
             }
             catch (Exception ex)
             {

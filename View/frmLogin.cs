@@ -35,6 +35,7 @@ namespace View
             if (txtUsuario.Text == "Usuário")
             {
                 txtUsuario.Text = "";
+                txtUsuario.ForeColor = Color.Black;
             }
         }
 
@@ -63,6 +64,7 @@ namespace View
             {
                 txtSenha.Text = "";
                 txtSenha.UseSystemPasswordChar = true;
+                txtSenha.ForeColor = Color.Black;
             }
         }
 

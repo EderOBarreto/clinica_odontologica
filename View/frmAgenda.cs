@@ -36,6 +36,7 @@ namespace View
             cboPacientes.DataSource = objAgendaBll.MostrarPacientes();
             cboPacientes.ValueMember = "pac_id";
             cboPacientes.DisplayMember = "pac_nome";
+            btnAbrir.Enabled = false;
             AtualizaGrid();
         }
 
@@ -47,6 +48,7 @@ namespace View
                 if (dr == System.Windows.Forms.DialogResult.OK)
                 {
                     txtExame.Text = ofd1.FileName;
+                    btnAbrir.Enabled = txtExame.Text != "";
                 }
                 
             }
@@ -77,11 +79,11 @@ namespace View
                     agenda.Diagnostico = rtbDiagnostico.Text;
 
                     if (txtPreco.Text != "")
-                        agenda.Preco = float.Parse(txtPreco.Text);
+                        agenda.Preco = float.Parse(txtPreco.Text.Replace(",","."));
                     else
                         agenda.Preco = 0;
 
-                    if (txtExame.Text != "")
+                    if (File.Exists(txtExame.Text))
                     {
                         agenda.Exames.Nome = Path.GetFileName(txtExame.Text);
                         agenda.Exames.Arquivo = System.IO.File.ReadAllBytes(txtExame.Text);
@@ -144,7 +146,7 @@ namespace View
             }
             catch
             {
-                MessageBox.Show("Deu ruim");
+                MessageBox.Show("Erro ao conectar com Banco.");
             }
             finally
             {
@@ -168,16 +170,24 @@ namespace View
                     agenda.Hora_inicio = dtpHoraInicio.Value;
                     agenda.Hora_final = dtpHoraTermino.Value;
                     agenda.Diagnostico = rtbDiagnostico.Text;
-                    if (txtPreco.Text != "")
-                        agenda.Preco = float.Parse(txtPreco.Text.Replace(",", "."));
+                    if (txtPreco.Text != "") {
+                        txtPreco.Text.Replace(",", ".");
+                        agenda.Preco = float.Parse(txtPreco.Text);
+                    }
                     else
                         agenda.Preco = 0;
 
-                    if (txtExame.Text != "")
+                    agenda.Exames.Id_exame = int.Parse(dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString());
+                    if (File.Exists(txtExame.Text))
                     {
-                        agenda.Exames.Id_exame = int.Parse(dgvConsultas[8, dgvConsultas.CurrentRow.Index].Value.ToString());
                         agenda.Exames.Nome = txtExame.Text;
                         agenda.Exames.Arquivo = System.IO.File.ReadAllBytes(txtExame.Text);
+                    }
+                    else if (txtExame.Text != "")
+                    {
+                        agenda.Exames.Nome = txtExame.Text;
+                        agenda.Exames.Arquivo = dgvConsultas[10, dgvConsultas.CurrentRow.Index].Value != DBNull.Value ?
+                                                (byte[])dgvConsultas[10, dgvConsultas.CurrentRow.Index].Value : null;
                     }
                     else
                     {
@@ -190,10 +200,10 @@ namespace View
                     LimparForm();
                 }
             }
-            catch (Exception)
+            catch (Exception ex )
             {
 
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -212,8 +222,8 @@ namespace View
             tempFile = dgvConsultas[10, dgvConsultas.CurrentRow.Index].Value != DBNull.Value ?
                 (byte[])dgvConsultas[10, dgvConsultas.CurrentRow.Index].Value : null;
             //se o tempFile estiver vazio desabilita botão abrir
-            btnAbrir.Enabled = tempFile == null ? false : true;
-
+            txtExame.Text = dgvConsultas[9, dgvConsultas.CurrentRow.Index].Value.ToString();
+            btnAbrir.Enabled = tempFile != null && txtExame.Text != "" ? true : false;
             err1.Clear();
         }
 
@@ -349,12 +359,15 @@ namespace View
 
         private void btnAbrir_Click(object sender, EventArgs e)
         {
-
-            if (tempFile != null)
+            if (File.Exists(txtExame.Text))
+            {
+                System.Diagnostics.Process.Start(txtExame.Text);
+            }
+            else if (tempFile != null)
             {
                 //path recebe o endereço do arquivo temp criando para receber os dados
-                string path = Conversor.ConvertToPDF(tempFile);
-                System.Diagnostics.Process.Start(path);
+                string pathPdf = Conversor.ConvertToPDF(tempFile);
+                System.Diagnostics.Process.Start(pathPdf);
             }
         }
 

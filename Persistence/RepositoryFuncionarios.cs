@@ -31,7 +31,7 @@ namespace Persistence
 
                 cmdFuncionario.CommandType = CommandType.StoredProcedure;
 
-                cmdFuncionario.CommandText = "`inserir_funcionario`";
+                cmdFuncionario.CommandText = "inserir_funcionario";
 
                 cmdFuncionario.Connection = conFuncionario;
 
@@ -98,6 +98,7 @@ namespace Persistence
 
             try
             {
+                cmdFuncionario.Parameters.Clear();
                 conFuncionario.ConnectionString = Dados.strConexao;
                 cmdFuncionario.Connection = conFuncionario;
                 cmdFuncionario.CommandType = CommandType.StoredProcedure;
@@ -105,7 +106,6 @@ namespace Persistence
                 cmdFuncionario.Parameters.AddWithValue("id_funcionario", funcionario.Id);
                 conFuncionario.Open();
                 resultado = cmdFuncionario.ExecuteNonQuery();
-
                 if (resultado != 1)
                 {
                     throw new Exception("Não foi possível excluir o funcionario.");
@@ -175,20 +175,7 @@ namespace Persistence
 
         public async Task<bool> VerificarUsuario(string usuario, string senha, string tipo_acesso)
         {
-
-
-            /*if (string.IsNullOrEmpty(senha) || string.IsNullOrEmpty(CPF))
-            {
-                throw new ArgumentNullException();
-            }*/
-
-
             conFuncionario.ConnectionString = Dados.strConexao;
-            // cmdFuncionario.CommandType = CommandType.StoredProcedure;
-            //cmdFuncionario.CommandText = "selecionar_funcionario";
-            //cmdFuncionario.Connection = conFuncionario;
-            //conFuncionario.Open();
-
 
             Funcionario funcionario = new Funcionario();
 
