@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMenuPrincipal));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.cadastrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.opcClientes = new System.Windows.Forms.ToolStripMenuItem();
             this.opcConsultas = new System.Windows.Forms.ToolStripMenuItem();
             this.opcConvenios = new System.Windows.Forms.ToolStripMenuItem();
             this.opcPacientes = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +69,6 @@
             // cadastrosToolStripMenuItem
             // 
             this.cadastrosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.opcClientes,
             this.opcConsultas,
             this.opcConvenios,
             this.opcPacientes,
@@ -80,43 +78,36 @@
             this.cadastrosToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.cadastrosToolStripMenuItem.Text = "Cadastros";
             // 
-            // opcClientes
-            // 
-            this.opcClientes.Name = "opcClientes";
-            this.opcClientes.Size = new System.Drawing.Size(142, 22);
-            this.opcClientes.Text = "Clientes";
-            this.opcClientes.Click += new System.EventHandler(this.opcClientes_Click);
-            // 
             // opcConsultas
             // 
             this.opcConsultas.Name = "opcConsultas";
-            this.opcConsultas.Size = new System.Drawing.Size(142, 22);
+            this.opcConsultas.Size = new System.Drawing.Size(152, 22);
             this.opcConsultas.Text = "Consultas";
             this.opcConsultas.Click += new System.EventHandler(this.opcConsultas_Click);
             // 
             // opcConvenios
             // 
             this.opcConvenios.Name = "opcConvenios";
-            this.opcConvenios.Size = new System.Drawing.Size(142, 22);
+            this.opcConvenios.Size = new System.Drawing.Size(152, 22);
             this.opcConvenios.Text = "Convênios";
             this.opcConvenios.Click += new System.EventHandler(this.opcConvenios_Click);
             // 
             // opcPacientes
             // 
             this.opcPacientes.Name = "opcPacientes";
-            this.opcPacientes.Size = new System.Drawing.Size(142, 22);
+            this.opcPacientes.Size = new System.Drawing.Size(152, 22);
             this.opcPacientes.Text = "Pacientes";
             this.opcPacientes.Click += new System.EventHandler(this.opcPacientes_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // opcFuncionarios
             // 
             this.opcFuncionarios.Name = "opcFuncionarios";
-            this.opcFuncionarios.Size = new System.Drawing.Size(142, 22);
+            this.opcFuncionarios.Size = new System.Drawing.Size(152, 22);
             this.opcFuncionarios.Text = "Funcionários";
             this.opcFuncionarios.Click += new System.EventHandler(this.opcFuncionarios_Click);
             // 
@@ -250,7 +241,6 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem cadastrosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem opcClientes;
         private System.Windows.Forms.ToolStripMenuItem opcConsultas;
         private System.Windows.Forms.ToolStripMenuItem opcConvenios;
         private System.Windows.Forms.ToolStripMenuItem opcPacientes;
