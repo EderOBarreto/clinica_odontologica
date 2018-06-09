@@ -63,13 +63,20 @@ namespace View
         {
             try
             {
-                MailAddress mail = new MailAddress(txtEmail.Text);
+                string email = txtEmail.Text.Trim();
+
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+
+                Match isValidEmail = regex.Match(email);
+
+                if (!isValidEmail.Success)
+                    throw new FormatException();
 
                 erro.SetError(txtEmail, "");
             }
-            catch (Exception)
+            catch (FormatException)
             {
-                erro.SetError(txtEmail, "Email inválido.");
+                erro.SetError(txtEmail, "E-mail inválido");
             }
         }
 
@@ -238,7 +245,7 @@ namespace View
                 if (answer == DialogResult.Yes)
                 {
                     frmPaciente frmPac = new frmPaciente();
-                    frmPac.pesquisarConvenios(convenio.Cid);
+                    frmPac.id_conv_passed_by_frmConve = int.Parse(lblId.Text);
                     frmPac.ShowDialog();
                 }
             }

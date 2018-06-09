@@ -22,6 +22,8 @@ namespace View
         ConvenioController ctrlConvenio = new ConvenioController();
         DataTable dtConvenioSource;
 
+        public int id_conv_passed_by_frmConve = -1;
+
         public frmPaciente()
         {
             InitializeComponent();
@@ -31,8 +33,7 @@ namespace View
         {
             dtpNascimento.MaxDate = DateTime.Now;
 
-            if (dgvPacientes.RowCount == 0)
-                preencherDgv();
+            preencherDgv(id_conv_passed_by_frmConve);
             formatarDgv();
             preencherCombo();
         }
@@ -53,11 +54,15 @@ namespace View
             }
         }
 
-        private void preencherDgv()
+        private void preencherDgv(int conv_id = -1)
         {
             try
             {
-                pesquisar("");
+                if (conv_id == -1)
+                    pesquisar("");
+                else
+                    dgvPacientes.DataSource = ctrlPacientes.PacientesDoConvenio(conv_id);
+
             }
             catch (Exception ex)
             {
@@ -90,8 +95,7 @@ namespace View
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             limpar();
-            formatarDgv();
-            preencherDgv();
+            preencherDgv(id_conv_passed_by_frmConve);
         }
 
         private void limpar()
@@ -117,8 +121,7 @@ namespace View
 
                 limpar();
 
-                preencherDgv();
-                formatarDgv();
+                preencherDgv(id_conv_passed_by_frmConve);
 
                 MessageBox.Show("Paciente excluido com sucesso.", "Excluido", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -173,13 +176,20 @@ namespace View
         {
             try
             {
-                MailAddress mail = new MailAddress(txtEmail.Text);
+                string email = txtEmail.Text.Trim();
+
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+
+                Match isValidEmail = regex.Match(email);
+
+                if (!isValidEmail.Success)
+                    throw new FormatException();
 
                 erro.SetError(txtEmail, "");
             }
-            catch (Exception)
+            catch (FormatException)
             {
-                erro.SetError(txtEmail, "Email inválido.");
+                erro.SetError(txtEmail, "E-mail inválido");
             }
         }
 
@@ -305,7 +315,8 @@ namespace View
                 MessageBox.Show("Paciente alterado com sucesso!", "Sucesso.", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 limpar();
-                preencherDgv();
+
+                preencherDgv(id_conv_passed_by_frmConve);
             }
             catch (Exception ex)
             {

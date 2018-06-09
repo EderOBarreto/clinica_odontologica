@@ -37,7 +37,7 @@ namespace Persistence
                 cmdConsulta.Parameters.AddWithValue("data_consulta", consulta.Data_consulta);
                 cmdConsulta.Parameters.AddWithValue("hora_inicio", consulta.Hora_inicio);
                 cmdConsulta.Parameters.AddWithValue("hora_termino", consulta.Hora_final);
-                cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Data_consulta);
+                cmdConsulta.Parameters.AddWithValue("preco_consulta", consulta.Preco);
                 cmdConsulta.Parameters.AddWithValue("diagnostico", consulta.Diagnostico);
                 cmdConsulta.Parameters.AddWithValue("nome_exame", consulta.Exames.Nome);
                 cmdConsulta.Parameters.AddWithValue("arquivo_exame", consulta.Exames.Arquivo);

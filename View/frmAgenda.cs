@@ -371,7 +371,23 @@ namespace View
             }
         }
 
-        private void btnRecibo_Click(object sender, EventArgs e)
+        private void btnAtestado_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lblIdConsulta.Text == "")
+                    throw new Exception("Nenhuma consulta selecionada.");
+
+                frmDiasAtestado dias = new frmDiasAtestado(lblIdConsulta.Text);
+                dias.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRecibo_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -384,22 +400,6 @@ namespace View
                 frmImpressao imprimir = new frmImpressao(recibo);
                 imprimir.Show();
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Parece que algo estranho aconteceu...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnAtestado_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (lblIdConsulta.Text == "")
-                    throw new Exception("Nenhuma consulta selecionada.");
-
-                frmDiasAtestado dias = new frmDiasAtestado(lblIdConsulta.Text);
-                dias.ShowDialog();
             }
             catch (Exception ex)
             {

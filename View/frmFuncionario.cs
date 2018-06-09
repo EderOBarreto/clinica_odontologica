@@ -213,14 +213,20 @@ namespace View
         {
             try
             {
-                if(txtEmail.Text == "")
-                {
-                    err1.SetError(txtEmail, "Informe o e-mail.");
-                }
-                else
-                {
-                    MailAddress m = new MailAddress(txtEmail.Text);
-                }
+                /*
+                 *  Não precisa ver se o email está vazio.
+                 *      Se ele estiver, não vai dar Match e o erro vai acontecer de qualquer forma.
+                 * */
+                string email = txtEmail.Text.Trim();
+
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+
+                Match isValidEmail = regex.Match(email);
+
+                if (!isValidEmail.Success)
+                    throw new FormatException();
+
+                err1.SetError(txtEmail, "");
             }
             catch (FormatException)
             {
